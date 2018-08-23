@@ -1,0 +1,4 @@
+https://github.com/szimek/signature_pad
+
+// remove blanks
+https://github.com/szimek/signature_pad/issues/49#issue-29108215
