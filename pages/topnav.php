@@ -1,5 +1,5 @@
-
 <div class="top_nav"  ng-controller="PXDetailCtrl" id="DontPrint">
+
     <div class="nav_menu">
         <nav>
             <div class="nav toggle">
@@ -29,7 +29,7 @@
                             </a>
                         </li>
                         <li><a ui-sref="aboutUs">About Us</a></li>
-                        <li><a href="../../rbgmain/logout.php" ng-click="logout()"><i class="fa fa-sign-out pull-right"></i> Log Out</a></li>
+                        <li><a href="../../rbgmain" ng-click="logout()"><i class="fa fa-sign-out pull-right"></i> Log Out</a></li>
                     </ul>
                 </li>
                 <li class="">

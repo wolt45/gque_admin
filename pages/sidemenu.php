@@ -120,7 +120,7 @@
             <a data-toggle="tooltip" data-placement="top" title="Lock">
                 <span class="glyphicon glyphicon-eye-close" aria-hidden="true"></span>
             </a>
-            <a data-toggle="tooltip" data-placement="top" title="Logout" href="../../rbgmain/logout.php" ng-click="logout()">
+            <a data-toggle="tooltip" data-placement="top" title="Logout" href="../../rbgmain" ng-click="logout()">
                 <span class="glyphicon glyphicon-off" aria-hidden="true"></span>
             </a>
         </div>
