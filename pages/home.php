@@ -34,4 +34,4 @@
         </div><!--row close-->
     </div>
 </div>
-<!-- /page content
+<!-- /page content -->

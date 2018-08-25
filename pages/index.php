@@ -21,7 +21,7 @@
             <!-- /top navigation -->
             <!-- <ui-view name="main"></ui-view> -->
             <!-- page content -->
-            <ui-view></ui-view>
+                <ui-view></ui-view>
             <!-- /page content -->
 
             <!-- footer content -->
