@@ -93,13 +93,13 @@
                         </a>
                       </li>
 
-                      <!--
-                      <li>
-                        <a href="http://localhost/rbgregv2/tpl/tanoddb.bo.php">
+                      
+                      <li ng-show="userTypeRID == 1">
+                        <a href="#" ng-click="toBackUp()">
                           Back-up
                         </a>
                       </li>
-                      -->
+                      
                       
                     </ul>
                   </li>

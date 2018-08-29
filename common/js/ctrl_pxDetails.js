@@ -41,7 +41,7 @@ gmmrApp.controller('PXDetailCtrl', function ($scope, $stateParams, $rootScope, $
   };
 
   $scope.toRBGReg = function(){
-    $window.location.href = '../../rbgregv3';
+    $window.location.href = '../../rbgregv3/pages';
   };
 
   $scope.toRBGGenMed = function(){
@@ -53,7 +53,7 @@ gmmrApp.controller('PXDetailCtrl', function ($scope, $stateParams, $rootScope, $
   };
 
   $scope.toGMMR3 = function(){
-    $window.location.href = '../../gmmr3';
+    $window.location.href = '../../gmmr3/pages';
   };
 
   $scope.toDiagnostix = function(){
@@ -78,6 +78,10 @@ gmmrApp.controller('PXDetailCtrl', function ($scope, $stateParams, $rootScope, $
 
   $scope.toBillMgr = function(){
     $window.location.href = '../../billingmgr/';
+  };
+
+  $scope.toBackUp = function(){
+    // $window.location.href = '../../billingmgr/';
   };
 
 
