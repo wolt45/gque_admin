@@ -53,7 +53,7 @@
                     </a>
                   </li>
 
-                  <li ng-show="userTypeRID == 4 || userTypeRID == 5">
+                  <li ng-show="userTypeRID == 1 || userTypeRID == 4 || userTypeRID == 5">
                     <a href="#" ng-click="toDiagnostix()">
                       <i class="fa fa-medkit"></i> 
                         Diagnostix 

@@ -22,6 +22,9 @@ gmmrApp.controller('LoginCtrl', function ($scope, $stateParams, $rootScope, $loc
 	    	localStorage.setItem("rbgreguserPxRID", response.data.PxRID);
 	    	localStorage.setItem("rbgreguserTypeRID", response.data.userTypeRID);
 
+	    	localStorage.setItem("gmmr2userPxRID", response.data.PxRID);
+	    	localStorage.setItem("gmmr2userTypeRID", response.data.userTypeRID);
+
 	    	localStorage.setItem("gmmr3userPxRID", response.data.PxRID);
 	    	localStorage.setItem("gmmr3userSpecialty", response.data.UserType);
 
