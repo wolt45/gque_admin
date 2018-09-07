@@ -27,7 +27,7 @@
             <div class="menu_section">
 
                 <ul class="nav side-menu">
-                  <li ng-show="userTypeRID == 1 || userTypeRID == 2 || userTypeRID == 0 || userTypeRID == 3">
+                  <li ng-show="userTypeRID == 1 || userTypeRID == 2 || userTypeRID == 0 || userTypeRID == 3 || userTypeRID == 4 || userTypeRID == 5">
                     <a href="#" ng-click="toRBGReg()">
                       <i class="fa fa-registered"></i> 
                         Registration 
