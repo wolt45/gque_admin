@@ -33,18 +33,21 @@
                         Registration 
                     </a>
                   </li>
-                  <li ng-show="userTypeRID == 1 || userTypeRID == 2 || userTypeRID == 0">
-                    <a href="#" ng-click="toRBGGenMed()">
-                      <i class="fa fa-user-md"></i> 
-                        OPD
-                    </a>
-                  </li>
+
                   <li ng-show="userTypeRID == 1 || userTypeRID == 2 || userTypeRID == 0">
                     <a href="#" ng-click="toGMMR2()">
                       <i class="fa fa-user-md"></i> 
                         OPD Orthopedics
                     </a>
                   </li>
+                  
+                  <li ng-show="userTypeRID == 1 || userTypeRID == 2 || userTypeRID == 0">
+                    <a href="#" ng-click="toRBGGenMed()">
+                      <i class="fa fa-user-md"></i> 
+                        OPD
+                    </a>
+                  </li>
+                  
 
                   <li ng-show="userTypeRID == 1 || userTypeRID == 2 || userTypeRID == 0">
                     <a href="#" ng-click="toGMMR3()">
