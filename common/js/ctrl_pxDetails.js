@@ -53,7 +53,7 @@ gmmrApp.controller('PXDetailCtrl', function ($scope, $stateParams, $rootScope, $
   };
 
   $scope.toGMMR3 = function(){
-    $window.location.href = '../../gmmr3/pages';
+    $window.location.href = '../../gmmr3';
   };
 
   $scope.toDiagnostix = function(){
