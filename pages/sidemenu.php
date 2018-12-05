@@ -52,7 +52,7 @@
                   <li ng-show="userTypeRID == 1 || userTypeRID == 2 || userTypeRID == 0">
                     <a href="#" ng-click="toGMMR3()">
                       <i class="fa fa-user-md"></i> 
-                        In-Patient Admission
+                        IN-Patient
                     </a>
                   </li>
 
