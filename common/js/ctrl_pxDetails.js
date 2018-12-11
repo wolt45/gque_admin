@@ -41,7 +41,7 @@ gmmrApp.controller('PXDetailCtrl', function ($scope, $stateParams, $rootScope, $
   };
 
   $scope.toRBGReg = function(){
-    $window.location.href = '../../rbgregv3/pages';
+    $window.location.href = '../../rbgregv3';
   };
 
   $scope.toRBGGenMed = function(){
