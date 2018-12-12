@@ -25,11 +25,11 @@
 		// For a list of http codes checkout http://en.wikipedia.org/wiki/List_of_HTTP_status_codes
 		private function get_status_message(){
 			$status = array(
-						200 => 'WFS OK',
-						201 => 'WFS Created',  
-						204 => 'WFS No Content',  
-						404 => 'WFS Not Found',  
-						406 => 'WFS Not Acceptable');
+						200 => 'Response OK',
+						201 => 'Response Created',  
+						204 => 'Response No Content',  
+						404 => 'Response Not Found',  
+						406 => 'Response Not Acceptable');
 			return ($status[$this->_code])?$status[$this->_code]:$status[500];
 		}
 		

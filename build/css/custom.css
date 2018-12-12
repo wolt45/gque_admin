@@ -240,7 +240,7 @@ html , body{
     display: none
 }
 .menu_section {
-    margin-bottom: 35px;
+    margin-bottom: 35px
 }
 .menu_section h3 {
     padding-left: 15px;
@@ -254,7 +254,7 @@ html , body{
     text-shadow: 1px 1px #000
 }
 .menu_section>ul {
-    margin-top: 10px;
+    margin-top: 10px
 }
 .profile_pic {
     width: 35%;
@@ -474,7 +474,6 @@ body .container.body .right_col {
     border: 1px solid #50C1CF !important;
     color: #fff
 }
-
 .container {
     width: 100%;
     padding: 0
@@ -4254,16 +4253,3 @@ table thead .checkbox.radio { margin-top:-7px;margin-top:-21px; }
     background-color: #ffff !important;
 }
 /** /bootstrap-datetimepicker **/
-
-@media (max-width: $screen-xs-max) {
-    .col-xs-auto { width: auto; }
-}
-@media (min-width: $screen-sm-min) and (max-width: $screen-sm-max) {
-    .col-sm-auto { width: auto; }
-}
-@media (min-width: $screen-md-min) and (max-width: $screen-md-max) {
-    .col-md-auto { width: auto; }
-}
-@media (min-width: $screen-lg-min) {
-    .col-lg-auto { width: auto; }
-}
