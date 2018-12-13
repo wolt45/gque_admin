@@ -116,6 +116,26 @@
 			$this->response('',204);	// If no records "No Content" status
 		}
 
+		private function apiCheckPxDsig()
+		{
+			if($this->get_request_method() != "GET"){
+				$this->response('',406);
+			}
+
+			// $UserPxRID = (string)$this->_request['UserPxRID'];
+			$PIN = (string)$this->_request['PIN'];
+
+			$query="SELECT * FROM px_dsig 
+				WHERE PIN = '$PIN'";
+			$r = $this->mysqli->query($query) or die($this->mysqli->error.__LINE__);
+
+			if($r->num_rows > 0){
+				$result = $r->fetch_assoc();	
+				$this->response($this->json($result), 200); // send user details
+			}
+			$this->response('',204); // no content
+		}
+
 
 		private function apiCheckSysDoorKeys (){	
 			if($this->get_request_method() != "GET"){
@@ -160,6 +180,151 @@
 				$this->response($this->json($result, JSON_NUMERIC_CHECK), 200); // send user details
 			}
 			$this->response('',204);	// If no records "No Content" status
+		}
+
+		private function apiGetRequestForModifAlter (){	
+			if($this->get_request_method() != "GET"){
+				$this->response('',406);
+			}
+				$PxRID = (int)$this->_request['PxRID'];
+
+				if ($PxRID == 0) {
+					$qAdd ="";
+				}else{
+					$qAdd = "AND requestedBy = '$PxRID'";
+				}
+				$query="SELECT rep_requestAlterationModification.*
+				, CONCAT(px_dataRequestedBy.FirstName,' ',SUBSTRING(px_dataRequestedBy.MiddleName, 1, 1),'. ',px_dataRequestedBy.LastName) AS RequestedByPxName
+				, px_dsigRequestedBy.b64a AS RequestedByPxSign
+
+				, CONCAT(px_dataApprovedBy.FirstName,' ',SUBSTRING(px_dataApprovedBy.MiddleName, 1, 1),'. ',px_dataApprovedBy.LastName) AS ApprovedByPxName
+				, px_dsigApprovedBy.b64a AS ApprovedByPxSign
+
+				, CONCAT(px_dataDisapprovedBy.FirstName,' ',SUBSTRING(px_dataDisapprovedBy.MiddleName, 1, 1),'. ',px_dataDisapprovedBy.LastName) AS DisapprovedByPxName
+				, px_dsigDisapprovedBy.b64a AS DisapprovedByPxSign
+
+				FROM  rep_requestAlterationModification
+				LEFT JOIN px_data AS px_dataRequestedBy ON px_dataRequestedBy.PxRID = rep_requestAlterationModification.requestedBy 
+				LEFT JOIN px_dsig AS px_dsigRequestedBy ON px_dsigRequestedBy.PxRID = rep_requestAlterationModification.requestedBy 
+
+				LEFT JOIN px_data AS px_dataApprovedBy ON px_dataApprovedBy.PxRID = rep_requestAlterationModification.approvedBy 
+				LEFT JOIN px_dsig AS px_dsigApprovedBy ON px_dsigApprovedBy.PxRID = rep_requestAlterationModification.approvedBy 
+
+				LEFT JOIN px_data AS px_dataDisapprovedBy ON px_dataDisapprovedBy.PxRID = rep_requestAlterationModification.disApprovedBy 
+				LEFT JOIN px_dsig AS px_dsigDisapprovedBy ON px_dsigDisapprovedBy.PxRID = rep_requestAlterationModification.disApprovedBy 
+
+				WHERE  rep_requestAlterationModification.Deleted = 0 $qAdd";
+				$r = $this->mysqli->query($query) or die($this->mysqli->error.__LINE__);
+				if($r->num_rows > 0) {
+					$result = array();
+					while($row = $r->fetch_assoc()){
+						$result[] = $row;
+				}
+				$this->response($this->json($result, JSON_NUMERIC_CHECK), 200); // send user details
+			}
+			$this->response('',204);	// If no records "No Content" status
+		}
+
+		private function apiInsertRequestForModifAlter(){
+			if($this->get_request_method() != "POST"){
+			    $this->response('',406);
+			}
+			$UserData = json_decode(file_get_contents("php://input"),true);
+
+			$EnteredBy  = (int)$UserData['EnteredBy'];
+            $requestAlterModRID  = (string)$UserData['requestAlterModRID'];
+            $requestType  = (string)$UserData['requestType'];
+            $requestDescription  = (string)$UserData['requestDescription'];
+            $disApprovedDescription  = (string)$UserData['disApprovedDescription'];
+
+            if ($requestAlterModRID > 0) {
+            	$query = "UPDATE rep_requestAlterationModification SET
+					EnteredBy = '$EnteredBy'
+		            , requestType = '$requestType'
+		            , requestDescription = '$requestDescription'
+		            , disApprovedDescription = '$disApprovedDescription'
+				WHERE requestAlterModRID = '$requestAlterModRID'";
+            }else{
+            	$query = "INSERT INTO rep_requestAlterationModification SET
+					EnteredBy = '$EnteredBy'
+		            , requestType = '$requestType'
+		            , requestDescription = '$requestDescription'
+		            , disApprovedDescription = '$disApprovedDescription'
+				";
+            }
+			
+
+			$r = $this->mysqli->query($query) or die($this->mysqli->error.__LINE__);
+		}
+
+
+		private function apiSignRequestedByRequestForModifAlter(){
+			if($this->get_request_method() != "POST"){
+				$this->response('',406);
+			}
+
+			$RequestForModifAlterData = json_decode(file_get_contents("php://input"),true);
+
+			$requestAlterModRID  = (int)$RequestForModifAlterData['requestAlterModRID'];
+			$PxRID= (string)$RequestForModifAlterData['PxRID'];
+			date_default_timezone_set('Asia/Manila');
+			$dateRequested= date("Y-m-d H:i:s");
+
+
+			$query = "UPDATE rep_requestAlterationModification SET
+				requestedBy= '$PxRID'
+				, dateRequested= '$dateRequested'
+
+			WHERE requestAlterModRID = '$requestAlterModRID' ";
+
+			$r = $this->mysqli->query($query) or die($this->mysqli->error.__LINE__);
+		}
+
+		private function apiSignApprovedByRequestForModifAlter(){
+			if($this->get_request_method() != "POST"){
+				$this->response('',406);
+			}
+
+			$ConsentSurgItem = json_decode(file_get_contents("php://input"),true);
+
+			$requestAlterModRID  = (int)$ConsentSurgItem['requestAlterModRID'];
+			$requestStatus= (string)$ConsentSurgItem['requestStatus'];
+			$PxRID= (string)$ConsentSurgItem['PxRID'];
+			date_default_timezone_set('Asia/Manila');
+			$dateApproved= date("Y-m-d H:i:s");
+
+			$query = "UPDATE rep_requestAlterationModification SET
+				approvedBy= '$PxRID'
+				, dateApproved= '$dateApproved'
+				, requestStatus= '$requestStatus'
+
+			WHERE requestAlterModRID = '$requestAlterModRID' ";
+
+			$r = $this->mysqli->query($query) or die($this->mysqli->error.__LINE__);
+		}
+
+		private function apiSignDisapprovedByRequestForModifAlter(){
+			if($this->get_request_method() != "POST"){
+				$this->response('',406);
+			}
+
+			$ConsentSurgItem = json_decode(file_get_contents("php://input"),true);
+
+			$requestAlterModRID  = (int)$ConsentSurgItem['requestAlterModRID'];
+			$PxRID= (string)$ConsentSurgItem['PxRID'];
+			$requestStatus= (string)$ConsentSurgItem['requestStatus'];
+			date_default_timezone_set('Asia/Manila');
+			$dateDisApproved= date("Y-m-d H:i:s");
+
+
+			$query = "UPDATE rep_requestAlterationModification SET
+				disApprovedBy= '$PxRID'
+				, dateDisApproved= '$dateDisApproved'
+				, requestStatus= '$requestStatus'
+
+			WHERE requestAlterModRID = '$requestAlterModRID' ";
+
+			$r = $this->mysqli->query($query) or die($this->mysqli->error.__LINE__);
 		}
 
 	

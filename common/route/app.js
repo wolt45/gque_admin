@@ -14,5 +14,11 @@ gmmrApp.config(function($stateProvider, $urlRouterProvider) {
         , controller: 'dashboardCtrl'
     })
 
+    .state('requestForModAlter', {
+        url: '/requestForModAlter'
+        , templateUrl: 'pages/requestForModAlter.php'
+        , controller: 'requestForModAlterCtrl'
+    })
+
 
 });

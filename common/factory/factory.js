@@ -42,6 +42,13 @@ gmmrApp.factory("dbServices", ['$http', function($http) {
         });
     }
 
+    obj.CheckPxDsig = function(PIN, callback) {
+        return $http({
+            method: 'GET',
+            url: serviceBase + 'apiCheckPxDsig&PIN=' + PIN,
+        });
+    };
+
     obj.checkSysDoorKeys = function(PxRID, DoorKnob) {
         return $http({
             method : 'GET',
@@ -55,6 +62,75 @@ gmmrApp.factory("dbServices", ['$http', function($http) {
             url : serviceBase + 'apiCheckAcctSysDoorKeys&PxRID=' + PxRID,
         });
     }
+
+    obj.getRequestForModifAlter = function(PxRID) {
+        return $http({
+            method : 'GET',
+            url : serviceBase + 'apiGetRequestForModifAlter&PxRID=' + PxRID,
+        });
+    }
+
+    obj.insertRequestForModifAlter = function(RequestForModifAlterObj, userPxRID) {
+        var RequestForModifAlterData = {
+            "EnteredBy": userPxRID
+            , "requestAlterModRID": RequestForModifAlterObj.requestAlterModRID
+            , "requestType": RequestForModifAlterObj.requestType
+            , "requestDescription": RequestForModifAlterObj.requestDescription
+            , "disApprovedDescription": RequestForModifAlterObj.disApprovedDescription
+        };
+
+        return $http({
+            method: 'POST',
+            url: serviceBase + 'apiInsertRequestForModifAlter',
+            responseType: 'json',
+            data: RequestForModifAlterData,
+            cache: true
+        });
+    }
+
+    obj.signRequestedByRequestForModifAlter = function(requestAlterModRID, PxRID) {
+        var RequestedByRequestForModifAlterdata = {
+            "requestAlterModRID": requestAlterModRID
+            , "PxRID": PxRID
+        }
+        return $http({
+            method: 'POST',
+            url: serviceBase + 'apiSignRequestedByRequestForModifAlter',
+            responseType: 'json',
+            data: RequestedByRequestForModifAlterdata,
+            cache: true
+        });
+    };
+
+    obj.signApprovedByRequestForModifAlter = function(requestAlterModRID, requestStatus, PxRID) {
+        var RequestedByRequestForModifAlterdata = {
+            "requestAlterModRID": requestAlterModRID
+            , "PxRID": PxRID
+            , "requestStatus": requestStatus
+        }
+        return $http({
+            method: 'POST',
+            url: serviceBase + 'apiSignApprovedByRequestForModifAlter',
+            responseType: 'json',
+            data: RequestedByRequestForModifAlterdata,
+            cache: true
+        });
+    };
+
+    obj.signDisapprovedByRequestForModifAlter = function(requestAlterModRID, requestStatus, PxRID) {
+        var RequestedByRequestForModifAlterdata = {
+            "requestAlterModRID": requestAlterModRID
+            , "PxRID": PxRID
+            , "requestStatus": requestStatus
+        }
+        return $http({
+            method: 'POST',
+            url: serviceBase + 'apiSignDisapprovedByRequestForModifAlter',
+            responseType: 'json',
+            data: RequestedByRequestForModifAlterdata,
+            cache: true
+        });
+    };
 
 
 

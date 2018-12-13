@@ -51,6 +51,7 @@
       <script src="common/controllers/loginCtrl.js"></script>
       <script src="common/controllers/sideTopCtrl.js"></script>
       <script src="common/controllers/dashboardCtrl.js"></script>
+      <script src="common/controllers/requestForModAlterCtrl.js"></script>
 
       <!-- Factory -->
       <script src="common/factory/factory.js"></script>

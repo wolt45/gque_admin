@@ -1,7 +1,7 @@
 <div>
   <section class="login_content">
     <form>
-      <h1>GMMR Login</h1>
+      <h1>GMMR-Central Login</h1>
       <div>
         <input type="text" class="form-control" placeholder="Username" required="" ng-model="username"/>
       </div>

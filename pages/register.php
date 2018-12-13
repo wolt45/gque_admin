@@ -12,7 +12,7 @@
         <input type="password" class="form-control" placeholder="Password" required="" ng-model="userPassqord"/>
       </div>
       <div>
-        <a class="btn btn-default submit" href="index.html">Submit</a>
+        <a class="btn btn-default submit" href="login.php">Submit</a>
       </div>
 
       <div class="clearfix"></div>
