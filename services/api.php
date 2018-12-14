@@ -116,6 +116,85 @@
 			$this->response('',204);	// If no records "No Content" status
 		}
 
+		private function apiGetNotifications (){	
+			if($this->get_request_method() != "GET"){
+				$this->response('',406);
+			}
+
+			$userPxRID = (int)$this->_request['userPxRID'];
+			date_default_timezone_set('Asia/Manila');
+			$DateNow= date("Y-m-d");
+
+				$query="SELECT dbcal.*
+				, CONCAT(px_data.FirstName,' ',SUBSTRING(px_data.MiddleName, 1, 1),'. ',px_data.LastName) as pxName
+				, px_data.foto
+				FROM  dbcal
+				LEFT JOIN px_data ON px_data.PxRID = dbcal.PxRID
+				WHERE dbcal.DokPxRID = '$userPxRID' AND DBDate = '$DateNow'";
+				$r = $this->mysqli->query($query) or die($this->mysqli->error.__LINE__);
+				if($r->num_rows > 0) {
+					$result = array();
+					while($row = $r->fetch_assoc()){
+						$result[] = $row;
+				}
+				$this->response($this->json($result, JSON_NUMERIC_CHECK), 200); // send user details
+			}
+			$this->response('',204);	// If no records "No Content" status
+		}
+
+
+		private function apiGetNotificationsBirthdays (){	
+			if($this->get_request_method() != "GET"){
+				$this->response('',406);
+			}
+
+				$query="SELECT 
+					px_data.foto
+					, CONCAT(px_data.FirstName,' ',SUBSTRING(px_data.MiddleName, 1, 1),'. ',px_data.LastName) as pxName
+					FROM users
+					LEFT JOIN px_data ON px_data.PxRID = users.PxRID
+				 	WHERE DAY(px_data.DOB) = DAY(CURDATE())
+				   	AND MONTH(px_data.DOB) = MONTH(CURDATE())";
+				$r = $this->mysqli->query($query) or die($this->mysqli->error.__LINE__);
+				if($r->num_rows > 0) {
+					$result = array();
+					while($row = $r->fetch_assoc()){
+						$result[] = $row;
+				}
+				$this->response($this->json($result, JSON_NUMERIC_CHECK), 200); // send user details
+			}
+			$this->response('',204);	// If no records "No Content" status
+		}
+
+		private function apiGetNotificationsRequestForModifAlter (){	
+			if($this->get_request_method() != "GET"){
+				$this->response('',406);
+			}
+
+			$PxRID = (int)$this->_request['userPxRID'];
+
+			if ($PxRID == 0) {
+				$qAdd ="";
+			}else{
+				$qAdd = "AND EnteredBy = '$PxRID'";
+			}
+
+			$query="SELECT rep_requestAlterationModification.*
+			, px_dataRequestedBy.foto
+			FROM  rep_requestAlterationModification
+			LEFT JOIN px_data AS px_dataRequestedBy ON px_dataRequestedBy.PxRID = rep_requestAlterationModification.requestedBy 
+			WHERE rep_requestAlterationModification.requestStatus = 0 AND rep_requestAlterationModification.Deleted = 0 $qAdd";
+			$r = $this->mysqli->query($query) or die($this->mysqli->error.__LINE__);
+			if($r->num_rows > 0) {
+				$result = array();
+				while($row = $r->fetch_assoc()){
+					$result[] = $row;
+				}
+				$this->response($this->json($result, JSON_NUMERIC_CHECK), 200); // send user details
+			}
+			$this->response('',204);	// If no records "No Content" status
+		}
+
 		private function apiCheckPxDsig()
 		{
 			if($this->get_request_method() != "GET"){
@@ -191,7 +270,7 @@
 				if ($PxRID == 0) {
 					$qAdd ="";
 				}else{
-					$qAdd = "AND requestedBy = '$PxRID'";
+					$qAdd = "AND EnteredBy = '$PxRID'";
 				}
 				$query="SELECT rep_requestAlterationModification.*
 				, CONCAT(px_dataRequestedBy.FirstName,' ',SUBSTRING(px_dataRequestedBy.MiddleName, 1, 1),'. ',px_dataRequestedBy.LastName) AS RequestedByPxName
@@ -213,7 +292,7 @@
 				LEFT JOIN px_data AS px_dataDisapprovedBy ON px_dataDisapprovedBy.PxRID = rep_requestAlterationModification.disApprovedBy 
 				LEFT JOIN px_dsig AS px_dsigDisapprovedBy ON px_dsigDisapprovedBy.PxRID = rep_requestAlterationModification.disApprovedBy 
 
-				WHERE  rep_requestAlterationModification.Deleted = 0 $qAdd";
+				WHERE  rep_requestAlterationModification.Deleted = 0 $qAdd ORDER BY requestStatus";
 				$r = $this->mysqli->query($query) or die($this->mysqli->error.__LINE__);
 				if($r->num_rows > 0) {
 					$result = array();
@@ -313,6 +392,7 @@
 			$requestAlterModRID  = (int)$ConsentSurgItem['requestAlterModRID'];
 			$PxRID= (string)$ConsentSurgItem['PxRID'];
 			$requestStatus= (string)$ConsentSurgItem['requestStatus'];
+			$disApprovedDescription= (string)$ConsentSurgItem['disApprovedDescription'];
 			date_default_timezone_set('Asia/Manila');
 			$dateDisApproved= date("Y-m-d H:i:s");
 
@@ -321,6 +401,7 @@
 				disApprovedBy= '$PxRID'
 				, dateDisApproved= '$dateDisApproved'
 				, requestStatus= '$requestStatus'
+				, disApprovedDescription= '$disApprovedDescription'
 
 			WHERE requestAlterModRID = '$requestAlterModRID' ";
 

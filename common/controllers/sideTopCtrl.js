@@ -1,11 +1,11 @@
-gmmrApp.controller('sideTopCtrl', function ($scope, $stateParams, $rootScope, $location, $http, $window, $filter, $sce, dbServices){
+gmmrApp.controller('sideTopCtrl', function ($scope, $stateParams, $rootScope, $location, $http, $window, $interval, $filter, $sce, dbServices){
 
 	$scope.userPxRID = localStorage.getItem("gmmrCentraluserPxRID"); 
 	$scope.userTypeRID = localStorage.getItem("gmmrCentraluserTypeRID");
 
 	$scope.notifItemSum= 0;
-  	$scope.messageItemSum= 0;
-  	$scope.DateNow = new Date;
+  $scope.messageItemSum= 0;
+  $scope.DateNow = new Date;
 
 	$scope.checkAuth = function()
 	{
@@ -38,6 +38,67 @@ gmmrApp.controller('sideTopCtrl', function ($scope, $stateParams, $rootScope, $l
 	  };
 
   	$scope.LoadUserProfile($scope.userPxRID);
+
+
+  $scope.getNotifications = function () {
+
+    dbServices.getNotifications($scope.userPxRID)
+    .then(function success(response) {
+      $scope.notifItem = response.data;
+      // console.log($scope.notifItem);
+      var tempSum = $scope.notifItem.length;
+      $scope.notifItemSum = parseFloat($scope.notifItemSum) + parseFloat(tempSum);
+    });
+  };
+
+  $scope.getNotifications();
+
+  $scope.getNotificationsBirthdays = function () {
+
+    dbServices.getNotificationsBirthdays()
+    .then(function success(response) {
+      $scope.notifItemBirthdays = response.data;
+      $scope.notifItemBirthdaysSum = $scope.notifItemBirthdays.length;
+      $scope.notifItemSum = parseFloat($scope.notifItemSum) + parseFloat($scope.notifItemBirthdaysSum);
+    });
+  };
+
+  $scope.getNotificationsBirthdays();
+
+  $scope.getNotificationsRequestForModifAlter = function (userPxRID) {
+
+    dbServices.getNotificationsRequestForModifAlter(userPxRID)
+    .then(function success(response) {
+      $scope.NotificationsRequestForModifAlterListObj = response.data;
+      $scope.NotificationsRequestForModifAlterSum = $scope.NotificationsRequestForModifAlterListObj.length;
+      $scope.notifItemSum = parseFloat($scope.notifItemSum) + parseFloat($scope.NotificationsRequestForModifAlterSum);
+    });
+  };
+
+
+  $scope.checkSysDoorKeys = function (PxRID) {
+  
+      dbServices.checkSysDoorKeys(PxRID, "6002")
+      .then(function success(response) {
+
+          if (response.data.DoorKnob == "6002") {
+            $scope.getNotificationsRequestForModifAlter("0");
+            $scope.showOnlyToAccountWPriviledged = false; 
+          }else{
+             $scope.getNotificationsRequestForModifAlter($scope.userPxRID);
+          }
+      });
+
+  };
+
+  $scope.checkSysDoorKeys($scope.userPxRID);
+
+  $interval(function(){
+    $scope.notifItemSum= 0;
+    $scope.messageItemSum= 0; 
+    $scope.checkSysDoorKeys($scope.userPxRID);
+    $scope.getNotifications();
+  },10000);
 
 
   	$scope.registrationSidemenu = false;
@@ -109,15 +170,18 @@ gmmrApp.controller('sideTopCtrl', function ($scope, $stateParams, $rootScope, $l
 
     $scope.logout = function () {
     	if (confirm("Are you sure to logut?")) {
-	    	dbServices.logout($scope.userPxRID)
-		    .then(function success(response) {
-		    	// console.log(response.data);
-		    	// localStorage.setItem("gmmrCentraluserPxRID", "");
-		    	localStorage.clear();
+        localStorage.clear();
 
-		    	$window.location.href = 'login.php';
+          $window.location.href = 'login.php';
+	    	// dbServices.logout($scope.userPxRID)
+		    // .then(function success(response) {
+		    // 	// console.log(response.data);
+		    // 	// localStorage.setItem("gmmrCentraluserPxRID", "");
+		    // 	localStorage.clear();
 
-		    });
+		    // 	$window.location.href = 'login.php';
+
+		    // });
 		}
 	};
     

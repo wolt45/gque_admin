@@ -13,10 +13,10 @@ gmmrApp.controller('requestForModAlterCtrl', function ($scope, $stateParams, $ro
             if (response.data.DoorKnob == "6002") {
             	$scope.getRequestForModifAlter("0");
             	$scope.showOnlyToAccountWPriviledged = false; 
-            	console.log("authorize mag approved");
+            	// console.log("authorize mag approved");
             }else{
                $scope.getRequestForModifAlter($scope.userPxRID);
-               console.log("Indi authorize mag approved");
+               // console.log("Indi authorize mag approved");
             }
             
 
@@ -31,7 +31,7 @@ gmmrApp.controller('requestForModAlterCtrl', function ($scope, $stateParams, $ro
 
     	dbServices.getRequestForModifAlter(PxRID)
 	    .then(function success(response) {
-	    	console.log(response);
+	    	// console.log(response);
 	    	$scope.RequestForModifAlterListObj = response.data;
 	    });
 
@@ -43,15 +43,17 @@ gmmrApp.controller('requestForModAlterCtrl', function ($scope, $stateParams, $ro
 
     	dbServices.insertRequestForModifAlter(RequestForModifAlterObj, $scope.userPxRID)
 	    .then(function success(response) {
-	    	console.log(response);
+	    	// console.log(response);
 	    	$scope.checkSysDoorKeys($scope.userPxRID);
+	    	$scope.RequestForModifAlterObj = {};
+	    	alert("Data successfully save!");
 	    });
 
 	};
 
 	$scope.editRequestForModifAlter = function (RequestForModifAlterList) {
     	$scope.RequestForModifAlterObj = RequestForModifAlterList;
-    	console.log(RequestForModifAlterList);
+    	// console.log(RequestForModifAlterList);
 	};
 
 	$scope.cancelRequestForModifAlter = function () {
@@ -102,7 +104,7 @@ gmmrApp.controller('requestForModAlterCtrl', function ($scope, $stateParams, $ro
     }
   };
 
-  $scope.signDisapprovedByRequestForModifAlter = function(DisapprovedByPIN, requestStatus) {
+  $scope.signDisapprovedByRequestForModifAlter = function(DisapprovedByPIN, requestStatus, disApprovedDescription) {
 
     if (!DisapprovedByPIN) {
     }else{
@@ -111,7 +113,7 @@ gmmrApp.controller('requestForModAlterCtrl', function ($scope, $stateParams, $ro
         if (response.data == "") {
           alert("Invalid PIN!");
         }else{
-          dbServices.signDisapprovedByRequestForModifAlter($scope.RequestForModifAlterObj.requestAlterModRID, requestStatus, response.data.PxRID)
+          dbServices.signDisapprovedByRequestForModifAlter($scope.RequestForModifAlterObj.requestAlterModRID, requestStatus, disApprovedDescription, response.data.PxRID)
           .then(function success(response) {
             // console.log(response);
             alert("Successfully Sign!");

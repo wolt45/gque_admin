@@ -210,10 +210,22 @@
                                       <img src="../dump_px/{{notifItemBirthday.foto ? notifItemBirthday.foto : 'default.jpg'}}" alt="Profile Image" />
                                   </span>
                                   <span>
-                                      <span class="fa fa-birthday-cake"></span>
+                                      <span class="fa fa-birthday-cake red"></span>
                                       <b>{{notifItemBirthday.pxName}}</b>
                                   </span>
                               </a>
+                          </li>
+                          <li ng-repeat="NotificationsRequestForModifAlterList in NotificationsRequestForModifAlterListObj">
+                            <a ui-sref="requestForModAlter">
+                              <span class="image"><img src="../dump_px/{{NotificationsRequestForModifAlterList.foto ? NotificationsRequestForModifAlterList.foto : 'default.jpg'}}" alt="Profile Image" /></span>
+                              <span>
+                                <span>{{NotificationsRequestForModifAlterList.requestType}}</span>
+                                <span class="time">3 mins ago</span>
+                              </span>
+                              <span class="message">
+                                {{NotificationsRequestForModifAlterList.requestDescription}}
+                              </span>
+                            </a>
                           </li>
                           <li>
                               <div class="text-center">

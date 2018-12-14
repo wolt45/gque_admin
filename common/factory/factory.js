@@ -42,6 +42,27 @@ gmmrApp.factory("dbServices", ['$http', function($http) {
         });
     }
 
+    obj.getNotifications = function(userPxRID) {
+        return $http({
+            method: 'GET',
+            url: serviceBase + 'apiGetNotifications&userPxRID=' + userPxRID,
+        });
+    }
+
+    obj.getNotificationsBirthdays = function() {
+        return $http({
+            method: 'GET',
+            url: serviceBase + 'apiGetNotificationsBirthdays',
+        });
+    }
+
+    obj.getNotificationsRequestForModifAlter = function(userPxRID) {
+        return $http({
+            method: 'GET',
+            url: serviceBase + 'apiGetNotificationsRequestForModifAlter&userPxRID=' + userPxRID,
+        });
+    }
+
     obj.CheckPxDsig = function(PIN, callback) {
         return $http({
             method: 'GET',
@@ -117,11 +138,12 @@ gmmrApp.factory("dbServices", ['$http', function($http) {
         });
     };
 
-    obj.signDisapprovedByRequestForModifAlter = function(requestAlterModRID, requestStatus, PxRID) {
+    obj.signDisapprovedByRequestForModifAlter = function(requestAlterModRID, requestStatus, disApprovedDescription, PxRID) {
         var RequestedByRequestForModifAlterdata = {
             "requestAlterModRID": requestAlterModRID
             , "PxRID": PxRID
             , "requestStatus": requestStatus
+            , "disApprovedDescription": disApprovedDescription
         }
         return $http({
             method: 'POST',

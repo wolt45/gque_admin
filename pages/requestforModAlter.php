@@ -39,9 +39,12 @@
               <input type="text" name="" class="form-control" placeholder="Search..." ng-model="searchRequestForModifAlter">
 
               <div class="table-responsive">
-                <table class="table table-bordered">
+                <table class="table table-bordered table-hover table-striped">
                   <thead>
                     <tr>
+                      <th>
+                        Date Requested
+                      </th>
                       <th nowrap>
                         Request Type
                       </th>
@@ -59,6 +62,9 @@
                   <tbody>
                     <tr ng-repeat="RequestForModifAlterList in RequestForModifAlterListObj | filter: searchRequestForModifAlter" data-toggle="modal" data-target="#requestforModAlterModal" ng-click="editRequestForModifAlter(RequestForModifAlterList)">
                       <td width="1%" nowrap>
+                        {{RequestForModifAlterList.dateRequested}}
+                      </td>
+                      <td width="1%" nowrap>
                         {{RequestForModifAlterList.requestType}}
                       </td>
                       <td>
@@ -67,8 +73,17 @@
                       <td width="1%" nowrap>
                         {{RequestForModifAlterList.RequestedByPxName}}
                       </td>
-                      <td width="1%" nowrap>
-                        {{RequestForModifAlterList.requestStatus? RequestForModifAlterList.requestStatus: 'PENDING' | uppercase}}
+                      <td width="1%" nowrap class="text-center">
+                        <div ng-if="RequestForModifAlterList.requestStatus == 0" class="bg-green">
+                          Pending
+                        </div>
+                        <div ng-if="RequestForModifAlterList.requestStatus == 1" class="bg-blue">
+                          Approved
+                        </div>
+                        <div ng-if="RequestForModifAlterList.requestStatus == 2" class="bg-red">
+                          Disapproved
+                        </div>
+                       
                       </td>
                     </tr>
                   </tbody>
@@ -148,16 +163,16 @@
                   <tr ng-show="!showOnlyToAccountWPriviledged">
                     <td colspan="4">
                       <label class="radio-inline">
-                        <input type="radio" name="requestStatus" value="Approved" ng-model="RequestForModifAlterObj.requestStatus" ng-disabled="RequestForModifAlterObj.approvedBy > 0 || RequestForModifAlterObj.disApprovedBy > 0">
+                        <input type="radio" name="requestStatus" value="1" ng-model="RequestForModifAlterObj.requestStatus" ng-disabled="RequestForModifAlterObj.approvedBy > 0 || RequestForModifAlterObj.disApprovedBy > 0">
                         Approved
                       </label>
                       <label class="radio-inline">
-                        <input type="radio" name="requestStatus" value="Disapproved" ng-model="RequestForModifAlterObj.requestStatus" ng-disabled="RequestForModifAlterObj.approvedBy > 0 || RequestForModifAlterObj.disApprovedBy > 0">
+                        <input type="radio" name="requestStatus" value="2" ng-model="RequestForModifAlterObj.requestStatus" ng-disabled="RequestForModifAlterObj.approvedBy > 0 || RequestForModifAlterObj.disApprovedBy > 0">
                         Disapproved
                       </label>
                     </td>
                   </tr>
-                  <tr ng-show="RequestForModifAlterObj.requestStatus =='Approved'">
+                  <tr ng-show="RequestForModifAlterObj.requestStatus =='1'">
                     <td width="1%" nowrap>
                       Approved By:
                     </td>
@@ -184,7 +199,7 @@
                       {{RequestForModifAlterObj.dateApproved}}
                     </td>
                   </tr>
-                  <tr ng-show="RequestForModifAlterObj.requestStatus =='Disapproved'">
+                  <tr ng-show="RequestForModifAlterObj.requestStatus =='2'">
                     <td width="1%" nowrap>
                       Disapproved By:
                     </td>
@@ -198,7 +213,7 @@
                       <div class="input-group" id="DontPrint" ng-show="RequestForModifAlterObj.disApprovedBy == 0">
                         <input type="password" class=" form-control" placeholder="PIN..." ng-model="DisapprovedByPIN">
                         <span class="input-group-btn">
-                            <button type="button" class="btn btn-primary" ng-click="signDisapprovedByRequestForModifAlter(DisapprovedByPIN, RequestForModifAlterObj.requestStatus)" ng-disabled="showOnlyToAccountWPriviledged">
+                            <button type="button" class="btn btn-primary" ng-click="signDisapprovedByRequestForModifAlter(DisapprovedByPIN, RequestForModifAlterObj.requestStatus, RequestForModifAlterObj.disApprovedDescription)" ng-disabled="showOnlyToAccountWPriviledged">
                                 <span class="glyphicon glyphicon-pencil"></span>
                             </button>
                         </span>
@@ -211,7 +226,7 @@
                       {{RequestForModifAlterObj.dateDisApproved}}
                     </td>
                   </tr>
-                  <tr ng-show="RequestForModifAlterObj.requestStatus =='Disapproved'">
+                  <tr ng-show="RequestForModifAlterObj.requestStatus =='2'">
                     <td>
                       Disapproved Reason:
                     </td>
