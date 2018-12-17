@@ -179,11 +179,11 @@
 				$qAdd = "AND EnteredBy = '$PxRID'";
 			}
 
-			$query="SELECT rep_requestAlterationModification.*
+			$query="SELECT zh_requestAlterationModification.*
 			, px_dataRequestedBy.foto
-			FROM  rep_requestAlterationModification
-			LEFT JOIN px_data AS px_dataRequestedBy ON px_dataRequestedBy.PxRID = rep_requestAlterationModification.requestedBy 
-			WHERE rep_requestAlterationModification.requestStatus = 0 AND rep_requestAlterationModification.Deleted = 0 $qAdd";
+			FROM  zh_requestAlterationModification
+			LEFT JOIN px_data AS px_dataRequestedBy ON px_dataRequestedBy.PxRID = zh_requestAlterationModification.requestedBy 
+			WHERE zh_requestAlterationModification.requestStatus = 0 AND zh_requestAlterationModification.Deleted = 0 $qAdd";
 			$r = $this->mysqli->query($query) or die($this->mysqli->error.__LINE__);
 			if($r->num_rows > 0) {
 				$result = array();
@@ -206,6 +206,26 @@
 
 			$query="SELECT * FROM px_dsig 
 				WHERE PIN = '$PIN'";
+			$r = $this->mysqli->query($query) or die($this->mysqli->error.__LINE__);
+
+			if($r->num_rows > 0){
+				$result = $r->fetch_assoc();	
+				$this->response($this->json($result), 200); // send user details
+			}
+			$this->response('',204); // no content
+		}
+
+		private function apiCheckPxDsigAcct()
+		{
+			if($this->get_request_method() != "GET"){
+				$this->response('',406);
+			}
+
+			$PIN = (string)$this->_request['PIN'];
+			$PxRID = (int)$this->_request['PxRID'];
+
+			$query="SELECT * FROM px_dsig 
+				WHERE PIN = '$PIN' AND PxRID = '$PxRID'";
 			$r = $this->mysqli->query($query) or die($this->mysqli->error.__LINE__);
 
 			if($r->num_rows > 0){
@@ -272,7 +292,7 @@
 				}else{
 					$qAdd = "AND EnteredBy = '$PxRID'";
 				}
-				$query="SELECT rep_requestAlterationModification.*
+				$query="SELECT zh_requestAlterationModification.*
 				, CONCAT(px_dataRequestedBy.FirstName,' ',SUBSTRING(px_dataRequestedBy.MiddleName, 1, 1),'. ',px_dataRequestedBy.LastName) AS RequestedByPxName
 				, px_dsigRequestedBy.b64a AS RequestedByPxSign
 
@@ -282,17 +302,17 @@
 				, CONCAT(px_dataDisapprovedBy.FirstName,' ',SUBSTRING(px_dataDisapprovedBy.MiddleName, 1, 1),'. ',px_dataDisapprovedBy.LastName) AS DisapprovedByPxName
 				, px_dsigDisapprovedBy.b64a AS DisapprovedByPxSign
 
-				FROM  rep_requestAlterationModification
-				LEFT JOIN px_data AS px_dataRequestedBy ON px_dataRequestedBy.PxRID = rep_requestAlterationModification.requestedBy 
-				LEFT JOIN px_dsig AS px_dsigRequestedBy ON px_dsigRequestedBy.PxRID = rep_requestAlterationModification.requestedBy 
+				FROM  zh_requestAlterationModification
+				LEFT JOIN px_data AS px_dataRequestedBy ON px_dataRequestedBy.PxRID = zh_requestAlterationModification.requestedBy 
+				LEFT JOIN px_dsig AS px_dsigRequestedBy ON px_dsigRequestedBy.PxRID = zh_requestAlterationModification.requestedBy 
 
-				LEFT JOIN px_data AS px_dataApprovedBy ON px_dataApprovedBy.PxRID = rep_requestAlterationModification.approvedBy 
-				LEFT JOIN px_dsig AS px_dsigApprovedBy ON px_dsigApprovedBy.PxRID = rep_requestAlterationModification.approvedBy 
+				LEFT JOIN px_data AS px_dataApprovedBy ON px_dataApprovedBy.PxRID = zh_requestAlterationModification.approvedBy 
+				LEFT JOIN px_dsig AS px_dsigApprovedBy ON px_dsigApprovedBy.PxRID = zh_requestAlterationModification.approvedBy 
 
-				LEFT JOIN px_data AS px_dataDisapprovedBy ON px_dataDisapprovedBy.PxRID = rep_requestAlterationModification.disApprovedBy 
-				LEFT JOIN px_dsig AS px_dsigDisapprovedBy ON px_dsigDisapprovedBy.PxRID = rep_requestAlterationModification.disApprovedBy 
+				LEFT JOIN px_data AS px_dataDisapprovedBy ON px_dataDisapprovedBy.PxRID = zh_requestAlterationModification.disApprovedBy 
+				LEFT JOIN px_dsig AS px_dsigDisapprovedBy ON px_dsigDisapprovedBy.PxRID = zh_requestAlterationModification.disApprovedBy 
 
-				WHERE  rep_requestAlterationModification.Deleted = 0 $qAdd ORDER BY requestStatus";
+				WHERE  zh_requestAlterationModification.Deleted = 0 $qAdd ORDER BY requestStatus";
 				$r = $this->mysqli->query($query) or die($this->mysqli->error.__LINE__);
 				if($r->num_rows > 0) {
 					$result = array();
@@ -317,14 +337,14 @@
             $disApprovedDescription  = (string)$UserData['disApprovedDescription'];
 
             if ($requestAlterModRID > 0) {
-            	$query = "UPDATE rep_requestAlterationModification SET
+            	$query = "UPDATE zh_requestAlterationModification SET
 					EnteredBy = '$EnteredBy'
 		            , requestType = '$requestType'
 		            , requestDescription = '$requestDescription'
 		            , disApprovedDescription = '$disApprovedDescription'
 				WHERE requestAlterModRID = '$requestAlterModRID'";
             }else{
-            	$query = "INSERT INTO rep_requestAlterationModification SET
+            	$query = "INSERT INTO zh_requestAlterationModification SET
 					EnteredBy = '$EnteredBy'
 		            , requestType = '$requestType'
 		            , requestDescription = '$requestDescription'
@@ -350,7 +370,7 @@
 			$dateRequested= date("Y-m-d H:i:s");
 
 
-			$query = "UPDATE rep_requestAlterationModification SET
+			$query = "UPDATE zh_requestAlterationModification SET
 				requestedBy= '$PxRID'
 				, dateRequested= '$dateRequested'
 
@@ -368,14 +388,16 @@
 
 			$requestAlterModRID  = (int)$ConsentSurgItem['requestAlterModRID'];
 			$requestStatus= (string)$ConsentSurgItem['requestStatus'];
+			$requestStatusDesc= (string)$ConsentSurgItem['requestStatusDesc'];
 			$PxRID= (string)$ConsentSurgItem['PxRID'];
 			date_default_timezone_set('Asia/Manila');
 			$dateApproved= date("Y-m-d H:i:s");
 
-			$query = "UPDATE rep_requestAlterationModification SET
+			$query = "UPDATE zh_requestAlterationModification SET
 				approvedBy= '$PxRID'
 				, dateApproved= '$dateApproved'
 				, requestStatus= '$requestStatus'
+				, requestStatusDesc= '$requestStatusDesc'
 
 			WHERE requestAlterModRID = '$requestAlterModRID' ";
 
@@ -392,16 +414,18 @@
 			$requestAlterModRID  = (int)$ConsentSurgItem['requestAlterModRID'];
 			$PxRID= (string)$ConsentSurgItem['PxRID'];
 			$requestStatus= (string)$ConsentSurgItem['requestStatus'];
+			$requestStatusDesc= (string)$ConsentSurgItem['requestStatusDesc'];
 			$disApprovedDescription= (string)$ConsentSurgItem['disApprovedDescription'];
 			date_default_timezone_set('Asia/Manila');
 			$dateDisApproved= date("Y-m-d H:i:s");
 
 
-			$query = "UPDATE rep_requestAlterationModification SET
+			$query = "UPDATE zh_requestAlterationModification SET
 				disApprovedBy= '$PxRID'
 				, dateDisApproved= '$dateDisApproved'
 				, requestStatus= '$requestStatus'
 				, disApprovedDescription= '$disApprovedDescription'
+				, requestStatusDesc= '$requestStatusDesc'
 
 			WHERE requestAlterModRID = '$requestAlterModRID' ";
 

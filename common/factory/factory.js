@@ -63,10 +63,17 @@ gmmrApp.factory("dbServices", ['$http', function($http) {
         });
     }
 
-    obj.CheckPxDsig = function(PIN, callback) {
+    obj.CheckPxDsig = function(PIN) {
         return $http({
             method: 'GET',
             url: serviceBase + 'apiCheckPxDsig&PIN=' + PIN,
+        });
+    };
+
+    obj.CheckPxDsigAcct = function(PIN, PxRID) {
+        return $http({
+            method: 'GET',
+            url: serviceBase + 'apiCheckPxDsigAcct&PIN=' + PIN + '&PxRID=' + PxRID ,
         });
     };
 
@@ -123,11 +130,12 @@ gmmrApp.factory("dbServices", ['$http', function($http) {
         });
     };
 
-    obj.signApprovedByRequestForModifAlter = function(requestAlterModRID, requestStatus, PxRID) {
+    obj.signApprovedByRequestForModifAlter = function(requestAlterModRID, requestStatus, requestStatusDesc, PxRID) {
         var RequestedByRequestForModifAlterdata = {
             "requestAlterModRID": requestAlterModRID
             , "PxRID": PxRID
             , "requestStatus": requestStatus
+            , "requestStatusDesc": requestStatusDesc
         }
         return $http({
             method: 'POST',
@@ -138,12 +146,13 @@ gmmrApp.factory("dbServices", ['$http', function($http) {
         });
     };
 
-    obj.signDisapprovedByRequestForModifAlter = function(requestAlterModRID, requestStatus, disApprovedDescription, PxRID) {
+    obj.signDisapprovedByRequestForModifAlter = function(requestAlterModRID, requestStatus, disApprovedDescription, requestStatusDesc, PxRID) {
         var RequestedByRequestForModifAlterdata = {
             "requestAlterModRID": requestAlterModRID
             , "PxRID": PxRID
             , "requestStatus": requestStatus
             , "disApprovedDescription": disApprovedDescription
+            , "requestStatusDesc": requestStatusDesc
         }
         return $http({
             method: 'POST',

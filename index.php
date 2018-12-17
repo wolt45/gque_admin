@@ -38,6 +38,8 @@
       <script src="lib/angular-1.7.2/angular.min.js"></script>
       <script src="lib/angular-ui-router.js"></script>
 
+      <script src="lib/ui-bootstrap-tpls-2.5.0.js"></script>
+
       <!-- Route -->
       <script src="common/route/app.js"></script>
 

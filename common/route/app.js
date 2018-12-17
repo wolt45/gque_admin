@@ -1,4 +1,4 @@
-var gmmrApp = angular.module('gmmrApp', ['ui.router']);
+var gmmrApp = angular.module('gmmrApp', ['ui.router', 'ui.bootstrap']);
 
 
 gmmrApp.config(function($stateProvider, $urlRouterProvider) {
@@ -21,4 +21,14 @@ gmmrApp.config(function($stateProvider, $urlRouterProvider) {
     })
 
 
+});
+
+gmmrApp.filter('beginning_data', function() {
+    return function(input, begin) {
+        if (input) {
+            begin = +begin;
+            return input.slice(begin);
+        }
+        return [];
+    }
 });

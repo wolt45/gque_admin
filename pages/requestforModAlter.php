@@ -36,9 +36,22 @@
                   New Request
                 </button>
               </div>
-              <input type="text" name="" class="form-control" placeholder="Search..." ng-model="searchRequestForModifAlter">
-
-              <div class="table-responsive">
+              <div class="row">
+                <div class="col-sm-2 pull-left">
+                  <label>PageSize:</label>
+                  <select ng-model="RequestForModifAlterListObjdata_limit" class="form-control">
+                      <option>10</option>
+                      <option>20</option>
+                      <option>50</option>
+                      <option>100</option>
+                  </select>
+                </div>
+                <div class="col-sm-6 pull-right">
+                    <label>Search:</label>
+                    <input type="text" ng-model="search" ng-change="filter()" placeholder="Search" class="form-control" />
+                </div>
+              </div>
+              <div class="table-responsive" ng-show="RequestForModifAlterListObjfilter_data > 0">
                 <table class="table table-bordered table-hover table-striped">
                   <thead>
                     <tr>
@@ -54,15 +67,18 @@
                       <th>
                         Requested By
                       </th>
+                      <th>
+                        Approved By/Date
+                      </th>
                       <th width="1%" nowrap>
                         Status
                       </th>
                     </tr>
                   </thead>
                   <tbody>
-                    <tr ng-repeat="RequestForModifAlterList in RequestForModifAlterListObj | filter: searchRequestForModifAlter" data-toggle="modal" data-target="#requestforModAlterModal" ng-click="editRequestForModifAlter(RequestForModifAlterList)">
+                    <tr ng-repeat="RequestForModifAlterList in searched = (RequestForModifAlterListObj | filter:search | orderBy : base :reverse) | beginning_data:(RequestForModifAlterListObjcurrent_grid-1)*RequestForModifAlterListObjdata_limit | limitTo:RequestForModifAlterListObjdata_limit" data-toggle="modal" data-target="#requestforModAlterModal" ng-click="editRequestForModifAlter(RequestForModifAlterList)">
                       <td width="1%" nowrap>
-                        {{RequestForModifAlterList.dateRequested}}
+                        {{RequestForModifAlterList.dateRequested | date:"medium"}}
                       </td>
                       <td width="1%" nowrap>
                         {{RequestForModifAlterList.requestType}}
@@ -73,22 +89,41 @@
                       <td width="1%" nowrap>
                         {{RequestForModifAlterList.RequestedByPxName}}
                       </td>
+                      <td>
+                        <div ng-show="RequestForModifAlterList.requestStatus == 1">
+                          {{RequestForModifAlterList.ApprovedByPxName}}
+                          <br>
+                          {{RequestForModifAlterList.dateApproved | date:"medium"}}
+                        </div>
+                        <div ng-show="RequestForModifAlterList.requestStatus == 2">
+                          {{RequestForModifAlterList.DisapprovedByPxName}}
+                          <br>
+                          {{RequestForModifAlterList.dateDisApproved | date:"medium"}}
+                        </div>
+                      </td>
+
                       <td width="1%" nowrap class="text-center">
-                        <div ng-if="RequestForModifAlterList.requestStatus == 0" class="bg-green">
-                          Pending
-                        </div>
-                        <div ng-if="RequestForModifAlterList.requestStatus == 1" class="bg-blue">
-                          Approved
-                        </div>
-                        <div ng-if="RequestForModifAlterList.requestStatus == 2" class="bg-red">
-                          Disapproved
-                        </div>
-                       
+                        {{RequestForModifAlterList.requestStatusDesc}}
                       </td>
                     </tr>
                   </tbody>
                 </table>
               </div>
+              <div class="col-md-12" ng-show="RequestForModifAlterListObjfilter_data == 0">
+                  <div class="col-md-12">
+                      <h4>No records found..</h4>
+                  </div>
+              </div>
+              <div class="col-md-12">
+                  <div class="col-md-6 pull-left">
+                      <h5>Showing {{ searched.length }} of {{RequestForModifAlterListObjentire_user}} entries</h5>
+                  </div>
+                  <div class="col-md-6" ng-show="RequestForModifAlterListObjfilter_data > 0">
+                      <ul uib-pagination total-items="RequestForModifAlterListObjfilter_data" ng-model="RequestForModifAlterListObjcurrent_grid" max-size="RequestForModifAlterListObjdata_limit" on-select-page="page_position(page)" items-per-page="RequestForModifAlterListObjdata_limit" class="pagination-sm" boundary-link-numbers="true" rotate="false"></ul>
+                  </div>
+              </div>
+              
+
             </div>
           </div>
         </div>
