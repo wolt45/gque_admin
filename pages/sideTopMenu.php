@@ -94,6 +94,11 @@
                   Billing Codes
                 </a>
               </li>
+              <li ng-show="adminPanelSidemenu">
+                <a href="../adminPanel">
+                  Admin Panel
+                </a>
+              </li>
 
               
               <!-- <li ng-show="userTypeRID == 1">

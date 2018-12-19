@@ -112,6 +112,7 @@ gmmrApp.controller('sideTopCtrl', function ($scope, $stateParams, $rootScope, $l
   	$scope.icd10CodeSidemenu = false;
   	$scope.billingCodeSidemenu = false;
   	$scope.rvsCodeSidemenu = false;
+    $scope.adminPanelSidemenu = false;
 
 
   	$scope.checkAcctSysDoorKeys = function (PxRID) {
@@ -157,6 +158,10 @@ gmmrApp.controller('sideTopCtrl', function ($scope, $stateParams, $rootScope, $l
 
         if (response.data[i].DoorKnob == "6606") {
           $scope.billingCodeSidemenu = true;
+        }
+
+        if (response.data[i].DoorKnob == "6001") {
+          $scope.adminPanelSidemenu = true;
         }
 
 
