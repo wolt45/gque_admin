@@ -103,7 +103,15 @@
                       </td>
 
                       <td width="1%" nowrap class="text-center">
-                        {{RequestForModifAlterList.requestStatusDesc}}
+                        <div ng-show="RequestForModifAlterList.requestStatus == 1 || RequestForModifAlterList.requestStatus == 0" style="background-color: blue; color: white;">
+                          {{RequestForModifAlterList.requestStatusDesc}}
+                        </div>
+                        <div ng-show="RequestForModifAlterList.requestStatus == 2" style="background-color: red; color: white;">
+                          {{RequestForModifAlterList.requestStatusDesc}}
+                        </div>
+                        <div ng-show="RequestForModifAlterList.requestStatus == 3" style="background-color: green; color: white;">
+                          {{RequestForModifAlterList.requestStatusDesc}}
+                        </div>
                       </td>
                     </tr>
                   </tbody>

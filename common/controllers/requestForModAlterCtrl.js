@@ -61,6 +61,7 @@ gmmrApp.controller('requestForModAlterCtrl', function ($scope, $stateParams, $ro
           var disApprovedDescription = response.data[i].disApprovedDescription;
           var EnteredBy = response.data[i].EnteredBy;
           var Deleted = response.data[i].Deleted;
+          var actionStatus = response.data[i].actionStatus;
 
           newrecord = {
             requestAlterModRID : requestAlterModRID
@@ -80,6 +81,7 @@ gmmrApp.controller('requestForModAlterCtrl', function ($scope, $stateParams, $ro
             , disApprovedDescription : disApprovedDescription
             , EnteredBy : EnteredBy
             , Deleted : Deleted
+            , actionStatus : actionStatus
             
           }
           $scope.RequestForModifAlterListObj.push(newrecord);

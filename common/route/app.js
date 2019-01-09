@@ -1,7 +1,7 @@
 var gmmrApp = angular.module('gmmrApp', ['ui.router', 'ui.bootstrap']);
 
-
-gmmrApp.config(function($stateProvider, $urlRouterProvider) {
+gmmrApp.config(function($stateProvider, $urlRouterProvider, $locationProvider) {
+    $locationProvider.hashPrefix('');
 
     $urlRouterProvider.otherwise('/dashboard');
 

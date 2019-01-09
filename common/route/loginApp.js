@@ -1,7 +1,8 @@
 var gmmrApp = angular.module('gmmrApp', ['ui.router']);
 
 
-gmmrApp.config(function($stateProvider, $urlRouterProvider) {
+gmmrApp.config(function($stateProvider, $urlRouterProvider, $locationProvider) {
+    $locationProvider.hashPrefix('');
 
     $urlRouterProvider.otherwise('/login');
 

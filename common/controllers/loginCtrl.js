@@ -7,7 +7,7 @@ gmmrApp.controller('loginCtrl', function ($scope, $stateParams, $rootScope, $loc
 		if ($scope.userPxRID == '' || $scope.userPxRID == null) {
 		  $location.path('/login');
 		}else{
-		  $window.location.href = 'index.php';
+		  $window.location.href = '/rbgmain';
 		}
 	};
 
@@ -59,7 +59,7 @@ gmmrApp.controller('loginCtrl', function ($scope, $stateParams, $rootScope, $loc
 		    	localStorage.setItem("gmmr3userPxRID", PxRID);
 		    	localStorage.setItem("gmmr3userSpecialty", userTypeRID);
 
-		    	$window.location.href = 'index.php';
+		    	$window.location.href = '/rbgmain';
 		    	// $location.path('/dashboard');
 		    	$scope.successMessage = 'Account Successfully Login!';
             }else{
