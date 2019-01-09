@@ -161,7 +161,7 @@ gmmrApp.controller('requestForModAlterCtrl', function ($scope, $stateParams, $ro
     var requestStatusDesc = "Approved";
     if (!ApprovedByPIN) {
     }else{
-     dbServices.CheckPxDsigAcct(RequestedByPIN, $scope.userPxRID)
+     dbServices.CheckPxDsigAcct(ApprovedByPIN, $scope.userPxRID)
       .then(function success(response) {
         if (response.data == "") {
           alert("Invalid PIN!");
@@ -181,7 +181,7 @@ gmmrApp.controller('requestForModAlterCtrl', function ($scope, $stateParams, $ro
     var requestStatusDesc = "Diapproved";
     if (!DisapprovedByPIN) {
     }else{
-      dbServices.CheckPxDsigAcct(RequestedByPIN, $scope.userPxRID)
+      dbServices.CheckPxDsigAcct(DisapprovedByPIN, $scope.userPxRID)
       .then(function success(response) {
         if (response.data == "") {
           alert("Invalid PIN!");
