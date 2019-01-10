@@ -205,11 +205,11 @@
                   </tr>
                   <tr ng-show="!showOnlyToAccountWPriviledged">
                     <td colspan="4">
-                      <label class="radio-inline" ng-show="RequestForModifAlterObj.requestStatus == 3">
+                      <label class="radio-inline" ng-show="RequestForModifAlterObj.requestStatus != 3">
                         <input type="radio" name="requestStatus" value="1" ng-model="RequestForModifAlterObj.requestStatus" ng-disabled="RequestForModifAlterObj.approvedBy > 0 || RequestForModifAlterObj.disApprovedBy > 0">
                         Approved
                       </label>
-                      <label class="radio-inline" ng-show="RequestForModifAlterObj.requestStatus == 3">
+                      <label class="radio-inline" ng-show="RequestForModifAlterObj.requestStatus != 3">
                         <input type="radio" name="requestStatus" value="2" ng-model="RequestForModifAlterObj.requestStatus" ng-disabled="RequestForModifAlterObj.approvedBy > 0 || RequestForModifAlterObj.disApprovedBy > 0">
                         Disapproved
                       </label>
