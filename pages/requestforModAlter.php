@@ -90,7 +90,7 @@
                         {{RequestForModifAlterList.RequestedByPxName}}
                       </td>
                       <td>
-                        <div ng-show="RequestForModifAlterList.requestStatus == 1">
+                        <div ng-show="RequestForModifAlterList.requestStatus == 1 || RequestForModifAlterList.requestStatus == 3">
                           {{RequestForModifAlterList.ApprovedByPxName}}
                           <br>
                           {{RequestForModifAlterList.dateApproved | date:"medium"}}
@@ -205,6 +205,7 @@
                   </tr>
                   <tr ng-show="!showOnlyToAccountWPriviledged">
                     <td colspan="4">
+                      {{RequestForModifAlterObj.requestStatus}}
                       <label class="radio-inline">
                         <input type="radio" name="requestStatus" value="1" ng-model="RequestForModifAlterObj.requestStatus" ng-disabled="RequestForModifAlterObj.approvedBy > 0 || RequestForModifAlterObj.disApprovedBy > 0">
                         Approved
