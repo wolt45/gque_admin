@@ -272,13 +272,8 @@
     </div>
     <!-- /page content -->
 
-    <!-- footer content -->
-    <footer>
-      <div class="pull-right">
-        Gustilo Mobile Medical Record by <a href="#">GMMR Team</a>
-      </div>
-      <div class="clearfix"></div>
-    </footer>
-    <!-- /footer content -->
+    <?php
+      include "footer.php";
+    ?>
   </div>
 </div>

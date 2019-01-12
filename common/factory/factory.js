@@ -63,6 +63,29 @@ gmmrApp.factory("dbServices", ['$http', function($http) {
         });
     }
 
+    obj.checkAccount = function(oldAccountObj, userPxRID) {
+        return $http({
+            method: 'GET',
+            url: serviceBase + 'apiCheckAccount&username=' + oldAccountObj.username + '&userPassword=' + oldAccountObj.userPassword + '&userPxRID=' + userPxRID,
+        });
+    }
+
+    obj.renewAccount = function(newAccountObj, userPxRID) {
+        var UserData = {
+            "userPxRID": userPxRID
+            , "username": newAccountObj.username
+            , "userPassword": newAccountObj.userPassword
+        };
+
+        return $http({
+            method: 'POST',
+            url: serviceBase + 'apiRenewAccount',
+            responseType: 'json',
+            data: UserData,
+            cache: true
+        });
+    }
+
     obj.CheckPxDsig = function(PIN) {
         return $http({
             method: 'GET',
@@ -76,6 +99,28 @@ gmmrApp.factory("dbServices", ['$http', function($http) {
             url: serviceBase + 'apiCheckPxDsigAcct&PIN=' + PIN + '&PxRID=' + PxRID ,
         });
     };
+
+    obj.renewCheckDuplicatePxDsigAcct = function(PIN) {
+        return $http({
+            method: 'GET',
+            url: serviceBase + 'apiRenewCheckDuplicatePxDsigAcct&PIN=' + PIN,
+        });
+    };
+
+    obj.renewCheckPxDsigAcct = function(PIN, PxRID) {
+        var UserData = {
+            "PIN": PIN
+            , "PxRID": PxRID
+        };
+
+        return $http({
+            method: 'POST',
+            url: serviceBase + 'apiRenewCheckPxDsigAcct',
+            responseType: 'json',
+            data: UserData,
+            cache: true
+        });
+    }
 
     obj.checkSysDoorKeys = function(PxRID, DoorKnob) {
         return $http({

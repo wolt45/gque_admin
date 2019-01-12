@@ -343,6 +343,49 @@
 			$this->response('',204);	// If no records "No Content" status
 		}
 
+		private function apiCheckAccount (){	
+			if($this->get_request_method() != "GET"){
+				$this->response('',406);
+			}
+
+			$username = (string)$this->_request['username'];
+			$userPassword = (string)$this->_request['userPassword'];
+			$userPxRID = (string)$this->_request['userPxRID'];
+			
+				$query="SELECT *
+				FROM  users
+				WHERE PxRID = '$userPxRID' AND UserName = '$username' AND PassWD = '".md5($userPassword)."'" ;
+				$r = $this->mysqli->query($query) or die($this->mysqli->error.__LINE__);
+				if($r->num_rows > 0) {
+					$result = array();
+					while($row = $r->fetch_assoc()){
+						$result = $row;
+					}
+					$this->response($this->json($result, JSON_NUMERIC_CHECK), 200); // send user details
+				}
+			$this->response('',204);	// If no records "No Content" status
+		}
+
+		private function apiRenewAccount(){
+			if($this->get_request_method() != "POST"){
+			    $this->response('',406);
+			}
+			$UserData = json_decode(file_get_contents("php://input"),true);
+
+			$userPxRID  = (int)$UserData['userPxRID'];
+            $username  = (string)$UserData['username'];
+            $userPassword  = (string)$UserData['userPassword'];
+            $md5userPassword = md5($userPassword);
+
+        	$query = "UPDATE users SET
+				username = '$username'
+	            , PassWD = '$md5userPassword'
+	            , PassRT = '$userPassword'
+			WHERE PxRID = '$userPxRID'";
+          
+			$r = $this->mysqli->query($query) or die($this->mysqli->error.__LINE__);
+		}
+
 		private function apiCheckPxDsig()
 		{
 			if($this->get_request_method() != "GET"){
@@ -381,6 +424,41 @@
 				$this->response($this->json($result), 200); // send user details
 			}
 			$this->response('',204); // no content
+		}
+
+		private function apiRenewCheckDuplicatePxDsigAcct()
+		{
+			if($this->get_request_method() != "GET"){
+				$this->response('',406);
+			}
+
+			$PIN = (string)$this->_request['PIN'];
+
+			$query="SELECT * FROM px_dsig 
+				WHERE PIN = '$PIN'";
+			$r = $this->mysqli->query($query) or die($this->mysqli->error.__LINE__);
+
+			if($r->num_rows > 0){
+				$result = $r->fetch_assoc();	
+				$this->response($this->json($result), 200); // send user details
+			}
+			$this->response('',204); // no content
+		}
+
+		private function apiRenewCheckPxDsigAcct(){
+			if($this->get_request_method() != "POST"){
+			    $this->response('',406);
+			}
+			$UserData = json_decode(file_get_contents("php://input"),true);
+
+			$PIN  = (int)$UserData['PIN'];
+            $PxRID  = (int)$UserData['PxRID'];
+            
+        	$query = "UPDATE px_dsig SET
+				PIN = '$PIN'
+			WHERE PxRID = '$PxRID'";
+          
+			$r = $this->mysqli->query($query) or die($this->mysqli->error.__LINE__);
 		}
 
 

@@ -55,6 +55,7 @@
       <script src="common/controllers/dashboardCtrl.js"></script>
       <script src="common/controllers/requestForModAlterCtrl.js"></script>
       <script src="common/controllers/inboxPageCtrl.js"></script>
+      <script src="common/controllers/profileCtrl.js"></script>
       
       <!-- Factory -->
       <script src="common/factory/factory.js"></script>

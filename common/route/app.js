@@ -26,6 +26,12 @@ gmmrApp.config(function($stateProvider, $urlRouterProvider, $locationProvider) {
         , controller: 'inboxPageCtrl'
     })
 
+    .state('profile', {
+        url: '/profile'
+        , templateUrl: 'pages/profile.php'
+        , controller: 'profileCtrl'
+    })
+
 
 });
 
