@@ -19,15 +19,16 @@ gmmrApp.controller('sideTopCtrl', function ($scope, $stateParams, $rootScope, $l
 
 	$scope.checkAuth();
 
-    $scope.loadScript = function (url){
-      console.log('Javascript Loading...')
-      let node = document.createElement('script');
-      node.src = url;
-      node.type = 'text/javascript';
-      document.getElementsByTagName('head')[0].appendChild(node);   
-    }
-    $scope.loadScript('build/js/customSidemenu.js');  
-    $scope.loadScript('build/js/customPanelToolBox.js');  
+  $scope.loadScript = function (url){
+    console.log('Javascript Loading...')
+    let node = document.createElement('script');
+    node.src = url;
+    node.type = 'text/javascript';
+    document.getElementsByTagName('head')[0].appendChild(node);   
+  }
+
+  $scope.loadScript('build/js/customSidemenu.js');  
+  $scope.loadScript('build/js/customPanelToolBox.js');  
 
     $scope.LoadUserProfile = function (userPxRID) {
 

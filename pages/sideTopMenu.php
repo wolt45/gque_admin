@@ -171,8 +171,8 @@
                               </a>
                           </li>
                           <li>
-                              <a ng-click="gotoMessage()">
-                                  <span>Message</span>
+                              <a ui-sref="inboxPage">
+                                  <span>Inbox</span>
                               </a>
                           </li>
                           <li>

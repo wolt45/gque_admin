@@ -31,7 +31,7 @@
       <link href="vendors/fullcalendar/dist/fullcalendar.print.css" rel="stylesheet" media="print">
 
       <!-- Custom Theme Style -->
-      <link href="build/css/custom.min.css" rel="stylesheet">
+      <link href="build/css/custom.css" rel="stylesheet">
 
       <!-- JS (load angular, ui-router, and our custom js file) -->
 
@@ -44,7 +44,7 @@
       <script src="common/route/app.js"></script>
 
       <!-- Service -->
-      <script src="common/service/scriptService.js"></script>
+      <script src="common/service/scriptService.js"></script>     
 
       <!-- Directive -->
       <script src="common/directives/directives.js"></script>
@@ -54,7 +54,8 @@
       <script src="common/controllers/sideTopCtrl.js"></script>
       <script src="common/controllers/dashboardCtrl.js"></script>
       <script src="common/controllers/requestForModAlterCtrl.js"></script>
-
+      <script src="common/controllers/inboxPageCtrl.js"></script>
+      
       <!-- Factory -->
       <script src="common/factory/factory.js"></script>
 

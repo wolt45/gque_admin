@@ -20,6 +20,12 @@ gmmrApp.config(function($stateProvider, $urlRouterProvider, $locationProvider) {
         , controller: 'requestForModAlterCtrl'
     })
 
+    .state('inboxPage', {
+        url: '/inboxPage'
+        , templateUrl: 'pages/inboxPage.php'
+        , controller: 'inboxPageCtrl'
+    })
+
 
 });
 
