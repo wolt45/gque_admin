@@ -40,6 +40,9 @@
 
       <script src="lib/ui-bootstrap-tpls-2.5.0.js"></script>
 
+      <!-- idle/ or auto logout -->
+      <script src="lib/angular-idle.min.js"></script>
+
       <!-- Route -->
       <script src="common/route/app.js"></script>
 

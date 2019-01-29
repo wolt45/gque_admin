@@ -1,7 +1,11 @@
-var gmmrApp = angular.module('gmmrApp', ['ui.router', 'ui.bootstrap']);
+var gmmrApp = angular.module('gmmrApp', ['ui.router', 'ngIdle', 'ui.bootstrap']);
 
-gmmrApp.config(function($stateProvider, $urlRouterProvider, $locationProvider) {
+gmmrApp.config(function($stateProvider, $urlRouterProvider, IdleProvider, KeepaliveProvider, $locationProvider) {
     $locationProvider.hashPrefix('');
+
+    IdleProvider.idle(1000);
+    IdleProvider.timeout(5);
+    KeepaliveProvider.interval(1100);
 
     $urlRouterProvider.otherwise('/dashboard');
 
@@ -34,6 +38,12 @@ gmmrApp.config(function($stateProvider, $urlRouterProvider, $locationProvider) {
 
 
 });
+
+//use in auto logout/idle
+gmmrApp.run(['Idle', function(Idle) {
+  Idle.watch();
+}]);
+
 
 gmmrApp.filter('beginning_data', function() {
     return function(input, begin) {

@@ -1,4 +1,4 @@
-gmmrApp.controller('sideTopCtrl', function ($scope, $stateParams, $rootScope, $location, $http, $window, $interval, $filter, $sce, dbServices){
+gmmrApp.controller('sideTopCtrl', function ($scope, $stateParams, $rootScope, $location, $http, $window, $interval, $filter, $sce, Idle, Keepalive, $uibModal, dbServices){
 
 	$scope.userPxRID = localStorage.getItem("gmmrCentraluserPxRID"); 
 	$scope.userTypeRID = localStorage.getItem("gmmrCentraluserTypeRID");
@@ -175,7 +175,7 @@ gmmrApp.controller('sideTopCtrl', function ($scope, $stateParams, $rootScope, $l
   $scope.checkAcctSysDoorKeys($scope.userPxRID);
 
     $scope.logout = function () {
-    	if (confirm("Are you sure to logut?")) {
+    	if (confirm("Are you sure to logout?")) {
         localStorage.clear();
 
           $window.location.href = 'login.php';
@@ -190,6 +190,62 @@ gmmrApp.controller('sideTopCtrl', function ($scope, $stateParams, $rootScope, $l
 		    // });
 		}
 	};
+
+
+  // for idle
+
+  $scope.started = false;
+
+  function closeModals() {
+    if ($scope.warning) {
+      $scope.warning.close();
+      $scope.warning = null;
+    }
+
+    if ($scope.timedout) {
+      $scope.timedout.close();
+      $scope.timedout = null;
+    }
+  }
+
+  $scope.$on('IdleStart', function() {
+    closeModals();
+
+    $scope.warning = $uibModal.open({
+      templateUrl: 'warning-dialog.html',
+      windowClass: 'modal-danger'
+    });
+  });
+
+  $scope.$on('IdleEnd', function() {
+    closeModals();
+  });
+
+  $scope.$on('IdleTimeout', function() {
+    closeModals();
+    $scope.timedout = $uibModal.open({
+      templateUrl: 'timedout-dialog.html',
+      windowClass: 'modal-danger'
+    });
+    localStorage.clear();
+    $window.location.href = 'login.php';
+  });
+
+  $scope.start = function() {
+    closeModals();
+    Idle.watch();
+    $scope.started = true;
+    // console.log("Nag start na.");
+  };
+
+  $scope.start();
+
+  $scope.stop = function() {
+    closeModals();
+    Idle.unwatch();
+    $scope.started = false;
+
+  };
     
 });
 
