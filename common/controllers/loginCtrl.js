@@ -20,7 +20,7 @@ gmmrApp.controller('loginCtrl', function ($scope, $stateParams, $rootScope, $loc
         if (Username != undefined && Password !=undefined) {
 		    dbServices.login(Username, Password)
 		    .then(function success(response) {
-		    	// console.log(response.data);
+		    	// console.log(response);
 		    	$scope.checkSysDoorKeys(response.data.PxRID, response.data.userTypeRID);
 		    },
 		    function error (response) {

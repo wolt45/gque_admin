@@ -38,7 +38,7 @@
 				$this->response('',404); // If the method not exist with in this class "Page not found".
 		}
 
-				private static function get_user_agent() {
+		private static function get_user_agent() {
 			return  $_SERVER['HTTP_USER_AGENT'];
 		}
 		public static function get_ip() {
