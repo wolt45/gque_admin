@@ -4,10 +4,10 @@
 	
 		public $data = "";
 		
-		// const DB_SERVER = "localhost";
+		const DB_SERVER = "localhost";
 		// const DB_USER = "softmo_admin";
 
-		const DB_SERVER = "192.168.1.92:3307";
+		// const DB_SERVER = "192.168.1.92:3307";
 		const DB_USER = "softmo_admin";
 		const DB_PASSWORD = "MedixMySqlServerBox1";
 		const DB = "ipadrbg";
