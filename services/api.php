@@ -1,30 +1,34 @@
 <?php
  	require_once("Rest.inc.php");
-	class API extends REST {
-	
-		public $data = "";
-		
-		const DB_SERVER = "localhost";
-		// const DB_USER = "softmo_admin";
 
-		// const DB_SERVER = "192.168.1.92:3307";
+	class API extends REST {
+		
+		public $data = "";
+
+		public static $myAccess = "";
+		private $q_path = "../../myConfig/myAccess.txt";
+
+		const DB_SERVER = "localhost";			//not in use (replace myAccess)
 		const DB_USER = "softmo_admin";
 		const DB_PASSWORD = "MedixMySqlServerBox1";
 		const DB = "ipadrbg";
 
+
 		private $db = NULL;
 		private $mysqli = NULL;
 		public function __construct(){
-			parent::__construct();				// Init parent contructor
-			$this->dbConnect();					// Initiate Database connection
+			$this->myAccess = file_get_contents($this->q_path, "r");
+
+			parent::__construct();		// Init parent contructor
+			$this->dbConnect();			// Initiate Database connection
+			
 		}
 		
-
 		/*
 		 *  Connect to Database
 		*/
 		private function dbConnect(){
-			$this->mysqli = new mysqli(self::DB_SERVER, self::DB_USER, self::DB_PASSWORD, self::DB);
+			$this->mysqli = new mysqli($this->myAccess, self::DB_USER, self::DB_PASSWORD, self::DB);
 		}
 		
 		/*
@@ -36,6 +40,10 @@
 				$this->$func();
 			else
 				$this->response('',404); // If the method not exist with in this class "Page not found".
+		}
+		
+		private static function getmyIP() {
+			return  $_SERVER['HTTP_USER_AGENT'];
 		}
 
 		private static function get_user_agent() {
@@ -678,6 +686,6 @@
 
 	// Initiiate Library
 	
-	$api = new API;
+	$api = new API();
 	$api->processApi();
 ?>
