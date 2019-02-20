@@ -4,6 +4,12 @@ gmmrApp.factory("dbServices", ['$http', function($http) {
 
     var obj = {};
 
+    obj.getMyAccess = function() {
+        return $http({
+            method: 'GET',
+            url: '../../myConfig/myAccess.txt',
+        });
+    }
 
     obj.login = function(Username, Password) {
         var UserData = {

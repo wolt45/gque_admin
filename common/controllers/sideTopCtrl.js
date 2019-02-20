@@ -7,20 +7,33 @@ gmmrApp.controller('sideTopCtrl', function ($scope, $stateParams, $rootScope, $l
   $scope.messageItemSum= 0;
   $scope.DateNow = new Date;
 
-	$scope.checkAuth = function()
-	{
-		if ($scope.userPxRID == '' || $scope.userPxRID == null) {
-		  // $location.path('/login');
-		  $window.location.href = 'login.php';
-		}else{
-		  // console.log("Stay here!");
-		}
-	};
+  $scope.myAccessLocation= "";
 
-	$scope.checkAuth();
+	$scope.checkAuth = function()
+  {
+    if ($scope.userPxRID == '' || $scope.userPxRID == null) {
+      // $location.path('/login');
+      $window.location.href = $scope.myAccessLocation + '/rbgmain/login.php';
+    }else{
+      // console.log("Stay here!");
+    }
+  };
+
+  
+  $scope.getMyAccess = function()
+  {
+    dbServices.getMyAccess()
+    .then(function success(response) {
+      $scope.myAccessLocation = 'https://'+response.data;
+
+      $scope.checkAuth();
+    });
+  };
+
+  $scope.getMyAccess();
 
   $scope.loadScript = function (url){
-    console.log('Javascript Loading...')
+    // console.log('Javascript Loading...');
     let node = document.createElement('script');
     node.src = url;
     node.type = 'text/javascript';
