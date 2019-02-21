@@ -7,7 +7,7 @@ gmmrApp.factory("dbServices", ['$http', function($http) {
     obj.getMyAccess = function() {
         return $http({
             method: 'GET',
-            url: '../../myConfig/myAccess.txt',
+            url: '../../myConfig/myAccessLocation.txt',
         });
     }
 

@@ -25,7 +25,7 @@ gmmrApp.controller('sideTopCtrl', function ($scope, $stateParams, $rootScope, $l
     dbServices.getMyAccess()
     .then(function success(response) {
       $scope.myAccessLocation = 'https://'+response.data;
-
+      console.log($scope.myAccessLocation);
       $scope.checkAuth();
     });
   };
