@@ -13,7 +13,8 @@ gmmrApp.controller('sideTopCtrl', function ($scope, $stateParams, $rootScope, $l
   {
     if ($scope.userPxRID == '' || $scope.userPxRID == null) {
       // $location.path('/login');
-      $window.location.href = $scope.myAccessLocation + '/rbgmain/login.php';
+      $window.location.href = 'login.php';
+      // $window.location.href = $scope.myAccessLocation + '/rbgmain/login.php';
     }else{
       // console.log("Stay here!");
     }
