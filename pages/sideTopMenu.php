@@ -2,7 +2,7 @@
 <div class="col-md-3 left_col">
   <div class="left_col scroll-view">
     <div class="navbar nav_title" style="border: 0;">
-      <a ui-sref="dashboard" class="site_title"><i class="fa fa-hospital-o"></i> <span>GMMR</span></a>
+      <a ui-sref="dashboard" class="site_title"><i class="fa fa-hospital-o"></i> <span>GMMR-CENTRAL</span></a>
     </div>
 
     <div class="clearfix"></div>
