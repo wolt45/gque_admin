@@ -3,9 +3,9 @@ var gmmrApp = angular.module('gmmrApp', ['ui.router', 'ngIdle', 'ui.bootstrap'])
 gmmrApp.config(function($stateProvider, $urlRouterProvider, IdleProvider, KeepaliveProvider, $locationProvider) {
     $locationProvider.hashPrefix('');
 
-    IdleProvider.idle(1000);
+    IdleProvider.idle(60000);
     IdleProvider.timeout(5);
-    KeepaliveProvider.interval(1100);
+    KeepaliveProvider.interval(70000);
 
     $urlRouterProvider.otherwise('/dashboard');
 
