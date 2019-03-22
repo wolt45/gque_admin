@@ -70,43 +70,52 @@
             </a>
             <ul class="nav child_menu">
               <li ng-show="mediaManagerSidemenu">
-                <a href="../SoftMedlib/MedLibMain.php">
+                <a class="btn btn-success" href="../SoftMedlib/MedLibMain.php">
                   Media Manager
                 </a>
               </li>
+
               <li ng-show="bulkUploaderSidemenu">
-                <a href="../SoftMedlib">
+                <a class="btn btn-success" href="../SoftMedlib">
                   Bulk Uploader
                 </a>
               </li>
+
               <li ng-show="icd10CodeSidemenu">
-                <a href="../icd10">
+                <a class="btn btn-success" href="../icd10">
                   ICD10 Codes
                 </a>
               </li>
+
               <li ng-show="rvsCodeSidemenu">
-                <a href="../PhilRVS">
+                <a class="btn btn-success" href="../PhilRVS">
                   RVS Codes
                 </a>
               </li>
+
               <li ng-show="billingCodeSidemenu">
-                <a href="../billingmgr">
+                <a class="btn btn-success" href="../billingmgr">
                   Billing Codes
                 </a>
               </li>
+
               <li ng-show="adminPanelSidemenu">
-                <a href="../adminPanel">
+                <a class="btn btn-success" href="../adminPanel">
                   Admin Panel
                 </a>
               </li>
 
-              
+              <li class="sub_menu">
+                  <a class="btn btn-danger" ui-sref="operatingroomDisinfectChecklist" >
+                      Operating Room Disinfection Checklist
+                  </a>
+              </li>
+
               <!-- <li ng-show="userTypeRID == 1">
                 <a href="#">
                   Back-up
                 </a>
               </li> -->
-              
               
             </ul>
           </li>
