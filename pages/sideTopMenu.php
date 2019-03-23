@@ -107,7 +107,7 @@
 
               <li class="sub_menu">
                   <a class="btn btn-danger" ui-sref="operatingroomDisinfectChecklist" >
-                      Operating Room Disinfection Checklist
+                      OR Disinfection Checklist
                   </a>
               </li>
 
