@@ -106,8 +106,14 @@
               </li>
 
               <li class="sub_menu">
+                  OR Manager (use doorkeys, for OR nurses only)
+                  <br>
+                  sub-menus<br>
                   <a class="btn btn-danger" ui-sref="operatingroomDisinfectChecklist" >
                       OR Disinfection Checklist
+                  </a>
+                  <a class="btn btn-danger" ui-sref="operatingroomDisinfectChecklist" >
+                      Surgery Schedules
                   </a>
               </li>
 
