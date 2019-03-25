@@ -63,14 +63,6 @@
           </li>
 
 
-          <li ng-show="diagnostixSidemenu">
-            <a href="">
-              <i class="????"></i> 
-                Telemetry 
-            </a>
-          </li>
-
-
           <li ng-show="mediaManagerSidemenu || bulkUploaderSidemenu || icd10CodeSidemenu || rvsCodeSidemenu || billingCodeSidemenu">
             <a>
               <i class="fa fa-edit"></i> 
@@ -113,16 +105,15 @@
                 </a>
               </li>
 
-              <li class="sub_menu">
+              <li ng-show="adminPanelSidemenu">
+                <a class="btn btn-success" href="../reminders">
+                  Telemetry
+                </a>
+              </li>
 
-                  OR Manager (color=success, use doorkeys for OR nurses only)
-                  <br>
-                  sub-menus<br>
-                  <a class="btn btn-warning" ui-sref="operatingroomDisinfectChecklist" >
+              <li class="sub_menu">
+                  <a class="btn btn-danger" ui-sref="operatingroomDisinfectChecklist" >
                       OR Disinfection Checklist
-                  </a>
-                  <a class="btn btn-warning" ui-sref="operatingroomDisinfectChecklist" >
-                      Surgery Schedules
                   </a>
               </li>
 
@@ -131,8 +122,11 @@
                   Back-up
                 </a>
               </li> -->
+              
             </ul>
           </li>
+
+          
         </ul>
       </div>
     </div>
