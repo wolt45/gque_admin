@@ -62,6 +62,27 @@
             </a>
           </li>
 
+          <li class="sub_menu">
+            <a>
+              <i class="fa fa-edit"></i> 
+              OR Manager  <span class="fa fa-chevron-down"></span>
+            </a>
+                  
+
+            <ul class="nav child_menu">
+              <li ng-show="mediaManagerSidemenu">
+                <a class="btn btn-danger" ui-sref="operatingroomDisinfectChecklist" >
+                    OR Disinfection Checklist
+                </a>
+              </li>
+              <li ng-show="mediaManagerSidemenu">
+                <a class="btn btn-danger" ui-sref="operatingroomDisinfectChecklist" >
+                    Surgery Schedules
+                </a>
+              </li>
+            </ul>
+          </li>
+
 
           <li ng-show="mediaManagerSidemenu || bulkUploaderSidemenu || icd10CodeSidemenu || rvsCodeSidemenu || billingCodeSidemenu">
             <a>
@@ -111,11 +132,9 @@
                 </a>
               </li>
 
-              <li class="sub_menu">
-                  <a class="btn btn-danger" ui-sref="operatingroomDisinfectChecklist" >
-                      OR Disinfection Checklist
-                  </a>
-              </li>
+              
+
+             
 
               <!-- <li ng-show="userTypeRID == 1">
                 <a href="#">
