@@ -62,7 +62,16 @@
             </a>
           </li>
 
-          <li class="sub_menu">
+
+          <li ng-show="adminPanelSidemenu">
+            <a href="../reminders">
+              <i class="fa fa-medkit"></i>
+              Telemetry
+            </a>
+          </li>
+
+
+          <!-- <li class="sub_menu">
             <a>
               <i class="fa fa-edit"></i> 
               OR Manager  <span class="fa fa-chevron-down"></span>
@@ -81,7 +90,7 @@
                 </a>
               </li>
             </ul>
-          </li>
+          </li> -->
 
 
           <li ng-show="mediaManagerSidemenu || bulkUploaderSidemenu || icd10CodeSidemenu || rvsCodeSidemenu || billingCodeSidemenu">
@@ -126,13 +135,30 @@
                 </a>
               </li>
 
-              <li ng-show="adminPanelSidemenu">
+              <!-- <li ng-show="adminPanelSidemenu">
                 <a class="btn btn-success" href="../reminders">
                   Telemetry
                 </a>
-              </li>
+              </li> -->
 
-              
+              <li>
+                <a class="btn btn-success">
+                <i class="fa fa-edit"></i> 
+                OR Manager  <span class="fa fa-chevron-down"></span>
+                </a>
+                <ul class="nav child_menu">
+                  <li ng-show="mediaManagerSidemenu">
+                    <a ui-sref="operatingroomDisinfectChecklist" >
+                        OR Disinfection Checklist
+                    </a>
+                  </li>
+                  <li ng-show="mediaManagerSidemenu">
+                    <a ui-sref="operatingroomDisinfectChecklist" >
+                        Surgery Schedules
+                    </a>
+                  </li>
+                </ul>
+              </li>
 
              
 
