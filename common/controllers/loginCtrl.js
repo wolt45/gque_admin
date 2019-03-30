@@ -57,7 +57,7 @@ gmmrApp.controller('loginCtrl', function ($scope, $stateParams, $rootScope, $loc
 		    	localStorage.setItem("gmmr2userTypeRID", userTypeRID);
 
 		    	localStorage.setItem("gmmr3userPxRID", PxRID);
-		    	localStorage.setItem("gmmr3userSpecialty", userTypeRID);
+		    	localStorage.setItem("gmmr3userTypeRID", userTypeRID);
 
 		    	$window.location.href = '/rbgmain';
 		    	// $location.path('/dashboard');
