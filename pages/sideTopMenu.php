@@ -135,16 +135,16 @@
                 </a>
               </li>
 
-              <!-- <li ng-show="adminPanelSidemenu">
-                <a class="btn btn-success" href="../reminders">
-                  Telemetry
+              <li ng-show="adminPanelSidemenu">
+                <a class="btn btn-success" href="../drugsManager">
+                  Drugs Manager
                 </a>
-              </li> -->
+              </li>
 
               <li>
                 <a class="btn btn-success">
-                <i class="fa fa-edit"></i> 
-                OR Manager  <span class="fa fa-chevron-down"></span>
+                  <i class="fa fa-edit"></i> 
+                  OR Manager  <span class="fa fa-chevron-down"></span>
                 </a>
                 <ul class="nav child_menu">
                   <li ng-show="mediaManagerSidemenu">
@@ -152,11 +152,9 @@
                         OR Disinfection Checklist
                     </a>
                   </li>
-                  <li ng-show="mediaManagerSidemenu">
-                    <a ui-sref="operatingroomDisinfectChecklist" >
-                        Surgery Schedules
-                    </a>
-                  </li>
+
+                  
+
                 </ul>
               </li>
 
