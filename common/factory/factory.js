@@ -216,6 +216,111 @@ gmmrApp.factory("dbServices", ['$http', function($http) {
 
 
 
+    //================
+    // Operating Room Disinfection
+    //================
+
+    obj.getOperatingRoomDisinfectionDetail = function(operatingDisinfectCheckRID) {
+        return $http.get(serviceBase + 'apiGetOperatingRoomDisinfectionDetail&operatingDisinfectCheckRID='+ operatingDisinfectCheckRID);
+    };
+
+    obj.getOperatingRoomDisinfection = function() {
+        return $http.get(serviceBase + 'apiGetOperatingRoomDisinfection');
+    };
+
+
+    obj.insertOperatingRoomDisinfectionDetail = function (operatingDisinfectCheckRID, OperatingRoomDisinfectionObj) {
+        var OperatingRoomDisinfectionData = {
+            "operatingDisinfectCheckRID" : operatingDisinfectCheckRID
+          , "operatingDisinfectCheckDetailRID" : OperatingRoomDisinfectionObj.operatingDisinfectCheckDetailRID
+          , "dateTimeEntered" : OperatingRoomDisinfectionObj.dateTimeEntered
+          , "wall" : OperatingRoomDisinfectionObj.wall
+          , "anesthesiaMachine" : OperatingRoomDisinfectionObj.anesthesiaMachine
+          , "orBed" : OperatingRoomDisinfectionObj.orBed
+          , "suctionMachine" : OperatingRoomDisinfectionObj.suctionMachine
+          , "electrocauteryMachine" : OperatingRoomDisinfectionObj.electrocauteryMachine
+          , "orLight" : OperatingRoomDisinfectionObj.orLight
+          , "suppliesCabinet" : OperatingRoomDisinfectionObj.suppliesCabinet
+          , "equipmentCabinet" : OperatingRoomDisinfectionObj.equipmentCabinet
+          , "floor" : OperatingRoomDisinfectionObj.floor
+          , "others" : OperatingRoomDisinfectionObj.others
+          , "remarks" : OperatingRoomDisinfectionObj.remarks
+        }
+        return $http({
+           method: 'POST'
+          ,url: serviceBase + 'apiInsertOperatingRoomDisinfectionDetail'
+          ,responseType: 'json'
+          ,data: OperatingRoomDisinfectionData
+          ,cache:true
+        });
+    };
+
+
+    obj.insertOperatingRoomDisinfection = function (OperatingRoomDisinfectionObjMain) {
+        var OperatingRoomDisinfectionData = {
+          "room" : OperatingRoomDisinfectionObjMain.room
+          , "operatingDisinfectCheckRID" : OperatingRoomDisinfectionObjMain.operatingDisinfectCheckRID
+        }
+        return $http({
+           method: 'POST'
+          ,url: serviceBase + 'apiInsertOperatingRoomDisinfection'
+          ,responseType: 'json'
+          ,data: OperatingRoomDisinfectionData
+          ,cache:true
+        });
+    };
+
+    obj.signOperatingRoomDisinfection = function (operatingDisinfectCheckDetailRID, initialPxRID) {
+        var ConsentForAdmissionOBJ = {
+          "operatingDisinfectCheckDetailRID" : operatingDisinfectCheckDetailRID
+          , "initialPxRID" : initialPxRID
+        }
+        return $http({
+           method: 'POST'
+          ,url: serviceBase + 'apiSignOperatingRoomDisinfection'
+          ,responseType: 'json'
+          ,data: ConsentForAdmissionOBJ
+          ,cache:true
+        });
+    };
+
+    obj.removeOperatingRoomDisinfectionDetail = function (operatingDisinfectCheckDetailRID) {
+        var OperatingRoomDisinfectionData = {
+          "operatingDisinfectCheckDetailRID" : operatingDisinfectCheckDetailRID
+        }
+        return $http({
+           method: 'POST'
+          ,url: serviceBase + 'apiRemoveOperatingRoomDisinfectionDetail'
+          ,responseType: 'json'
+          ,data: OperatingRoomDisinfectionData
+          ,cache:true
+        });
+    };
+
+    obj.newOperatingRoomDisinfection = function() {
+        return $http.get(serviceBase + 'apiNewOperatingRoomDisinfection');
+    };
+
+    obj.removeOperatingRoomDisinfection = function (operatingDisinfectCheckRID) {
+        var OperatingRoomDisinfectionData = {
+          "operatingDisinfectCheckRID" : operatingDisinfectCheckRID
+        }
+        return $http({
+           method: 'POST'
+          ,url: serviceBase + 'apiRemoveOperatingRoomDisinfection'
+          ,responseType: 'json'
+          ,data: OperatingRoomDisinfectionData
+          ,cache:true
+        });
+    };
+
+
+    //================
+    // End Operating Room Disinfection
+    //================
+
+
+
     // floor
     return obj;
 }]);

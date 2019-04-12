@@ -670,7 +670,235 @@
 		}
 
 	
+		//============
+		// Operating Room Disinfection
+		//============
 
+
+		private function apiGetOperatingRoomDisinfectionDetail()
+		{
+			if($this->get_request_method() != "GET"){
+				$this->response('',406);
+			}
+
+			$operatingDisinfectCheckRID = (int)$this->_request['operatingDisinfectCheckRID'];
+
+			$query="SELECT zh_operatingRoomDisinfectionChecklistDetail.*
+			    , CONCAT(px_dataInitial.FirstName,' ',SUBSTRING(px_dataInitial.MiddleName, 1, 1),'. ',px_dataInitial.LastName) as initialName
+			    , px_dsigInitial.b64a AS initialSign
+			    FROM zh_operatingRoomDisinfectionChecklistDetail 
+
+			    LEFT JOIN px_data AS px_dataInitial ON px_dataInitial.PxRID = zh_operatingRoomDisinfectionChecklistDetail.initialPxRID
+			    LEFT JOIN px_dsig AS px_dsigInitial ON px_dsigInitial.PxRID = zh_operatingRoomDisinfectionChecklistDetail.initialPxRID
+
+				WHERE zh_operatingRoomDisinfectionChecklistDetail.operatingDisinfectCheckRID = '$operatingDisinfectCheckRID' AND zh_operatingRoomDisinfectionChecklistDetail.Deleted = 0 ";
+			$r = $this->mysqli->query($query) or die($this->mysqli->error.__LINE__);
+			if($r->num_rows > 0) {
+				$result = array();
+				while($row = $r->fetch_assoc()){
+					$result[] = $row;
+				}
+				$this->response($this->json($result, JSON_NUMERIC_CHECK), 200); // send user details
+			}
+			$this->response('',204);	// If no records "No Content" status
+		}
+
+
+		private function apiGetOperatingRoomDisinfection()
+		{
+			if($this->get_request_method() != "GET"){
+				$this->response('',406);
+			}
+
+			// $HospRID = (int)$this->_request['HospRID'];
+
+			$query="SELECT *
+			    FROM zh_operatingRoomDisinfectionChecklist
+				WHERE zh_operatingRoomDisinfectionChecklist.Deleted = 0";
+			$r = $this->mysqli->query($query) or die($this->mysqli->error.__LINE__);
+			if($r->num_rows > 0) {
+				$result = array();
+				while($row = $r->fetch_assoc()){
+					$result[] = $row;
+				}
+				$this->response($this->json($result, JSON_NUMERIC_CHECK), 200); // send user details
+			}
+			$this->response('',204);	// If no records "No Content" status
+		}
+
+
+		private function apiInsertOperatingRoomDisinfectionDetail(){
+			if($this->get_request_method() != "POST"){
+				$this->response('',406);
+			}
+
+			$OperatingRoomDisinfectionData = json_decode(file_get_contents("php://input"),true);
+
+			$operatingDisinfectCheckRID  = (int)$OperatingRoomDisinfectionData['operatingDisinfectCheckRID'];
+			$operatingDisinfectCheckDetailRID  = (int)$OperatingRoomDisinfectionData['operatingDisinfectCheckDetailRID'];
+			$dateTimeEntered  = (string)$OperatingRoomDisinfectionData['dateTimeEntered'];
+			$wall  = (string)$OperatingRoomDisinfectionData['wall'];
+			$anesthesiaMachine  = (string)$OperatingRoomDisinfectionData['anesthesiaMachine'];
+			$orBed  = (string)$OperatingRoomDisinfectionData['orBed'];
+			$suctionMachine  = (string)$OperatingRoomDisinfectionData['suctionMachine'];
+			$electrocauteryMachine  = (string)$OperatingRoomDisinfectionData['electrocauteryMachine'];
+			$orLight  = (string)$OperatingRoomDisinfectionData['orLight'];
+			$suppliesCabinet  = (string)$OperatingRoomDisinfectionData['suppliesCabinet'];
+			$equipmentCabinet  = (string)$OperatingRoomDisinfectionData['equipmentCabinet'];
+			$floor  = (string)$OperatingRoomDisinfectionData['floor'];
+			$others  = (string)$OperatingRoomDisinfectionData['others'];
+			$remarks  = (string)$OperatingRoomDisinfectionData['remarks'];
+	        
+
+	        if ($operatingDisinfectCheckDetailRID > 0) {
+	        	$query = "UPDATE zh_operatingRoomDisinfectionChecklistDetail SET
+					dateTimeEntered = '$dateTimeEntered'
+					, wall = '$wall'
+					, anesthesiaMachine = '$anesthesiaMachine'
+					, orBed = '$orBed'
+					, suctionMachine = '$suctionMachine'
+					, electrocauteryMachine = '$electrocauteryMachine'
+					, orLight = '$orLight'
+					, suppliesCabinet = '$suppliesCabinet'
+					, equipmentCabinet = '$equipmentCabinet'
+					, floor = '$floor'
+					, others = '$others'
+					, remarks = '$remarks'
+					WHERE operatingDisinfectCheckDetailRID = '$operatingDisinfectCheckDetailRID' ";
+				$r = $this->mysqli->query($query) or die($this->mysqli->error.__LINE__);
+	        }else{
+	        	$query = "INSERT INTO zh_operatingRoomDisinfectionChecklistDetail SET
+					operatingDisinfectCheckRID = '$operatingDisinfectCheckRID'
+					, dateTimeEntered = '$dateTimeEntered'
+					, wall = '$wall'
+					, anesthesiaMachine = '$anesthesiaMachine'
+					, orBed = '$orBed'
+					, suctionMachine = '$suctionMachine'
+					, electrocauteryMachine = '$electrocauteryMachine'
+					, orLight = '$orLight'
+					, suppliesCabinet = '$suppliesCabinet'
+					, equipmentCabinet = '$equipmentCabinet'
+					, floor = '$floor'
+					, others = '$others'
+					, remarks = '$remarks'";
+				$r = $this->mysqli->query($query) or die($this->mysqli->error.__LINE__);
+
+	        }
+			
+		}
+
+
+		private function apiInsertOperatingRoomDisinfection(){
+			if($this->get_request_method() != "POST"){
+				$this->response('',406);
+			}
+
+			$OperatingRoomDisinfectionData = json_decode(file_get_contents("php://input"),true);
+
+			$room  = (string)$OperatingRoomDisinfectionData['room'];
+			$operatingDisinfectCheckRID  = (int)$OperatingRoomDisinfectionData['operatingDisinfectCheckRID'];
+
+	        if ($operatingDisinfectCheckRID > 0) {
+	        	$query = "UPDATE zh_operatingRoomDisinfectionChecklist SET
+					room = '$room'
+					
+					WHERE operatingDisinfectCheckRID = '$operatingDisinfectCheckRID' ";
+				$r = $this->mysqli->query($query) or die($this->mysqli->error.__LINE__);
+	        }else{
+	        	$query = "INSERT INTO zh_operatingRoomDisinfectionChecklist SET
+					room = '$room' ";
+				$r = $this->mysqli->query($query) or die($this->mysqli->error.__LINE__);
+
+	        }
+			
+		}
+
+
+
+		private function apiSignOperatingRoomDisinfection(){
+			if($this->get_request_method() != "POST"){
+				$this->response('',406);
+			}
+
+			$ConsentForAdmissionData = json_decode(file_get_contents("php://input"),true);
+
+			$operatingDisinfectCheckDetailRID  = (int)$ConsentForAdmissionData['operatingDisinfectCheckDetailRID'];
+			$initialPxRID  = (int)$ConsentForAdmissionData['initialPxRID'];
+
+	         
+			$query = "UPDATE zh_operatingRoomDisinfectionChecklistDetail SET
+				initialPxRID = '$initialPxRID'
+				
+				WHERE operatingDisinfectCheckDetailRID = '$operatingDisinfectCheckDetailRID'";
+			$r = $this->mysqli->query($query) or die($this->mysqli->error.__LINE__);
+		}
+
+		private function apiRemoveOperatingRoomDisinfectionDetail(){
+			if($this->get_request_method() != "POST"){
+				$this->response('',406);
+			}
+
+			$OperatingRoomDisinfectionData = json_decode(file_get_contents("php://input"),true);
+
+			$operatingDisinfectCheckDetailRID  = (int)$OperatingRoomDisinfectionData['operatingDisinfectCheckDetailRID'];
+
+	         
+			$query = "UPDATE zh_operatingRoomDisinfectionChecklistDetail SET
+				Deleted = 1
+				
+				WHERE operatingDisinfectCheckDetailRID = '$operatingDisinfectCheckDetailRID'";
+			$r = $this->mysqli->query($query) or die($this->mysqli->error.__LINE__);
+		}
+
+		private function apiRemoveOperatingRoomDisinfection(){
+			if($this->get_request_method() != "POST"){
+				$this->response('',406);
+			}
+
+			$OperatingRoomDisinfectionData = json_decode(file_get_contents("php://input"),true);
+
+			$operatingDisinfectCheckRID  = (int)$OperatingRoomDisinfectionData['operatingDisinfectCheckRID'];
+
+	         
+			$query = "UPDATE zh_operatingRoomDisinfectionChecklist SET
+				Deleted = 1
+				
+				WHERE operatingDisinfectCheckRID = '$operatingDisinfectCheckDetailRID'";
+			$r = $this->mysqli->query($query) or die($this->mysqli->error.__LINE__);
+		}
+
+		private function apiNewOperatingRoomDisinfection()
+		{
+			if($this->get_request_method() != "GET"){
+				$this->response('',406);
+			}
+
+			// $HospRID = (int)$this->_request['HospRID'];
+
+			$query = "INSERT INTO zh_operatingRoomDisinfectionChecklist SET
+				room = ''
+				";
+			$r = $this->mysqli->query($query) or die($this->mysqli->error.__LINE__);
+
+			$query="SELECT *
+			    FROM zh_operatingRoomDisinfectionChecklist
+				WHERE zh_operatingRoomDisinfectionChecklist.Deleted = 0
+				ORDER BY operatingDisinfectCheckRID DESC LIMIT 1";
+			$r = $this->mysqli->query($query) or die($this->mysqli->error.__LINE__);
+			if($r->num_rows > 0) {
+				$result = array();
+				while($row = $r->fetch_assoc()){
+					$result = $row;
+				}
+				$this->response($this->json($result, JSON_NUMERIC_CHECK), 200); // send user details
+			}
+			$this->response('',204);	// If no records "No Content" status
+		}
+
+
+		//============
+		//End Operating Room Disinfection
+		//============
 
 		# API Floor
 

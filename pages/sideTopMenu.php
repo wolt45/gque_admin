@@ -147,14 +147,11 @@
                   OR Manager  <span class="fa fa-chevron-down"></span>
                 </a>
                 <ul class="nav child_menu">
-                  <li ng-show="mediaManagerSidemenu">
-                    <a ui-sref="operatingroomDisinfectChecklist" >
+                  <li>
+                    <a ui-sref="orDisinfectCheckList" >
                         OR Disinfection Checklist
                     </a>
                   </li>
-
-                  
-
                 </ul>
               </li>
 

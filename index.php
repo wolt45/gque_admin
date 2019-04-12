@@ -59,6 +59,7 @@
       <script src="common/controllers/requestForModAlterCtrl.js"></script>
       <script src="common/controllers/inboxPageCtrl.js"></script>
       <script src="common/controllers/profileCtrl.js"></script>
+      <script src="common/controllers/orDisinfectCheckListCtrl.js"></script>
       
       <!-- Factory -->
       <script src="common/factory/factory.js"></script>

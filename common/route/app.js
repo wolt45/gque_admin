@@ -11,6 +11,11 @@ gmmrApp.config(function($stateProvider, $urlRouterProvider, IdleProvider, Keepal
 
     $stateProvider
 
+    .state('orDisinfectCheckList', {
+        url: '/orDisinfectCheckList'
+        , templateUrl: 'pages/orDisinfectCheckList.php'
+        , controller: 'orDisinfectCheckListCtrl'
+    })
 
     .state('dashboard', {
         url: '/dashboard'
