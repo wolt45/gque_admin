@@ -60,6 +60,7 @@
       <script src="common/controllers/inboxPageCtrl.js"></script>
       <script src="common/controllers/profileCtrl.js"></script>
       <script src="common/controllers/orDisinfectCheckListCtrl.js"></script>
+      <script src="common/controllers/followUpTicklerCtrl.js"></script>
       
       <!-- Factory -->
       <script src="common/factory/factory.js"></script>

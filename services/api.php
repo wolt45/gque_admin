@@ -354,6 +354,39 @@
 			$this->response('',204);	// If no records "No Content" status
 		}
 
+
+		private function apiGetNotificationsFollowUpSched()
+		{
+			if($this->get_request_method() != "GET"){
+				$this->response('',406);
+			}
+
+			// $HospRID = (int)$this->_request['HospRID'];
+			date_default_timezone_set('Asia/Manila');
+			$today=date('Y-m-d');
+			$before_date= date('Y-m-d', strtotime($today. ' + 90 days'));
+			$after_date= date('Y-m-d', strtotime($today. ' - 90 days'));
+
+			$query="SELECT zipad_diagsnotes.*
+				, CONCAT(px_data.FirstName,' ',SUBSTRING(px_data.MiddleName, 1, 1),'. ',px_data.LastName) as pxName
+				, px_data.foto
+			    FROM zipad_diagsnotes
+			    LEFT JOIN px_data ON px_data.PxRID = zipad_diagsnotes.PxRID
+			    WHERE zipad_diagsnotes.NoteItem = 'Follow Up' AND zipad_diagsnotes.followUpFlagVisited = 0 AND zipad_diagsnotes.NoteValue <= '$before_date'
+			    ORDER BY zipad_diagsnotes.NoteValue ASC
+			    
+				";
+			$r = $this->mysqli->query($query) or die($this->mysqli->error.__LINE__);
+			if($r->num_rows > 0) {
+				$result = array();
+				while($row = $r->fetch_assoc()){
+					$result[] = $row;
+				}
+				$this->response($this->json($result, JSON_NUMERIC_CHECK), 200); // send user details
+			}
+			$this->response('',204);	// If no records "No Content" status
+		}
+
 		private function apiCheckAccount (){	
 			if($this->get_request_method() != "GET"){
 				$this->response('',406);
@@ -863,7 +896,7 @@
 			$query = "UPDATE zh_operatingRoomDisinfectionChecklist SET
 				Deleted = 1
 				
-				WHERE operatingDisinfectCheckRID = '$operatingDisinfectCheckDetailRID'";
+				WHERE operatingDisinfectCheckRID = '$operatingDisinfectCheckRID'";
 			$r = $this->mysqli->query($query) or die($this->mysqli->error.__LINE__);
 		}
 
@@ -899,6 +932,72 @@
 		//============
 		//End Operating Room Disinfection
 		//============
+
+
+
+
+
+
+		private function apiGetAllFollowUpSched()
+		{
+			if($this->get_request_method() != "GET"){
+				$this->response('',406);
+			}
+
+			// $HospRID = (int)$this->_request['HospRID'];
+			date_default_timezone_set('Asia/Manila');
+			$today=date('Y-m-d');
+			$before_date= date('Y-m-d', strtotime($today. ' + 90 days'));
+			$after_date= date('Y-m-d', strtotime($today. ' - 90 days'));
+
+			$query="SELECT zipad_diagsnotes.*
+				, CONCAT(px_data.FirstName,' ',SUBSTRING(px_data.MiddleName, 1, 1),'. ',px_data.LastName) as pxName
+			    FROM zipad_diagsnotes
+			    LEFT JOIN px_data ON px_data.PxRID = zipad_diagsnotes.PxRID
+			    WHERE zipad_diagsnotes.NoteItem = 'Follow Up' AND zipad_diagsnotes.NoteValue >= '$after_date' AND zipad_diagsnotes.NoteValue <= '$before_date'
+			    ORDER BY zipad_diagsnotes.NoteValue ASC
+				";
+			$r = $this->mysqli->query($query) or die($this->mysqli->error.__LINE__);
+			if($r->num_rows > 0) {
+				$result = array();
+				while($row = $r->fetch_assoc()){
+					$result[] = $row;
+				}
+				$this->response($this->json($result, JSON_NUMERIC_CHECK), 200); // send user details
+			}
+			$this->response('',204);	// If no records "No Content" status
+		}
+
+
+		private function apiChangeStatFlag(){
+			if($this->get_request_method() != "POST"){
+				$this->response('',406);
+			}
+
+			$OperatingRoomDisinfectionData = json_decode(file_get_contents("php://input"),true);
+
+			$wrid  = (int)$OperatingRoomDisinfectionData['wrid'];
+			$columnToChange  = (string)$OperatingRoomDisinfectionData['columnToChange'];
+			$columnValue  = (string)$OperatingRoomDisinfectionData['columnValue'];
+
+	         
+			$query = "UPDATE zipad_diagsnotes SET
+				$columnToChange = $columnValue
+				
+				WHERE wrid = '$wrid'
+				";
+			$r = $this->mysqli->query($query) or die($this->mysqli->error.__LINE__);
+		}
+
+
+
+
+
+
+
+
+
+
 
 		# API Floor
 

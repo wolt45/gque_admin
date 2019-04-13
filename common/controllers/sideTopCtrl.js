@@ -3,6 +3,7 @@ gmmrApp.controller('sideTopCtrl', function ($scope, $stateParams, $rootScope, $l
 	$scope.userPxRID = localStorage.getItem("gmmrCentraluserPxRID"); 
 	$scope.userTypeRID = localStorage.getItem("gmmrCentraluserTypeRID");
 
+  $scope.notifFollowItemSum= 0;
 	$scope.notifItemSum= 0;
   $scope.messageItemSum= 0;
   $scope.DateNow = new Date;
@@ -35,7 +36,7 @@ gmmrApp.controller('sideTopCtrl', function ($scope, $stateParams, $rootScope, $l
     dbServices.getMyAccess()
     .then(function success(response) {
       $scope.myAccessLocation = 'https://'+response.data;
-      console.log($scope.myAccessLocation);
+      // console.log($scope.myAccessLocation);
       $scope.checkAuth();
     });
   };
@@ -98,6 +99,19 @@ gmmrApp.controller('sideTopCtrl', function ($scope, $stateParams, $rootScope, $l
       $scope.notifItemSum = parseFloat($scope.notifItemSum) + parseFloat($scope.NotificationsRequestForModifAlterSum);
     });
   };
+
+  $scope.getNotificationsFollowUpSched = function () {
+
+    dbServices.getNotificationsFollowUpSched()
+    .then(function success(response) {
+      $scope.NotificationsFollowUpSchedListObj = response.data;
+      $scope.NotificationsFollowUpSchedSum = $scope.NotificationsFollowUpSchedListObj.length;
+      $scope.notifFollowItemSum = parseFloat($scope.notifFollowItemSum) + parseFloat($scope.NotificationsFollowUpSchedSum);
+      console.log(response);
+    });
+  };
+
+  $scope.getNotificationsFollowUpSched();
 
 
   $scope.checkSysDoorKeys = function (PxRID) {

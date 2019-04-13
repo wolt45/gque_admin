@@ -69,6 +69,10 @@ gmmrApp.factory("dbServices", ['$http', function($http) {
         });
     }
 
+    obj.getNotificationsFollowUpSched = function() {
+        return $http.get(serviceBase + 'apiGetNotificationsFollowUpSched');
+    };
+
     obj.checkAccount = function(oldAccountObj, userPxRID) {
         return $http({
             method: 'GET',
@@ -318,6 +322,27 @@ gmmrApp.factory("dbServices", ['$http', function($http) {
     //================
     // End Operating Room Disinfection
     //================
+
+
+    obj.getAllFollowUpSched = function() {
+        return $http.get(serviceBase + 'apiGetAllFollowUpSched');
+    };
+
+    obj.changeStatFlag = function (wrid, columnValue, columnToChange) {
+        var StatFlagData = {
+          "wrid" : wrid
+          , "columnToChange" : columnToChange
+          , "columnValue" : columnValue
+        }
+        // console.log(StatFlagData);
+        return $http({
+           method: 'POST'
+          ,url: serviceBase + 'apiChangeStatFlag'
+          ,responseType: 'json'
+          ,data: StatFlagData
+          ,cache:true
+        });
+    };
 
 
 

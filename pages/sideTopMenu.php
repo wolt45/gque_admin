@@ -155,6 +155,20 @@
                 </ul>
               </li>
 
+              <li>
+                <a class="btn btn-success">
+                  <i class="fa fa-edit"></i> 
+                  Sys Config  <span class="fa fa-chevron-down"></span>
+                </a>
+                <ul class="nav child_menu">
+                  <li>
+                    <a ui-sref="followUpTickler" >
+                        Follow up Ticler
+                    </a>
+                  </li>
+                </ul>
+              </li>
+
              
 
               <!-- <li ng-show="userTypeRID == 1">
@@ -322,6 +336,37 @@
                               <div class="text-center">
                                   <a ng-click="gotoMessage()">
                                       <strong>See All Messages</strong>
+                                      <i class="fa fa-angle-right"></i>
+                                  </a>
+                              </div>
+                          </li>
+                      </ul>
+                  </li>
+
+                  <li role="presentation" class="dropdown">
+                      <a href="javascript:;" class="dropdown-toggle info-number" data-toggle="dropdown" aria-expanded="false">
+                          <i class="fa fa-users"></i>
+                          <span class="badge bg-green">{{notifFollowItemSum}}</span>
+                      </a>
+                      <ul id="menu1" class="dropdown-menu list-unstyled msg_list" role="menu" style="overflow: scroll; max-height: 600px;">
+                          <li ng-repeat="NotificationsFollowUpSchedList in NotificationsFollowUpSchedListObj">
+                              <a>
+                                  <span class="image">
+                                      <img src="../../dump_px/{{NotificationsFollowUpSchedList.foto}}" alt="Profile Image" />
+                                  </span>
+                                  <span>
+                                      <span>{{NotificationsFollowUpSchedList.pxName}}</span>
+                                      <!-- <span class="time">3 mins ago</span> -->
+                                  </span>
+                                  <span class="message">
+                                      {{NotificationsFollowUpSchedList.NoteValue | date:"longDate"}}
+                                  </span>
+                              </a>
+                          </li>
+                          <li>
+                              <div class="text-center">
+                                  <a ui-sref="followUpTickler">
+                                      <strong>See All Follow-up</strong>
                                       <i class="fa fa-angle-right"></i>
                                   </a>
                               </div>
