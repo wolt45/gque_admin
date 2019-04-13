@@ -11,7 +11,7 @@ gmmrApp.controller('followUpTicklerCtrl', function ($scope, $stateParams, $rootS
     $scope.AllFollowUpSchedListObj2 = [];
     dbServices.getAllFollowUpSched()
     .then(function success(response) {
-      console.log(response);
+      // console.log(response);
       $scope.AllFollowUpSchedListObj = response.data;
 
 
@@ -19,74 +19,7 @@ gmmrApp.controller('followUpTicklerCtrl', function ($scope, $stateParams, $rootS
       $scope.AllFollowUpSchedListObjdata_limit = 100;
       $scope.AllFollowUpSchedListObjfilter_data = $scope.AllFollowUpSchedListObj.length;
       $scope.AllFollowUpSchedListObjentire_user = $scope.AllFollowUpSchedListObj.length;
-      // console.log($scope.AllFollowUpSchedListObj);
 
-      // for (var i = 0; i < response.data.length; i++) {
-      //   if (response.data[i].NoteItem == 'Follow Up') {
-      //     var ClinixRID = response.data[i].ClinixRID;
-      //     var followUpDate = response.data[i].NoteValue;
-
-      //     newrecord = {
-      //       ClinixRID : ClinixRID
-      //       , followUpDate : followUpDate
-      //     };
-
-      //     $scope.AllFollowUpSchedListObj.push(newrecord);
-      //   }
-
-      // }
-
-      for (var i = 0; i < response.data.length; i++) {
-        if (response.data[i].NoteItem == 'Discussions/Notes: ') {
-          var ClinixRID = response.data[i].ClinixRID;
-          var followUpNote = response.data[i].NoteValue;
-
-          newrecord = {
-            ClinixRID : ClinixRID
-            , followUpNote : followUpNote
-          };
-
-          $scope.AllFollowUpSchedListObj2.push(newrecord);
-
-        }
-
-
-      }
-      console.log($scope.AllFollowUpSchedListObj2);
-
-      // console.log($scope.AllFollowUpSchedListObj);
-
-      // for (var i = 0; i < response.data.length; i++) {
-      //   if (response.data[i].NoteItem == 'Discussions/Notes: ') {
-      //     var ClinixRID = response.data[i].ClinixRID;
-      //     var followUpNote = response.data[i].NoteValue;
-          
-      //     console.log(response.data[i]);
-          // for (var i = 0; i < $scope.AllFollowUpSchedListObj.length; i++) {
-          //   if ($scope.AllFollowUpSchedListObj[i].ClinixRID == ClinixRID) {
-              
-          //     newrecord = {
-          //       ClinixRID : ClinixRID
-          //       , followUpNote : followUpNote
-          //       // , followUpDate : $scope.AllFollowUpSchedListObj[i].followUpDate
-          //     };
-
-
-
-          //     // var index = $scope.AllFollowUpSchedListObj.indexOf($scope.AllFollowUpSchedListObj[i]);
-          //     // $scope.AllFollowUpSchedListObj.splice(index, 1);
-            
-          //     // $scope.AllFollowUpSchedListObj.push(newrecord);
-
-          //   }
-            
-          // }
-          
-      //   }
-
-      // }
-
-      // console.log($scope.AllFollowUpSchedListObj);
     });
 
 
@@ -110,13 +43,43 @@ gmmrApp.controller('followUpTicklerCtrl', function ($scope, $stateParams, $rootS
   };
 
 
+    $scope.getAllFollowUpSchedNotes = function () {
+    // $scope.AllFollowUpSchedListObj = [];
+    $scope.AllFollowUpSchedListObj2 = [];
+    dbServices.getAllFollowUpSchedNotes()
+    .then(function success(response) {
+
+      for (var i = 0; i < response.data.length; i++) {
+        if (response.data[i].NoteItem == 'Discussions/Notes: ') {
+          var ClinixRID = response.data[i].ClinixRID;
+          var followUpNote = response.data[i].NoteValue;
+
+          newrecord = {
+            ClinixRID : ClinixRID
+            , followUpNote : followUpNote
+          };
+
+          $scope.AllFollowUpSchedListObj2.push(newrecord);
+
+        }
+
+
+      }
+      console.log($scope.AllFollowUpSchedListObj2);
+
+    });
+
+
+  };
+
+  $scope.getAllFollowUpSchedNotes();
+
   $scope.changeStatFlag = function (wrid, columnValue, columnToChange) {
-    console.log(wrid);
-    console.log(columnToChange);
     dbServices.changeStatFlag(wrid, columnValue, columnToChange)
     .then(function success(response) {
-      console.log(response);
+      // console.log(response);
       $scope.getAllFollowUpSched();
+      $scope.getAllFollowUpSchedNotes();
     });
   };
 

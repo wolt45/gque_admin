@@ -328,13 +328,17 @@ gmmrApp.factory("dbServices", ['$http', function($http) {
         return $http.get(serviceBase + 'apiGetAllFollowUpSched');
     };
 
+    obj.getAllFollowUpSchedNotes = function() {
+        return $http.get(serviceBase + 'apiGetAllFollowUpSchedNotes');
+    };
+
     obj.changeStatFlag = function (wrid, columnValue, columnToChange) {
         var StatFlagData = {
           "wrid" : wrid
           , "columnToChange" : columnToChange
           , "columnValue" : columnValue
         }
-        // console.log(StatFlagData);
+
         return $http({
            method: 'POST'
           ,url: serviceBase + 'apiChangeStatFlag'
