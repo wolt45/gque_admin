@@ -6,7 +6,7 @@
       <meta charset="utf-8">
       <meta http-equiv="X-UA-Compatible" content="IE=edge">
       <meta name="viewport" content="width=device-width, initial-scale=1">
-       <link rel="icon" href="production/images/img.jpg" type="image/ico" />
+      <link rel="icon" href="pages/images/glogo.png" type="image/ico" />
 
       <title>GMMR Central</title>
 
@@ -61,6 +61,7 @@
       <script src="common/controllers/profileCtrl.js"></script>
       <script src="common/controllers/orDisinfectCheckListCtrl.js"></script>
       <script src="common/controllers/followUpTicklerCtrl.js"></script>
+      <script src="common/controllers/drugsManagerCtrl.js"></script>
       
       <!-- Factory -->
       <script src="common/factory/factory.js"></script>

@@ -136,7 +136,7 @@
               </li>
 
               <li ng-show="adminPanelSidemenu">
-                <a class="btn btn-success" href="../drugsManager">
+                <a class="btn btn-success" ui-sref="drugsManager">
                   Drugs Manager
                 </a>
               </li>

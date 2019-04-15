@@ -11,6 +11,12 @@ gmmrApp.config(function($stateProvider, $urlRouterProvider, IdleProvider, Keepal
 
     $stateProvider
 
+    .state('drugsManager', {
+        url: '/drugsManager'
+        , templateUrl: 'pages/drugsManager.php'
+        , controller: 'drugsManagerCtrl'
+    })
+    
     .state('followUpTickler', {
         url: '/followUpTickler'
         , templateUrl: 'pages/followUpTickler.php'

@@ -350,6 +350,83 @@ gmmrApp.factory("dbServices", ['$http', function($http) {
 
 
 
+
+
+
+
+        obj.getDrugDepartment = function() {
+        return $http({
+            method: 'GET',
+            url: serviceBase + 'apiGetDrugDepartment',
+        });
+    }
+
+    obj.getDrugList = function() {
+        return $http({
+            method: 'GET',
+            url: serviceBase + 'apiGetDrugList',
+        });
+    }
+
+
+    obj.insertMedicine = function(DrugObj) {
+        var DrugData = {
+            "DrugRID": DrugObj.DrugRID
+            , "GlobalRID": DrugObj.GlobalRID
+            , "MIMSid": DrugObj.MIMSid
+            , "GenericName": DrugObj.GenericName
+            , "BrandName": DrugObj.BrandName
+            , "qtyOnHand": DrugObj.qtyOnHand
+            , "OnOrder": DrugObj.OnOrder
+            , "ReOrderPoint": DrugObj.ReOrderPoint
+            , "Packaging": DrugObj.Packaging
+            , "PreparationQty": DrugObj.PreparationQty
+            , "PreparationUnit": DrugObj.PreparationUnit
+            , "AdvertiserTag": DrugObj.AdvertiserTag
+            , "DrugUnitRID": DrugObj.DrugUnitRID
+            , "DefDosage": DrugObj.DefDosage
+            , "DefDrugDesperseRID": DrugObj.DefDrugDesperseRID
+            , "DefMedBagnosRID": DrugObj.DefMedBagnosRID
+            , "DefMedBagnosis": DrugObj.DefMedBagnosis
+            , "DefIntervalRID": DrugObj.DefIntervalRID
+            , "DefXDays": DrugObj.DefXDays
+            , "EnteredBy": DrugObj.EnteredBy
+            , "ModifiedBy": DrugObj.ModifiedBy
+            , "DateModified": DrugObj.DateModified
+            , "Manufacturer": DrugObj.Manufacturer
+            , "Distributor": DrugObj.Distributor
+            , "Marketer": DrugObj.Marketer
+            , "Contents": DrugObj.Contents
+            , "Indications": DrugObj.Indications
+            , "Dosage": DrugObj.Dosage
+            , "Overdosage": DrugObj.Overdosage
+            , "Administration": DrugObj.Administration
+            , "Contraindications": DrugObj.Contraindications
+            , "SpecialPrecautions": DrugObj.SpecialPrecautions
+            , "AdverseDrugReactions": DrugObj.AdverseDrugReactions
+            , "PregnancyCategory": DrugObj.PregnancyCategory
+            , "Storage": DrugObj.Storage
+            , "Description": DrugObj.Description
+            , "MechanismofAction": DrugObj.MechanismofAction
+            , "ATCClassification": DrugObj.ATCClassification
+            , "PoisonSchedule": DrugObj.PoisonSchedule
+            , "Presentation": DrugObj.Presentation
+            , "DeptCode": DrugObj.DeptCode
+            , "InSynched": DrugObj.InSynched
+            , "InActive": DrugObj.InActive
+            
+            
+        }
+        return $http({
+            method: 'POST',
+            url: serviceBase + 'apiInsertMedicine',
+            responseType: 'json',
+            data: DrugData,
+            cache: true
+        });
+    };
+
+
     // floor
     return obj;
 }]);

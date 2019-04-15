@@ -1025,7 +1025,197 @@
 
 
 
+		private function apiGetDrugDepartment (){	
+			if($this->get_request_method() != "GET"){
+				$this->response('',406);
+			}
+			
+				$query="SELECT * 
+				FROM department 
+				";
+				$r = $this->mysqli->query($query) or die($this->mysqli->error.__LINE__);
+				if($r->num_rows > 0) {
+					$result = array();
+					while($row = $r->fetch_assoc()){
+						$result[] = $row;
+				}
+				$this->response($this->json($result, JSON_NUMERIC_CHECK), 200); // send user details
+			}
+			$this->response('',204);	// If no records "No Content" status
+		}
 
+		private function apiGetDrugList (){	
+			if($this->get_request_method() != "GET"){
+				$this->response('',406);
+			}
+			
+				$query="SELECT drugs.* 
+				, department.DeptDesc
+				FROM drugs 
+				LEFT JOIN department ON department.DeptCode = drugs.DeptCode";
+				$r = $this->mysqli->query($query) or die($this->mysqli->error.__LINE__);
+				if($r->num_rows > 0) {
+					$result = array();
+					while($row = $r->fetch_assoc()){
+						$result[] = $row;
+				}
+				$this->response($this->json($result, JSON_NUMERIC_CHECK), 200); // send user details
+			}
+			$this->response('',204);	// If no records "No Content" status
+		}
+
+
+
+
+
+		private function apiInsertMedicine(){
+			if($this->get_request_method() != "POST"){
+				$this->response('',406);
+			}
+
+			$MedicineData = json_decode(file_get_contents("php://input"),true);
+
+            $DrugRID = (int)$MedicineData['DrugRID'];
+            $GlobalRID = (int)$MedicineData['GlobalRID'];
+            $MIMSid = (int)$MedicineData['MIMSid'];
+            $GenericName = (string)$MedicineData['GenericName'];
+            $BrandName = (string)$MedicineData['BrandName'];
+            $qtyOnHand = (string)$MedicineData['qtyOnHand'];
+            $OnOrder = (string)$MedicineData['OnOrder'];
+            $ReOrderPoint = (string)$MedicineData['ReOrderPoint'];
+            $Packaging = (string)$MedicineData['Packaging'];
+            $PreparationQty = (string)$MedicineData['PreparationQty'];
+            $PreparationUnit = (string)$MedicineData['PreparationUnit'];
+            $AdvertiserTag = (string)$MedicineData['AdvertiserTag'];
+            $DrugUnitRID = (string)$MedicineData['DrugUnitRID'];
+            $DefDosage = (string)$MedicineData['DefDosage'];
+            $DefDrugDesperseRID = (string)$MedicineData['DefDrugDesperseRID'];
+            $DefMedBagnosRID = (string)$MedicineData['DefMedBagnosRID'];
+            $DefMedBagnosis = (string)$MedicineData['DefMedBagnosis'];
+            $DefIntervalRID = (string)$MedicineData['DefIntervalRID'];
+            $DefXDays = (string)$MedicineData['DefXDays'];
+            $EnteredBy = (string)$MedicineData['EnteredBy'];
+            $ModifiedBy = (string)$MedicineData['ModifiedBy'];
+            $DateModified = (string)$MedicineData['DateModified'];
+            $Manufacturer = (string)$MedicineData['Manufacturer'];
+            $Distributor = (string)$MedicineData['Distributor'];
+            $Marketer = (string)$MedicineData['Marketer'];
+            $Contents = (string)$MedicineData['Contents'];
+            $Indications = (string)$MedicineData['Indications'];
+            $Dosage = (string)$MedicineData['Dosage'];
+            $Overdosage = (string)$MedicineData['Overdosage'];
+            $Administration = (string)$MedicineData['Administration'];
+            $Contraindications = (string)$MedicineData['Contraindications'];
+            $SpecialPrecautions = (string)$MedicineData['SpecialPrecautions'];
+            $AdverseDrugReactions = (string)$MedicineData['AdverseDrugReactions'];
+            $PregnancyCategory = (string)$MedicineData['PregnancyCategory'];
+            $Storage = (string)$MedicineData['Storage'];
+            $Description = (string)$MedicineData['Description'];
+            $MechanismofAction = (string)$MedicineData['MechanismofAction'];
+            $ATCClassification = (string)$MedicineData['ATCClassification'];
+            $PoisonSchedule = (string)$MedicineData['PoisonSchedule'];
+            $Presentation = (string)$MedicineData['Presentation'];
+            $DeptCode = (int)$MedicineData['DeptCode'];
+            $InSynched = (int)$MedicineData['InSynched'];
+            $InActive = (int)$MedicineData['InActive'];
+
+	        
+	        if ($DrugRID > 0) {
+	        	$query = "UPDATE drugs SET
+			            GlobalRID = '$GlobalRID'
+			            , MIMSid = '$MIMSid'
+			            , GenericName = '$GenericName'
+			            , BrandName = '$BrandName'
+			            , qtyOnHand = '$qtyOnHand'
+			            , OnOrder = '$OnOrder'
+			            , ReOrderPoint = '$ReOrderPoint'
+			            , Packaging = '$Packaging'
+			            , PreparationQty = '$PreparationQty'
+			            , PreparationUnit = '$PreparationUnit'
+			            , AdvertiserTag = '$AdvertiserTag'
+			            , DrugUnitRID = '$DrugUnitRID'
+			            , DefDosage = '$DefDosage'
+			            , DefDrugDesperseRID = '$DefDrugDesperseRID'
+			            , DefMedBagnosRID = '$DefMedBagnosRID'
+			            , DefMedBagnosis = '$DefMedBagnosis'
+			            , DefIntervalRID = '$DefIntervalRID'
+			            , DefXDays = '$DefXDays'
+			            , EnteredBy = '$EnteredBy'
+			            , ModifiedBy = '$ModifiedBy'
+			            , DateModified = '$DateModified'
+			            , Manufacturer = '$Manufacturer'
+			            , Distributor = '$Distributor'
+			            , Marketer = '$Marketer'
+			            , Contents = '$Contents'
+			            , Indications = '$Indications'
+			            , Dosage = '$Dosage'
+			            , Overdosage = '$Overdosage'
+			            , Administration = '$Administration'
+			            , Contraindications = '$Contraindications'
+			            , SpecialPrecautions = '$SpecialPrecautions'
+			            , AdverseDrugReactions = '$AdverseDrugReactions'
+			            , PregnancyCategory = '$PregnancyCategory'
+			            , Storage = '$Storage'
+			            , Description = '$Description'
+			            , MechanismofAction = '$MechanismofAction'
+			            , ATCClassification = '$ATCClassification'
+			            , PoisonSchedule = '$PoisonSchedule'
+			            , Presentation = '$Presentation'
+			            , DeptCode = '$DeptCode'
+			            , InSynched = '$InSynched'
+			            , InActive = '$InActive'
+		           
+					WHERE DrugRID = '$DrugRID'";
+				$r = $this->mysqli->query($query) or die($this->mysqli->error.__LINE__);
+	        }else{
+	        	$query = "INSERT INTO drugs SET
+						GlobalRID = '$GlobalRID'
+			            , MIMSid = '$MIMSid'
+			            , GenericName = '$GenericName'
+			            , BrandName = '$BrandName'
+			            , qtyOnHand = '$qtyOnHand'
+			            , OnOrder = '$OnOrder'
+			            , ReOrderPoint = '$ReOrderPoint'
+			            , Packaging = '$Packaging'
+			            , PreparationQty = '$PreparationQty'
+			            , PreparationUnit = '$PreparationUnit'
+			            , AdvertiserTag = '$AdvertiserTag'
+			            , DrugUnitRID = '$DrugUnitRID'
+			            , DefDosage = '$DefDosage'
+			            , DefDrugDesperseRID = '$DefDrugDesperseRID'
+			            , DefMedBagnosRID = '$DefMedBagnosRID'
+			            , DefMedBagnosis = '$DefMedBagnosis'
+			            , DefIntervalRID = '$DefIntervalRID'
+			            , DefXDays = '$DefXDays'
+			            , EnteredBy = '$EnteredBy'
+			            , ModifiedBy = '$ModifiedBy'
+			            , DateModified = '$DateModified'
+			            , Manufacturer = '$Manufacturer'
+			            , Distributor = '$Distributor'
+			            , Marketer = '$Marketer'
+			            , Contents = '$Contents'
+			            , Indications = '$Indications'
+			            , Dosage = '$Dosage'
+			            , Overdosage = '$Overdosage'
+			            , Administration = '$Administration'
+			            , Contraindications = '$Contraindications'
+			            , SpecialPrecautions = '$SpecialPrecautions'
+			            , AdverseDrugReactions = '$AdverseDrugReactions'
+			            , PregnancyCategory = '$PregnancyCategory'
+			            , Storage = '$Storage'
+			            , Description = '$Description'
+			            , MechanismofAction = '$MechanismofAction'
+			            , ATCClassification = '$ATCClassification'
+			            , PoisonSchedule = '$PoisonSchedule'
+			            , Presentation = '$Presentation'
+			            , DeptCode = '$DeptCode'
+			            , InSynched = '$InSynched'
+			            , InActive = '$InActive'
+					";
+				$r = $this->mysqli->query($query) or die($this->mysqli->error.__LINE__);
+	        }
+			
+		}
 
 
 

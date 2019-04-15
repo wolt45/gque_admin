@@ -107,7 +107,7 @@ gmmrApp.controller('sideTopCtrl', function ($scope, $stateParams, $rootScope, $l
       $scope.NotificationsFollowUpSchedListObj = response.data;
       $scope.NotificationsFollowUpSchedSum = $scope.NotificationsFollowUpSchedListObj.length;
       $scope.notifFollowItemSum = parseFloat($scope.notifFollowItemSum) + parseFloat($scope.NotificationsFollowUpSchedSum);
-      console.log(response);
+      // console.log(response);
     });
   };
 
