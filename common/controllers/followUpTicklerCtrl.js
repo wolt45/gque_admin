@@ -65,7 +65,7 @@ gmmrApp.controller('followUpTicklerCtrl', function ($scope, $stateParams, $rootS
 
 
       }
-      console.log($scope.AllFollowUpSchedListObj2);
+      // console.log($scope.AllFollowUpSchedListObj2);
 
     });
 

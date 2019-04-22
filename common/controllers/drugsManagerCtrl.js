@@ -24,7 +24,7 @@ gmmrApp.controller('drugsManagerCtrl', function ($scope, $stateParams, $rootScop
 		dbServices.getDrugList()
 		.then(function success(response) {
 		  	$scope.DrugListObj = response.data;
-		  	console.log($scope.DrugListObj);
+		  	// console.log($scope.DrugListObj);
 
 		  	$scope.DrugListObjcurrent_grid = 1;
 		  	$scope.DrugListObjdata_limit = 100;
