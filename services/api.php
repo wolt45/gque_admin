@@ -369,12 +369,10 @@
 
 			$query="SELECT zipad_diagsnotes.*
 				, CONCAT(px_data.FirstName,' ',SUBSTRING(px_data.MiddleName, 1, 1),'. ',px_data.LastName) as pxName
-				, px_data.foto
 			    FROM zipad_diagsnotes
 			    LEFT JOIN px_data ON px_data.PxRID = zipad_diagsnotes.PxRID
-			    WHERE zipad_diagsnotes.NoteItem = 'Follow Up' AND zipad_diagsnotes.followUpFlagVisited = 0 AND zipad_diagsnotes.NoteValue <= '$before_date'
+			    WHERE zipad_diagsnotes.NoteItem = 'Follow Up' AND zipad_diagsnotes.NoteValue >= '$after_date' AND zipad_diagsnotes.NoteValue <= '$before_date'
 			    ORDER BY zipad_diagsnotes.NoteValue ASC
-			    
 				";
 			$r = $this->mysqli->query($query) or die($this->mysqli->error.__LINE__);
 			if($r->num_rows > 0) {
