@@ -1031,7 +1031,7 @@
 			}
 			
 				$query="SELECT * 
-				FROM department 
+				FROM mx_department 
 				";
 				$r = $this->mysqli->query($query) or die($this->mysqli->error.__LINE__);
 				if($r->num_rows > 0) {
@@ -1050,9 +1050,9 @@
 			}
 			
 				$query="SELECT drugs.* 
-				, department.DeptDesc
+				, mx_department.DeptDesc
 				FROM drugs 
-				LEFT JOIN department ON department.DeptCode = drugs.DeptCode";
+				LEFT JOIN mx_department ON mx_department.DeptCode = drugs.DeptCode";
 				$r = $this->mysqli->query($query) or die($this->mysqli->error.__LINE__);
 				if($r->num_rows > 0) {
 					$result = array();
