@@ -44,7 +44,7 @@
                   </div>
                   <div class="col-sm-6 pull-right">
                       <label>Search:</label>
-                      <input type="text" ng-model="search" ng-change="filter()" placeholder="Search" class="form-control" />
+                      <input type="text" ng-model="search" ng-change="filter()" placeholder="Search" class="form-control" style="background-color: yellow;" placeholder="Search..."/>
                   </div>
                 </div>
                 <div class="table-responsive" ng-show="AllFollowUpSchedListObjfilter_data > 0">
