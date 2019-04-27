@@ -359,7 +359,7 @@
                                       <!-- <span class="time">3 mins ago</span> -->
                                   </span>
                                   <span class="message">
-                                      {{NotificationsFollowUpSchedList.NoteValue | date:"longDate"}}
+                                      {{NotificationsFollowUpSchedList.followUpDate | date:"longDate"}}
                                   </span>
                               </a>
                           </li>

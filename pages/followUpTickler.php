@@ -67,17 +67,15 @@
                       </tr>
                     </thead>
                     <tbody>
-                      <tr ng-repeat="AllFollowUpSchedList in searched = (AllFollowUpSchedListObj | filter:search | orderBy : base :reverse) | beginning_data:(AllFollowUpSchedListObjcurrent_grid-1)*AllFollowUpSchedListObjdata_limit | limitTo:AllFollowUpSchedListObjdata_limit" data-toggle="modal" data-target="#requestforModAlterModal" ng-click="editAllFollowUpSched(AllFollowUpSchedList)" ng-show="AllFollowUpSchedList.NoteItem == 'Follow Up'">
+                      <tr ng-repeat="AllFollowUpSchedList in searched = (AllFollowUpSchedListObj | filter:search | orderBy : base :reverse) | beginning_data:(AllFollowUpSchedListObjcurrent_grid-1)*AllFollowUpSchedListObjdata_limit | limitTo:AllFollowUpSchedListObjdata_limit" data-toggle="modal" data-target="#requestforModAlterModal" ng-click="editAllFollowUpSched(AllFollowUpSchedList)">
                         <td nowrap width="1%">
                           {{AllFollowUpSchedList.pxName}}
                         </td>
                         <td width="1%" nowrap>
-                          {{AllFollowUpSchedList.NoteValue | date:"longDate"}}
+                          {{AllFollowUpSchedList.followUpDate | date:"longDate"}}
                         </td>
                         <td >
-                          <div ng-repeat="AllFollowUpSchedList2 in AllFollowUpSchedListObj2" ng-if="AllFollowUpSchedList2.ClinixRID == AllFollowUpSchedList.ClinixRID">
-                            {{AllFollowUpSchedList2.followUpNote}}
-                          </div>
+                            {{AllFollowUpSchedList.NoteValue}}
                         </td>
                         <td width="1%" nowrap>
                           <label>

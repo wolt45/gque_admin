@@ -11,7 +11,7 @@ gmmrApp.controller('followUpTicklerCtrl', function ($scope, $stateParams, $rootS
     $scope.AllFollowUpSchedListObj2 = [];
     dbServices.getAllFollowUpSched()
     .then(function success(response) {
-      // console.log(response);
+      
       $scope.AllFollowUpSchedListObj = response.data;
 
 
@@ -19,7 +19,7 @@ gmmrApp.controller('followUpTicklerCtrl', function ($scope, $stateParams, $rootS
       $scope.AllFollowUpSchedListObjdata_limit = 100;
       $scope.AllFollowUpSchedListObjfilter_data = $scope.AllFollowUpSchedListObj.length;
       $scope.AllFollowUpSchedListObjentire_user = $scope.AllFollowUpSchedListObj.length;
-
+      console.log($scope.AllFollowUpSchedListObj);
     });
 
 
@@ -72,7 +72,7 @@ gmmrApp.controller('followUpTicklerCtrl', function ($scope, $stateParams, $rootS
 
   };
 
-  $scope.getAllFollowUpSchedNotes();
+  // $scope.getAllFollowUpSchedNotes();
 
   $scope.changeStatFlag = function (wrid, columnValue, columnToChange) {
     dbServices.changeStatFlag(wrid, columnValue, columnToChange)
