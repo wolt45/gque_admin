@@ -352,7 +352,7 @@
                           <li ng-repeat="NotificationsFollowUpSchedList in NotificationsFollowUpSchedListObj">
                               <a>
                                   <span class="image">
-                                      <img src="../../dump_px/{{NotificationsFollowUpSchedList.foto}}" alt="Profile Image" />
+                                      <img src="../dump_px/{{NotificationsFollowUpSchedList.foto}}" alt="Profile Image" />
                                   </span>
                                   <span>
                                       <span>{{NotificationsFollowUpSchedList.pxName}}</span>
