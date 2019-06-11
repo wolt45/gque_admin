@@ -64,7 +64,7 @@
 
 
           <li ng-show="adminPanelSidemenu">
-            <a href="../reminders">
+            <a href="../telemetry">
               <i class="fa fa-medkit"></i>
               Telemetry
             </a>
