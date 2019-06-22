@@ -63,7 +63,7 @@
           </li>
 
 
-          <li ng-show="adminPanelSidemenu">
+          <li >
             <a href="../telemetry">
               <i class="fa fa-medkit"></i>
               Telemetry
