@@ -48,6 +48,14 @@ gmmrApp.factory("dbServices", ['$http', function($http) {
         });
     }
 
+
+    obj.getUserAccounts = function() {
+        return $http({
+            method : 'GET',
+            url : serviceBase + 'apiGetUserAccounts'
+        });
+    }
+
     obj.getNotifications = function(userPxRID) {
         return $http({
             method: 'GET',
@@ -425,6 +433,241 @@ gmmrApp.factory("dbServices", ['$http', function($http) {
             cache: true
         });
     };
+
+
+
+
+
+
+    // messages
+
+    obj.getNewMessages = function(userPxRID) {
+        return $http({
+            method: 'GET',
+            url: serviceBase + 'apiGetNewMessages&userPxRID=' + userPxRID,
+        });
+
+    };
+
+
+    obj.sendMessage = function (byRID, toRID, newMessageObj) {
+        var MessageData = {
+          "byRID" : byRID
+          , "toRID" : toRID
+          , "messageSubject" : newMessageObj.messageSubject
+          , "messageContent" : newMessageObj.messageContent
+          , "messageBoxRID" : newMessageObj.messageBoxRID
+          
+        }
+
+        return $http({
+           method: 'POST'
+          ,url: serviceBase + 'apiSendMessage'
+          ,responseType: 'json'
+          ,data: MessageData
+          ,cache:true
+        });
+    };
+
+    obj.autoSaveNewMessage = function (newMessageObj) {
+        var MessageData = {
+          "messageSubject" : newMessageObj.messageSubject
+          , "messageContent" : newMessageObj.messageContent
+          , "messageBoxRID" : newMessageObj.messageBoxRID
+          
+        }
+
+        return $http({
+           method: 'POST'
+          ,url: serviceBase + 'apiAutoSaveNewMessage'
+          ,responseType: 'json'
+          ,data: MessageData
+          ,cache:true
+        });
+    };
+
+    obj.getMessages = function(userPxRID) {
+        return $http({
+            method: 'GET',
+            url: serviceBase + 'apiGetMessages&userPxRID=' + userPxRID,
+        });
+
+    };
+
+    obj.getDraftMessages = function(userPxRID) {
+        return $http({
+            method: 'GET',
+            url: serviceBase + 'apiGetDraftMessages&userPxRID=' + userPxRID,
+        });
+
+    };
+
+    obj.viewMessages = function (messageBoxRID, toRID) {
+        var MessageData = {
+          "messageBoxRID" : messageBoxRID
+          , "toRID" : toRID
+          
+        }
+
+        return $http({
+           method: 'POST'
+          ,url: serviceBase + 'apiViewMessages'
+          ,responseType: 'json'
+          ,data: MessageData
+          ,cache:true
+        });
+    };
+
+    obj.alertMessages = function (messageBoxRID, toRID) {
+        var MessageData = {
+          "messageBoxRID" : messageBoxRID
+          , "toRID" : toRID
+          
+        }
+
+        return $http({
+           method: 'POST'
+          ,url: serviceBase + 'apiAlertMessages'
+          ,responseType: 'json'
+          ,data: MessageData
+          ,cache:true
+        });
+    };
+
+    obj.deleteMessage = function (messageBoxRID) {
+        var MessageData = {
+          "messageBoxRID" : messageBoxRID
+          
+        }
+
+        return $http({
+           method: 'POST'
+          ,url: serviceBase + 'apiDeleteMessage'
+          ,responseType: 'json'
+          ,data: MessageData
+          ,cache:true
+        });
+    };
+
+
+    obj.getMessageWhereToAttachFile = function(userPxRID, PxRID) {
+        return $http({
+            method: 'GET',
+            url: serviceBase + 'apiGetMessageWhereToAttachFile&userPxRID=' + userPxRID + '&PxRID=' + PxRID,
+        });
+
+    };
+
+    var formAttachFileToMessage = [];
+    var filesAttachFileToMessage = [];
+
+    obj.sendAttachFileToMessage = function (messageBoxRID, filesAttachFileToMessage) {
+
+            formAttachFileToMessage.image = filesAttachFileToMessage[0];
+            // console.log(formAttachFileToMessage.image);
+              if (filesAttachFileToMessage.length > 0) {
+                return $http({
+                    method  : 'POST',
+                    url: serviceBase + 'apiSendAttachFileToMessage',
+                    processData: false,
+                    transformRequest: function (data) {
+                        var formData = new FormData();
+                        formData.append("image", formAttachFileToMessage.image); 
+                        formData.append("messageBoxRID",  messageBoxRID);  
+                        return formData;  
+                        console.log(formData);
+                    },  
+                    data : formAttachFileToMessage,
+                    headers: {
+                           'Content-Type': undefined
+                    }
+                });
+
+            }else{
+                alert("No file!");
+            }
+    };
+
+
+
+    obj.createNewMessage = function(userPxRID) {
+        return $http({
+            method: 'GET',
+            url: serviceBase + 'apiCreateNewMessage&userPxRID=' + userPxRID,
+        });
+
+    };
+
+
+    obj.getNewMessageAttachFile = function(messageBoxRID) {
+        return $http({
+            method: 'GET',
+            url: serviceBase + 'apiGetNewMessageAttachFile&messageBoxRID=' + messageBoxRID,
+        });
+
+    };
+
+    
+
+    obj.removeNewMessageAttachedFile = function (messageAttachFileRID) {
+        var MessageData = {
+          "messageAttachFileRID" : messageAttachFileRID
+          
+        }
+
+        return $http({
+           method: 'POST'
+          ,url: serviceBase + 'apiRemoveNewMessageAttachedFile'
+          ,responseType: 'json'
+          ,data: MessageData
+          ,cache:true
+        });
+    };
+
+
+    obj.getNewMessageRecipient = function(messageBoxRID) {
+        return $http({
+            method: 'GET',
+            url: serviceBase + 'apiGetNewMessageRecipient&messageBoxRID=' + messageBoxRID,
+        });
+
+    };
+
+
+    obj.insertNewMessageRecipient = function (messageBoxRID, toRID) {
+        var MessageData = {
+          "messageBoxRID" : messageBoxRID
+          , "toRID" : toRID
+          
+        }
+
+        return $http({
+           method: 'POST'
+          ,url: serviceBase + 'apiInsertNewMessageRecipient'
+          ,responseType: 'json'
+          ,data: MessageData
+          ,cache:true
+        });
+    };
+
+
+    obj.removeNewMessageRecipient = function (messageRecipientRID) {
+        var MessageData = {
+          "messageRecipientRID" : messageRecipientRID
+          
+        }
+
+        return $http({
+           method: 'POST'
+          ,url: serviceBase + 'apiRemoveNewMessageRecipient'
+          ,responseType: 'json'
+          ,data: MessageData
+          ,cache:true
+        });
+    };
+
+
+    // end messages
 
 
     // floor

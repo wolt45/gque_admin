@@ -240,7 +240,7 @@
                               </a>
                           </li>
                           <li>
-                              <a ui-sref="inboxPage">
+                              <a ui-sref="inbox">
                                   <span>Inbox</span>
                               </a>
                           </li>
@@ -318,23 +318,23 @@
                           <span class="badge bg-green">{{messageItemSum}}</span>
                       </a>
                       <ul id="menu1" class="dropdown-menu list-unstyled msg_list" role="menu">
-                          <li ng-repeat="notifItems in notifItem">
-                              <a>
+                          <li ng-repeat="NewMessagesList in NewMessagesListObj">
+                              <a ng-click="viewMessages(NewMessagesList)">
                                   <span class="image">
-                                      <img src="../../dump_px/{{notifItems.foto}}" alt="Profile Image" />
+                                      <img src="../../dump_px/{{NewMessagesList.fotoSender}}" alt="Profile Image" />
                                   </span>
                                   <span>
-                                      <span>{{messageItems.pxName}}</span>
+                                      <span>{{NewMessagesList.pxNameSender}}</span>
                                       <!-- <span class="time">3 mins ago</span> -->
                                   </span>
-                                  <span class="message">
-                                      {{messageItems.Event}}
+                                  <span class="message" >
+                                      {{NewMessagesList.tempmessageContent | limitTo: 20 }} {{tempmessageContent.length < 20 ? '' : '...'}}
                                   </span>
                               </a>
                           </li>
                           <li>
                               <div class="text-center">
-                                  <a ng-click="gotoMessage()">
+                                  <a ui-sref="inbox">
                                       <strong>See All Messages</strong>
                                       <i class="fa fa-angle-right"></i>
                                   </a>

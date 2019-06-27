@@ -275,6 +275,33 @@
 			$this->response('',204);	// If no records "No Content" status
 		}
 
+
+		private function apiGetUserAccounts (){	
+			if($this->get_request_method() != "GET"){
+				$this->response('',406);
+			}	
+
+				$query="SELECT users.*
+				, CONCAT(px_data.FirstName,' ',SUBSTRING(px_data.MiddleName, 1, 1),'. ',px_data.LastName) as pxName
+				, CONCAT(px_dataRegBy.FirstName,' ',SUBSTRING(px_dataRegBy.MiddleName, 1, 1),'. ',px_dataRegBy.LastName) as pxNameRegBy
+				, px_data.foto
+				, lkup_userType.userDescription
+				FROM  users
+				INNER JOIN px_data ON users.PxRID = px_data.PxRID
+				LEFT JOIN lkup_userType ON lkup_userType.userTypeRID = users.userTypeRID
+				LEFT JOIN px_data AS px_dataRegBy ON px_dataRegBy.PxRID = users.RegBy
+				";
+				$r = $this->mysqli->query($query) or die($this->mysqli->error.__LINE__);
+				if($r->num_rows > 0) {
+					$result = array();
+					while($row = $r->fetch_assoc()){
+						$result[] = $row;
+				}
+				$this->response($this->json($result, JSON_NUMERIC_CHECK), 200); // send user details
+			}
+			$this->response('',204);	// If no records "No Content" status
+		}
+
 		private function apiGetNotifications (){	
 			if($this->get_request_method() != "GET"){
 				$this->response('',406);
@@ -371,7 +398,9 @@
 				, CONCAT(px_data.FirstName,' ',SUBSTRING(px_data.MiddleName, 1, 1),'. ',px_data.LastName) as pxName
 				, px_data.foto
 			    FROM zipad_diagsnotes
-			    LEFT JOIN px_data ON px_data.PxRID = zipad_diagsnotes.PxRID
+			    LEFT JOIN clinix ON clinix.ClinixRID = zipad_diagsnotes.ClinixRID
+			    INNER JOIN px_data ON px_data.PxRID = clinix.PxRID
+
 			    WHERE zipad_diagsnotes.Deleted = 0 AND zipad_diagsnotes.followUpDate >= '$after_date' AND zipad_diagsnotes.followUpDate <= '$before_date'
 			    ORDER BY zipad_diagsnotes.NoteValue ASC
 				";
@@ -952,7 +981,8 @@
 			$query="SELECT zipad_diagsnotes.*
 				, CONCAT(px_data.FirstName,' ',SUBSTRING(px_data.MiddleName, 1, 1),'. ',px_data.LastName) as pxName
 			    FROM zipad_diagsnotes
-			    LEFT JOIN px_data ON px_data.PxRID = zipad_diagsnotes.PxRID
+			    LEFT JOIN clinix ON clinix.ClinixRID = zipad_diagsnotes.ClinixRID
+			    INNER JOIN px_data ON px_data.PxRID = clinix.PxRID
 			    WHERE zipad_diagsnotes.Deleted = 0 AND zipad_diagsnotes.followUpDate >= '$after_date' AND zipad_diagsnotes.followUpDate <= '$before_date'
 			    ORDER BY zipad_diagsnotes.followUpDate ASC
 				";
@@ -1215,6 +1245,405 @@
 	        }
 			
 		}
+
+
+
+
+
+
+		// Messages
+
+		private function apiGetNewMessages (){	
+			if($this->get_request_method() != "GET"){
+				$this->response('',406);
+			}
+
+			$userPxRID = (int)$this->_request['userPxRID'];
+
+
+				$query="SELECT messageBox.*
+				, CONCAT(px_dataSendBy.FirstName,' ',SUBSTRING(px_dataSendBy.MiddleName, 1, 1),'. ',px_dataSendBy.LastName) as pxNameSender
+				, px_dataSendBy.foto AS fotoSender
+				, messageRecipient.messageViewed
+				, messageRecipient.messageAlert
+				, messageRecipient.toRID
+				FROM  messageRecipient
+				LEFT JOIN messageBox ON messageBox.messageBoxRID = messageRecipient.messageBoxRID
+				LEFT JOIN px_data AS px_dataSendBy ON px_dataSendBy.PxRID = messageBox.byRID
+				WHERE messageRecipient.toRID = '$userPxRID' AND messageRecipient.messageViewed = 0 AND messageBox.byRID > 0 AND messageBox.Deleted = 0";
+
+				$r = $this->mysqli->query($query) or die($this->mysqli->error.__LINE__);
+				if($r->num_rows > 0) {
+					$result = array();
+					while($row = $r->fetch_assoc()){
+						$result[] = $row;
+				}
+				$this->response($this->json($result, JSON_NUMERIC_CHECK), 200); // send user details
+			}
+			$this->response('',204);	// If no records "No Content" status
+		}
+
+		private function apiSendMessage(){
+			if($this->get_request_method() != "POST"){
+				$this->response('',406);
+			}
+
+			$MessageData = json_decode(file_get_contents("php://input"),true);
+
+			$byRID  = (int)$MessageData['byRID'];
+			$toRID  = (string)$MessageData['toRID'];
+			$messageSubject  = (string)$MessageData['messageSubject'];
+			$messageSubject  = str_replace("'", "`", $messageSubject);
+			$messageContent  = (string)$MessageData['messageContent'];
+			$messageContent  = str_replace("'", "`", $messageContent);
+
+			$messageBoxRID  = (int)$MessageData['messageBoxRID'];
+
+
+        	$query = "UPDATE messageBox SET
+				byRID = '$byRID'
+				, messageSubject = '$messageSubject'
+				, messageContent = '$messageContent'
+				WHERE messageBoxRID = '$messageBoxRID'
+			";
+			$r = $this->mysqli->query($query) or die($this->mysqli->error.__LINE__);
+
+
+			// $query = "INSERT INTO messageRecipient SET
+			// 	toRID = '$toRID'
+			// 	, messageBoxRID = '$messageBoxRID'
+
+			// ";
+			// $r = $this->mysqli->query($query) or die($this->mysqli->error.__LINE__);
+			
+		}
+
+
+		private function apiAutoSaveNewMessage(){
+			if($this->get_request_method() != "POST"){
+				$this->response('',406);
+			}
+
+			$MessageData = json_decode(file_get_contents("php://input"),true);
+
+
+			$messageSubject  = (string)$MessageData['messageSubject'];
+			$messageSubjectTemp  = str_replace("'", "`", $messageSubject);
+			$messageContent  = (string)$MessageData['messageContent'];
+			$messageContentTemp  = str_replace("'", "`", $messageContent);
+
+			$messageBoxRID  = (int)$MessageData['messageBoxRID'];
+
+
+	        	$query = "UPDATE messageBox SET
+					messageSubject = '$messageSubjectTemp'
+					, messageContent = '$messageContentTemp'
+					WHERE messageBoxRID = '$messageBoxRID'
+				";
+				$r = $this->mysqli->query($query) or die($this->mysqli->error.__LINE__);
+	        
+			
+		}
+
+
+
+		private function apiGetMessages (){	
+			if($this->get_request_method() != "GET"){
+				$this->response('',406);
+			}
+
+			$userPxRID = (int)$this->_request['userPxRID'];
+
+				$query="SELECT messageBox.*
+				, CONCAT(px_dataSendBy.FirstName,' ',SUBSTRING(px_dataSendBy.MiddleName, 1, 1),'. ',px_dataSendBy.LastName) as pxNameSender
+				, px_dataSendBy.foto AS fotoSender
+				, messageRecipient.messageViewed
+				, messageRecipient.messageAlert
+				, messageRecipient.toRID
+				, messageAttachFile.messageAttachFileRID
+				FROM  messageRecipient
+				LEFT JOIN messageBox ON messageBox.messageBoxRID = messageRecipient.messageBoxRID
+				LEFT JOIN px_data AS px_dataSendBy ON px_dataSendBy.PxRID = messageBox.byRID
+				LEFT JOIN messageAttachFile ON messageAttachFile.messageAttachFileRID = messageBox.messageBoxRID
+				WHERE messageRecipient.toRID = '$userPxRID' AND messageBox.byRID > 0 AND messageBox.Deleted = 0";
+				$r = $this->mysqli->query($query) or die($this->mysqli->error.__LINE__);
+				if($r->num_rows > 0) {
+					$result = array();
+					while($row = $r->fetch_assoc()){
+						$result[] = $row;
+				}
+				$this->response($this->json($result, JSON_NUMERIC_CHECK), 200); // send user details
+			}
+			$this->response('',204);	// If no records "No Content" status
+		}
+
+
+		private function apiGetDraftMessages (){	
+			if($this->get_request_method() != "GET"){
+				$this->response('',406);
+			}
+
+			$userPxRID = (int)$this->_request['userPxRID'];
+
+				$query="SELECT messageBox.*
+				, CONCAT(px_dataSendBy.FirstName,' ',SUBSTRING(px_dataSendBy.MiddleName, 1, 1),'. ',px_dataSendBy.LastName) as pxNameSender
+				, px_dataSendBy.foto AS fotoSender
+
+				, messageAttachFile.messageAttachFileRID
+				FROM  messageBox
+
+				LEFT JOIN px_data AS px_dataSendBy ON px_dataSendBy.PxRID = messageBox.byRID
+				LEFT JOIN messageAttachFile ON messageAttachFile.messageAttachFileRID = messageBox.messageBoxRID
+				WHERE messageBox.EnteredBy = '$userPxRID' AND messageBox.byRID = 0 AND messageBox.Deleted = 0";
+				$r = $this->mysqli->query($query) or die($this->mysqli->error.__LINE__);
+				if($r->num_rows > 0) {
+					$result = array();
+					while($row = $r->fetch_assoc()){
+						$result[] = $row;
+				}
+				$this->response($this->json($result, JSON_NUMERIC_CHECK), 200); // send user details
+			}
+			$this->response('',204);	// If no records "No Content" status
+		}
+
+
+
+		private function apiViewMessages(){
+			if($this->get_request_method() != "POST"){
+				$this->response('',406);
+			}
+
+			$MessageData = json_decode(file_get_contents("php://input"),true);
+
+			$messageBoxRID  = (int)$MessageData['messageBoxRID'];
+			$toRID  = (int)$MessageData['toRID'];
+			
+	         
+			$query = "UPDATE messageRecipient SET
+				messageViewed = 1
+			WHERE messageBoxRID = '$messageBoxRID' AND toRID = '$toRID'";
+			$r = $this->mysqli->query($query) or die($this->mysqli->error.__LINE__);
+		}
+
+		private function apiAlertMessages(){
+			if($this->get_request_method() != "POST"){
+				$this->response('',406);
+			}
+
+			$MessageData = json_decode(file_get_contents("php://input"),true);
+
+			$messageBoxRID  = (int)$MessageData['messageBoxRID'];
+			$toRID  = (int)$MessageData['toRID'];
+			
+	         
+			$query = "UPDATE messageRecipient SET
+				messageAlert = 1
+			WHERE messageBoxRID = '$messageBoxRID' AND toRID = '$toRID'";
+			$r = $this->mysqli->query($query) or die($this->mysqli->error.__LINE__);
+		}
+
+
+		private function apiDeleteMessage(){
+			if($this->get_request_method() != "POST"){
+				$this->response('',406);
+			}
+
+			$MessageData = json_decode(file_get_contents("php://input"),true);
+
+			$messageBoxRID  = (int)$MessageData['messageBoxRID'];
+			
+	         
+			$query = "UPDATE messageBox SET
+				Deleted = 1
+			WHERE messageBoxRID = '$messageBoxRID'
+				";
+			$r = $this->mysqli->query($query) or die($this->mysqli->error.__LINE__);
+		}
+
+
+
+		private function apiGetMessageWhereToAttachFile (){	
+			if($this->get_request_method() != "GET"){
+				$this->response('',406);
+			}
+
+			$userPxRID = (int)$this->_request['userPxRID'];
+			$PxRID = (int)$this->_request['PxRID'];
+
+				$query="SELECT *
+
+				FROM  messageBox
+				WHERE messageBox.byRID = '$userPxRID' AND messageBox.toRID = '$PxRID' ORDER BY messageBoxRID DESC LIMIT 1 ";
+				$r = $this->mysqli->query($query) or die($this->mysqli->error.__LINE__);
+				if($r->num_rows > 0) {
+					$result = array();
+					while($row = $r->fetch_assoc()){
+						$result = $row;
+				}
+				$this->response($this->json($result, JSON_NUMERIC_CHECK), 200); // send user details
+			}
+			$this->response('',204);	// If no records "No Content" status
+		}
+
+
+
+
+		private function apiSendAttachFileToMessage(){
+			if($this->get_request_method() != "POST"){
+				$this->response('',406);
+			}
+
+            	$messageBoxRID=$_POST['messageBoxRID'];
+				
+				$path = pathinfo($_FILES['image']['name'],PATHINFO_EXTENSION);
+				$origFileName = $_FILES['image']['name'];
+				$fileName = $messageBoxRID."_".time().'.'.$path;
+
+				move_uploaded_file($_FILES['image']['tmp_name'], "../../dump_hosp/" .$fileName);
+
+		        $query = "INSERT INTO  messageAttachFile SET
+					messageBoxRID = '$messageBoxRID'
+					, fileName = '$fileName'
+					, origFileName = '$origFileName'
+				";
+				$r = $this->mysqli->query($query) or die($this->mysqli->error.__LINE__);
+           
+		}
+
+
+
+
+
+		private function apiCreateNewMessage (){	
+			if($this->get_request_method() != "GET"){
+				$this->response('',406);
+			}
+
+			$userPxRID = (int)$this->_request['userPxRID'];
+
+			$query = "INSERT INTO  messageBox SET
+				EnteredBy = '$userPxRID'
+			";
+			$r = $this->mysqli->query($query) or die($this->mysqli->error.__LINE__);
+
+
+			$query1="SELECT *
+			FROM  messageBox
+			WHERE EnteredBy = '$userPxRID' AND messageBox.Deleted = 0
+			ORDER BY messageBoxRID DESC LIMIT 1";
+			$r1 = $this->mysqli->query($query1) or die($this->mysqli->error.__LINE__);
+			if($r1->num_rows > 0) {
+				$result1 = array();
+				while($row1 = $r1->fetch_assoc()){
+					$result1 = $row1;
+				}
+				$this->response($this->json($result1, JSON_NUMERIC_CHECK), 200); // send user details
+			}
+			$this->response('',204);	// If no records "No Content" status
+		}
+
+
+		private function apiGetNewMessageAttachFile (){	
+			if($this->get_request_method() != "GET"){
+				$this->response('',406);
+			}
+
+			$messageBoxRID = (int)$this->_request['messageBoxRID'];
+			
+				$query="SELECT *
+
+				FROM  messageAttachFile
+				WHERE messageAttachFile.messageBoxRID = '$messageBoxRID' AND Deleted = 0 ";
+				$r = $this->mysqli->query($query) or die($this->mysqli->error.__LINE__);
+				if($r->num_rows > 0) {
+					$result = array();
+					while($row = $r->fetch_assoc()){
+						$result[] = $row;
+				}
+				$this->response($this->json($result, JSON_NUMERIC_CHECK), 200); // send user details
+			}
+			$this->response('',204);	// If no records "No Content" status
+		}
+
+
+		private function apiRemoveNewMessageAttachedFile(){
+			if($this->get_request_method() != "POST"){
+				$this->response('',406);
+			}
+
+			$MessageData = json_decode(file_get_contents("php://input"),true);
+
+			$messageAttachFileRID  = (int)$MessageData['messageAttachFileRID'];
+			
+	         
+			$query = "UPDATE messageAttachFile SET
+				Deleted = 1
+			WHERE messageAttachFileRID = '$messageAttachFileRID'
+				";
+			$r = $this->mysqli->query($query) or die($this->mysqli->error.__LINE__);
+		}
+
+
+		private function apiGetNewMessageRecipient (){	
+			if($this->get_request_method() != "GET"){
+				$this->response('',406);
+			}
+
+			$messageBoxRID = (int)$this->_request['messageBoxRID'];
+			
+				$query="SELECT *
+				, CONCAT(px_data.FirstName,' ',SUBSTRING(px_data.MiddleName, 1, 1),'. ',px_data.LastName) as pxName
+				FROM  messageRecipient
+				LEFT JOIN px_data ON px_data.PxRID = messageRecipient.toRID
+				WHERE messageRecipient.messageBoxRID = '$messageBoxRID' AND messageRecipient.Deleted = 0 ";
+				$r = $this->mysqli->query($query) or die($this->mysqli->error.__LINE__);
+				if($r->num_rows > 0) {
+					$result = array();
+					while($row = $r->fetch_assoc()){
+						$result[] = $row;
+				}
+				$this->response($this->json($result, JSON_NUMERIC_CHECK), 200); // send user details
+			}
+			$this->response('',204);	// If no records "No Content" status
+		}
+
+		private function apiInsertNewMessageRecipient(){
+			if($this->get_request_method() != "POST"){
+				$this->response('',406);
+			}
+
+			$MessageData = json_decode(file_get_contents("php://input"),true);
+
+			$messageBoxRID  = (int)$MessageData['messageBoxRID'];
+			$toRID  = (int)$MessageData['toRID'];
+			
+	         
+			$query = "INSERT INTO messageRecipient SET
+				messageBoxRID = '$messageBoxRID'
+				, toRID = '$toRID'
+				";
+			$r = $this->mysqli->query($query) or die($this->mysqli->error.__LINE__);
+		}
+
+		private function apiRemoveNewMessageRecipient(){
+			if($this->get_request_method() != "POST"){
+				$this->response('',406);
+			}
+
+			$MessageData = json_decode(file_get_contents("php://input"),true);
+
+			$messageRecipientRID  = (int)$MessageData['messageRecipientRID'];
+			
+	         
+			$query = "UPDATE messageRecipient SET
+				Deleted = 1
+			WHERE messageRecipientRID = '$messageRecipientRID'
+				";
+			$r = $this->mysqli->query($query) or die($this->mysqli->error.__LINE__);
+		}
+
+
+		// end messages
 
 
 

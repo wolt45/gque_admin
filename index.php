@@ -40,6 +40,12 @@
 
       <script src="lib/ui-bootstrap-tpls-2.5.0.js"></script>
 
+      <script type="text/javascript" src="lib/tinymce.min.js"></script>
+
+      <script type="text/javascript" src="lib/ng-toast.js"></script>
+
+      <script src='lib//angular-file-model.js'></script>
+
       <!-- idle/ or auto logout -->
       <script src="lib/angular-idle.min.js"></script>
 
@@ -57,11 +63,11 @@
       <script src="common/controllers/sideTopCtrl.js"></script>
       <script src="common/controllers/dashboardCtrl.js"></script>
       <script src="common/controllers/requestForModAlterCtrl.js"></script>
-      <script src="common/controllers/inboxPageCtrl.js"></script>
       <script src="common/controllers/profileCtrl.js"></script>
       <script src="common/controllers/orDisinfectCheckListCtrl.js"></script>
       <script src="common/controllers/followUpTicklerCtrl.js"></script>
       <script src="common/controllers/drugsManagerCtrl.js"></script>
+      <script src="common/controllers/inboxCtrl.js"></script>
       
       <!-- Factory -->
       <script src="common/factory/factory.js"></script>

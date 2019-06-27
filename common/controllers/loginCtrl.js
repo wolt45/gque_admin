@@ -28,14 +28,17 @@ gmmrApp.controller('loginCtrl', function ($scope, $stateParams, $rootScope, $loc
 		        if (response.status === 404){
 		        	// alert("Username or Password Invalid!");
 		            $scope.errorMessage = 'Username or Password Invalid!';
+    				// window.speechSynthesis.speak(new SpeechSynthesisUtterance($scope.errorMessage));
 		        }
 		        else {
 		        	// alert("Error getting user!");
 		            $scope.errorMessage = "Account cannot found!";
+		            // window.speechSynthesis.speak(new SpeechSynthesisUtterance($scope.errorMessage));
 		        }
 		    });
 		}else{
 			$scope.errorMessage = "Please fill-up the form!";
+			// window.speechSynthesis.speak(new SpeechSynthesisUtterance($scope.errorMessage));
 		}
 	};
 
@@ -62,8 +65,10 @@ gmmrApp.controller('loginCtrl', function ($scope, $stateParams, $rootScope, $loc
 		    	$window.location.href = '/rbgmain';
 		    	// $location.path('/dashboard');
 		    	$scope.successMessage = 'Account Successfully Login!';
+		    	// window.speechSynthesis.speak(new SpeechSynthesisUtterance($scope.successMessage));
             }else{
                $scope.errorMessage = 'Access denied!';
+               // window.speechSynthesis.speak(new SpeechSynthesisUtterance($scope.errorMessage));
             }
             
 

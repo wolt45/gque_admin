@@ -114,6 +114,86 @@ gmmrApp.controller('sideTopCtrl', function ($scope, $stateParams, $rootScope, $l
   $scope.getNotificationsFollowUpSched();
 
 
+
+
+
+
+
+  $scope.getNewMessages = function (userPxRID) {
+    $scope.NewMessagesListObj = [];
+    dbServices.getNewMessages(userPxRID)
+    .then(function success(response) {
+      // console.log(response);
+      for (var i = 0; i < response.data.length; i++) {
+        var byRID = response.data[i].byRID;
+        var fotoSender = response.data[i].fotoSender;
+        var messageBoxRID = response.data[i].messageBoxRID;
+        var messageContent = response.data[i].messageContent;
+        var tempmessageContent = response.data[i].tempmessageContent;
+        if (tempmessageContent != null) {
+          tempmessageContent = messageContent.replace(/<[^>]+>/gm, '');
+        }
+        
+
+        var messageGroupRID = response.data[i].messageGroupRID;
+        var messageViewed = response.data[i].messageViewed;
+        var pxNameSender = response.data[i].pxNameSender;
+        var sysDateEntered = response.data[i].sysDateEntered;
+        var toRID = response.data[i].toRID;
+        var messageAlert = response.data[i].messageAlert;
+
+
+        newRecord = {
+          byRID : byRID
+          , fotoSender : fotoSender
+          , messageBoxRID : messageBoxRID
+          , messageContent : messageContent
+          , tempmessageContent : tempmessageContent
+          , messageGroupRID : messageGroupRID
+          , messageViewed : messageViewed
+          , pxNameSender : pxNameSender
+          , sysDateEntered : sysDateEntered
+          , toRID : toRID
+          , messageAlert : messageAlert
+        };
+
+        $scope.NewMessagesListObj.push(newRecord);
+        // console.log($scope.NewMessagesListObj);
+        if (messageAlert == 0) {
+          audio.play();
+          $scope.alertMessages(response.data[i].messageBoxRID);
+        }
+        
+      }
+      $scope.messageItemSum = $scope.NewMessagesListObj.length;
+    });
+  };
+
+  $scope.getNewMessages($scope.userPxRID);
+
+  $scope.alertMessages = function(messageBoxRID){
+    
+      dbServices.alertMessages(messageBoxRID, $scope.userPxRID)
+        .then(function success(response) {
+          // console.log(response);
+          $window.location.href = '#/inbox';
+      });
+    
+  };
+
+
+  $scope.viewMessages = function(MessagesList){
+    if (MessagesList.messageViewed == 0) {
+      dbServices.viewMessages(MessagesList.messageBoxRID, $scope.userPxRID)
+        .then(function success(response) {
+          // console.log(response);
+          $window.location.href = '#/inbox';
+      });
+    }
+  };
+
+
+
   $scope.checkSysDoorKeys = function (PxRID) {
   
       dbServices.checkSysDoorKeys(PxRID, "6002")
