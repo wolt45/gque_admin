@@ -241,7 +241,7 @@
                           </li>
                           <li>
                               <a ui-sref="inbox">
-                                  <span>Inbox</span>
+                                  <span>Messages</span>
                               </a>
                           </li>
                           <li>
