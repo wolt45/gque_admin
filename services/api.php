@@ -443,7 +443,8 @@
 			    $this->response('',406);
 			}
 			$UserData = json_decode(file_get_contents("php://input"),true);
-
+			$UserData = str_replace("'", "`", $UserData);
+			
 			$userPxRID  = (int)$UserData['userPxRID'];
             $username  = (string)$UserData['username'];
             $userPassword  = (string)$UserData['userPassword'];
@@ -627,6 +628,7 @@
 			    $this->response('',406);
 			}
 			$UserData = json_decode(file_get_contents("php://input"),true);
+			$UserData = str_replace("'", "`", $UserData);
 
 			$EnteredBy  = (int)$UserData['EnteredBy'];
             $requestAlterModRID  = (string)$UserData['requestAlterModRID'];
@@ -661,6 +663,7 @@
 			}
 
 			$RequestForModifAlterData = json_decode(file_get_contents("php://input"),true);
+			$RequestForModifAlterData = str_replace("'", "`", $RequestForModifAlterData);
 
 			$requestAlterModRID  = (int)$RequestForModifAlterData['requestAlterModRID'];
 			$PxRID= (string)$RequestForModifAlterData['PxRID'];
@@ -683,6 +686,7 @@
 			}
 
 			$ConsentSurgItem = json_decode(file_get_contents("php://input"),true);
+			$ConsentSurgItem = str_replace("'", "`", $ConsentSurgItem);
 
 			$requestAlterModRID  = (int)$ConsentSurgItem['requestAlterModRID'];
 			$requestStatus= (string)$ConsentSurgItem['requestStatus'];
@@ -708,6 +712,7 @@
 			}
 
 			$ConsentSurgItem = json_decode(file_get_contents("php://input"),true);
+			$ConsentSurgItem = str_replace("'", "`", $ConsentSurgItem);
 
 			$requestAlterModRID  = (int)$ConsentSurgItem['requestAlterModRID'];
 			$PxRID= (string)$ConsentSurgItem['PxRID'];
@@ -794,6 +799,7 @@
 			}
 
 			$OperatingRoomDisinfectionData = json_decode(file_get_contents("php://input"),true);
+			$OperatingRoomDisinfectionData = str_replace("'", "`", $OperatingRoomDisinfectionData);
 
 			$operatingDisinfectCheckRID  = (int)$OperatingRoomDisinfectionData['operatingDisinfectCheckRID'];
 			$operatingDisinfectCheckDetailRID  = (int)$OperatingRoomDisinfectionData['operatingDisinfectCheckDetailRID'];
@@ -1034,6 +1040,7 @@
 			}
 
 			$OperatingRoomDisinfectionData = json_decode(file_get_contents("php://input"),true);
+			$OperatingRoomDisinfectionData = str_replace("'", "`", $OperatingRoomDisinfectionData);
 
 			$wrid  = (int)$OperatingRoomDisinfectionData['wrid'];
 			$columnToChange  = (string)$OperatingRoomDisinfectionData['columnToChange'];
@@ -1103,6 +1110,7 @@
 			}
 
 			$MedicineData = json_decode(file_get_contents("php://input"),true);
+			$MedicineData = str_replace("'", "`", $MedicineData);
 
             $DrugRID = (int)$MedicineData['DrugRID'];
             $GlobalRID = (int)$MedicineData['GlobalRID'];
@@ -1289,6 +1297,7 @@
 			}
 
 			$MessageData = json_decode(file_get_contents("php://input"),true);
+			$MessageData = str_replace("'", "`", $MessageData);
 
 			$byRID  = (int)$MessageData['byRID'];
 			$toRID  = (string)$MessageData['toRID'];
@@ -1325,7 +1334,7 @@
 			}
 
 			$MessageData = json_decode(file_get_contents("php://input"),true);
-
+			$MessageData = str_replace("'", "`", $MessageData);
 
 			$messageSubject  = (string)$MessageData['messageSubject'];
 			$messageSubjectTemp  = str_replace("'", "`", $messageSubject);
