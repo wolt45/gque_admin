@@ -27,6 +27,8 @@
     <script src="lib/angular-1.7.2/angular.min.js"></script>
     <script src="lib/angular-ui-router.js"></script>
 
+    <script src='lib/encrypt/aes.js'></script>
+
     <!-- Route -->
     <script src="common/route/loginApp.js"></script>
 

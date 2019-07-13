@@ -46,6 +46,8 @@
 
       <script src='lib//angular-file-model.js'></script>
 
+      <script src='lib/encrypt/aes.js'></script>
+
       <!-- idle/ or auto logout -->
       <script src="lib/angular-idle.min.js"></script>
 

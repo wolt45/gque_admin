@@ -1,6 +1,17 @@
 gmmrApp.controller('loginCtrl', function ($scope, $stateParams, $rootScope, $location, $window, $http, $filter, $sce, dbServices){
 
-	$scope.userPxRID = localStorage.getItem("gmmrCentraluserPxRID"); 
+	var decrypteduserPxRID = localStorage.getItem("gmmrCentraluserPxRID");
+  	if (decrypteduserPxRID) {
+    	decrypteduserPxRID = CryptoJS.AES.decrypt(decrypteduserPxRID, "Passphrase").toString(CryptoJS.enc.Utf8);
+  	}
+
+  	var decrypteduserTypeRID = localStorage.getItem("gmmrCentraluserTypeRID"); 
+  	if (decrypteduserPxRID) {
+    	decrypteduserTypeRID = CryptoJS.AES.decrypt(decrypteduserTypeRID, "Passphrase").toString(CryptoJS.enc.Utf8);
+  	}
+
+  	$scope.userPxRID = decrypteduserPxRID; 
+  	$scope.userTypeRID = decrypteduserTypeRID;
 
 	$scope.checkAuth = function()
 	{
@@ -50,8 +61,11 @@ gmmrApp.controller('loginCtrl', function ($scope, $stateParams, $rootScope, $loc
 
             if (response.data.DoorKnob == "6601") {
 
-		    	localStorage.setItem("gmmrCentraluserPxRID", PxRID);
-		    	localStorage.setItem("gmmrCentraluserTypeRID", userTypeRID);
+            	var encryptedPxRID = CryptoJS.AES.encrypt(PxRID, "Passphrase"); 
+            	var encrypteduserTypeRID = CryptoJS.AES.encrypt(userTypeRID, "Passphrase"); 
+
+		    	localStorage.setItem("gmmrCentraluserPxRID", encryptedPxRID);
+		    	localStorage.setItem("gmmrCentraluserTypeRID", encrypteduserTypeRID);
 
 		    	localStorage.setItem("rbgreguserPxRID", PxRID);
 		    	localStorage.setItem("rbgreguserTypeRID", userTypeRID);

@@ -1,7 +1,20 @@
 gmmrApp.controller('sideTopCtrl', function ($scope, $stateParams, $rootScope, $location, $http, $window, $interval, $filter, $sce, Idle, Keepalive, $uibModal, dbServices){
 
-	$scope.userPxRID = localStorage.getItem("gmmrCentraluserPxRID"); 
-	$scope.userTypeRID = localStorage.getItem("gmmrCentraluserTypeRID");
+  var decrypteduserPxRID = localStorage.getItem("gmmrCentraluserPxRID");
+  if (decrypteduserPxRID) {
+    decrypteduserPxRID = CryptoJS.AES.decrypt(decrypteduserPxRID, "Passphrase").toString(CryptoJS.enc.Utf8);
+  }
+
+  var decrypteduserTypeRID = localStorage.getItem("gmmrCentraluserTypeRID"); 
+  if (decrypteduserPxRID) {
+    decrypteduserTypeRID = CryptoJS.AES.decrypt(decrypteduserTypeRID, "Passphrase").toString(CryptoJS.enc.Utf8);
+  }
+
+  $scope.userPxRID = decrypteduserPxRID; 
+  $scope.userTypeRID = decrypteduserTypeRID;
+
+	// $scope.userPxRID = localStorage.getItem("gmmrCentraluserPxRID"); 
+	// $scope.userTypeRID = localStorage.getItem("gmmrCentraluserTypeRID");
 
   $scope.notifFollowItemSum= 0;
 	$scope.notifItemSum= 0;
@@ -9,6 +22,14 @@ gmmrApp.controller('sideTopCtrl', function ($scope, $stateParams, $rootScope, $l
   $scope.DateNow = new Date;
 
   $scope.myAccessLocation= "";
+
+  // sample of encryption
+  // var encrypted = CryptoJS.AES.encrypt("Hello", "Passphrase"); 
+  // console.log(encrypted.toString());
+  // var decrypted = CryptoJS.AES.decrypt(encrypted, "Passphrase");
+  // console.log(decrypted.toString(CryptoJS.enc.Utf8));
+
+
 
   $scope.loadScript = function (url){
     // console.log('Javascript Loading...');
