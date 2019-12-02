@@ -11,7 +11,7 @@
         <div class="col-lg-12 col-md-12 col-sm-12">
           <div class="x_panel tile overflow_hidden">
             <div class="x_title">
-              <h2>List of all Request for Modification/Alteration of data in GMMR</h2>
+              <h2>List of all Request for Modification/Alteration of data in GMMR, Comments & Suggestions</h2>
               <ul class="nav navbar-right panel_toolbox">
                 <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
                 </li>

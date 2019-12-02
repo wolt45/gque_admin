@@ -236,7 +236,7 @@
                           </li> -->
                           <li>
                               <a ui-sref="requestForModAlter">
-                                  <span>Request for M/A</span>
+                                  <span>Request for M/A, <small>Comments & Suggestions</small></span>
                               </a>
                           </li>
                           <li>
