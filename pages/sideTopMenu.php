@@ -62,7 +62,6 @@
             </a>
           </li>
 
-
           <li >
             <a href="../telemetry">
               <i class="fa fa-medkit"></i>
@@ -70,6 +69,19 @@
             </a>
           </li>
 
+          <li >
+            <a href="../ortel">
+              <i class="fa fa-medkit"></i>
+              OR Telemetry
+            </a>
+          </li>
+
+          <li >
+            <a href="../nxscheduler">
+              <i class="fa fa-medkit"></i>
+              Nurses Scheduler
+            </a>
+          </li>
 
           <!-- <li class="sub_menu">
             <a>
