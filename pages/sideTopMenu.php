@@ -69,14 +69,14 @@
             </a>
           </li>
 
-          <li >
+          <li ng-show="ORTelemetrySidemenu">
             <a href="../ortel">
               <i class="fa fa-medkit"></i>
               OR Telemetry
             </a>
           </li>
 
-          <li >
+          <li ng-show="NursesSchedulerSidemenu">
             <a href="../nxscheduler">
               <i class="fa fa-medkit"></i>
               Nurses Scheduler

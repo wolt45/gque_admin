@@ -253,6 +253,9 @@ gmmrApp.controller('sideTopCtrl', function ($scope, $stateParams, $rootScope, $l
   	$scope.rvsCodeSidemenu = false;
     $scope.adminPanelSidemenu = false;
 
+    $scope.NursesSchedulerSidemenu = false;
+    $scope.ORTelemetrySidemenu = false;
+
 
   	$scope.checkAcctSysDoorKeys = function (PxRID) {
     dbServices.checkAcctSysDoorKeys(PxRID)
@@ -301,6 +304,14 @@ gmmrApp.controller('sideTopCtrl', function ($scope, $stateParams, $rootScope, $l
 
         if (response.data[i].DoorKnob == "6001") {
           $scope.adminPanelSidemenu = true;
+        }
+
+        if (response.data[i].DoorKnob == "8001") {
+          $scope.ORTelemetrySidemenu = true;
+        }
+
+        if (response.data[i].DoorKnob == "8002") {
+          $scope.NursesSchedulerSidemenu = true;
         }
 
 
