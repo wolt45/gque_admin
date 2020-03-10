@@ -667,6 +667,36 @@ gmmrApp.factory("dbServices", ['$http', function($http) {
     };
 
 
+   // Medical Record request
+    obj.getMedRequestList = function() {
+        return $http({
+            method: 'GET',
+            url: serviceBase + 'apigetMedRequestList',
+        });
+    }
+
+
+    obj.ReleaseSignRequest = function(releaseStatus, releaseDate, releasePxRID, requestmedRecordRID) {
+        console.log(releaseDate);
+
+            var requestmedRecordOBJData = {
+                "releaseStatus": releaseStatus,
+                "releaseDate": releaseDate,
+                "releasePxRID": releasePxRID,
+                "requestmedRecordRID": requestmedRecordRID
+
+            };
+
+            return $http({
+                method: 'POST',
+                url: serviceBase + 'apiReleaseSignRequest',
+                responseType: 'json',
+                data: requestmedRecordOBJData,
+                cache: true
+            });
+        }
+
+
     // end messages
 
 

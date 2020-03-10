@@ -56,6 +56,12 @@ gmmrApp.config(function($stateProvider, $urlRouterProvider, IdleProvider, Keepal
         , controller: 'profileCtrl'
     })
 
+    .state('medicalRecordsreqManager', {
+        url: '/medicalRecordsreqManager'
+        , templateUrl: 'pages/medicalRecordsreqManager.php'
+        , controller: 'medicalRecordsreqManagerCtrl'
+    })
+
 
 });
 

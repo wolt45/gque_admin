@@ -1651,8 +1651,60 @@
 			$r = $this->mysqli->query($query) or die($this->mysqli->error.__LINE__);
 		}
 
-
 		// end messages
+
+
+
+		
+		// Medical Record request
+		private function apigetMedRequestList (){	
+			if($this->get_request_method() != "GET"){
+				$this->response('',406);
+			}
+			
+				$query="SELECT rep_requestmedRecord.*
+				, clinix.AppDateSet
+				, CONCAT(px_data.LastName,', ',px_data.FirstName, ', ',SUBSTRING(px_data.MiddleName, 1,1)) as PxName
+				FROM rep_requestmedRecord
+				LEFT JOIN px_data ON px_data.PxRID = rep_requestmedRecord.PxRID
+				LEFT JOIN clinix ON clinix.ClinixRID = rep_requestmedRecord.ClinixRID
+				WHERE rep_requestmedRecord.Deleted = 0
+				ORDER BY rep_requestmedRecord.releaseStatus DESC;
+				";
+				$r = $this->mysqli->query($query) or die($this->mysqli->error.__LINE__);
+				if($r->num_rows > 0) {
+					$result = array();
+					while($row = $r->fetch_assoc()){
+						$result[] = $row;
+				}
+				$this->response($this->json($result, JSON_NUMERIC_CHECK), 200); // send user details
+			}
+			$this->response('',204);	// If no records "No Content" status
+		}
+
+
+		private function apiReleaseSignRequest(){
+			if($this->get_request_method() != "POST"){
+				$this->response('',406);
+			}
+
+			$ptBillingData = json_decode(file_get_contents("php://input"),true);
+
+			$releaseStatus= (string)$ptBillingData['releaseStatus'];
+			$releaseDate= (string)$ptBillingData['releaseDate'];
+			$releasePxRID= (int)$ptBillingData['releasePxRID'];
+			$requestmedRecordRID  = (int)$ptBillingData['requestmedRecordRID'];
+
+
+			$query = "UPDATE rep_requestmedRecord SET
+				releaseStatus= '$releaseStatus'
+				, releaseDate= '$releaseDate'
+				, releasePxRID= '$releasePxRID'
+
+			WHERE requestmedRecordRID = '$requestmedRecordRID' ";
+
+			$r = $this->mysqli->query($query) or die($this->mysqli->error.__LINE__);
+		}
 
 
 

@@ -153,6 +153,12 @@
                 </a>
               </li>
 
+              <li ng-show="adminPanelSidemenu">
+                <a class="btn btn-success" ui-sref="medicalRecordsreqManager">
+                  Med-Forms Requests Manager
+                </a>
+              </li>
+
               <li>
                 <a class="btn btn-success">
                   <i class="fa fa-edit"></i> 
