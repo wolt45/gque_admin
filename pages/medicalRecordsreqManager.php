@@ -146,7 +146,7 @@
                         </td>
 
                         <td>
-                            <small ng-show="MedReqList.releaseStatus == 0">Underway</small>
+                            <small ng-show="MedReqList.releaseStatus == 0 && MedReqList.paymentStatus != 0 && MedReqList.paymentStatus != 8">Underway</small>
                             <small ng-show="MedReqList.releaseStatus == 13"><span style="color:red;">Cancelled</span></small>
                             <small ng-show="MedReqList.releaseStatus == 12"><span style="background-color: red; color: black;">Unreleased</span></small>
                             <small ng-show="MedReqList.releaseStatus == 11"><span style="background-color: green; color: white;">RELEASED</span></small>
