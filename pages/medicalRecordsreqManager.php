@@ -92,6 +92,9 @@
                         <th>
                           RELEASE <br> Status
                         </th>
+                        <th width="1%">
+                          
+                        </th>
                         
                        <!--  <th>
                           <a href="" data-toggle="modal" data-target="#sysDoorKeysModal" ng-click="newMedicine()">
@@ -104,7 +107,7 @@
                       <tr ng-repeat="MedReqList in searched = (medRequestListObj | filter:search | orderBy : base :reverse) | beginning_data:(medRequestListObjcurrent_grid-1)*medRequestListObjdata_limit | limitTo:medRequestListObjdata_limit" ng-click="editMedicine(MedReqList)">
 
                         <td>
-                         
+                            {{$index+1}}
                         </td>
                         <td>
                           {{MedReqList.requestmedRecordRID}}
@@ -142,7 +145,7 @@
                         <td>
                             <small ng-show="MedReqList.paymentStatus == 0" style="color:black;">Unsigned</small>
                             <small ng-show="MedReqList.paymentStatus == 8"><span style="color:red;">cancelled</span></small>
-                            <small ng-show="MedReqList.paymentStatus == 9"><span style="background-color: blue; color: white;">{{MedReqList.paymentStatusDesc}}</span></small>
+                            <small ng-show="MedReqList.paymentStatus == 9 || MedReqList.paymentStatus == 10"><span style="background-color: blue; color: white;">{{MedReqList.paymentStatusDesc}}</span></small>
                         </td>
 
                         <td>
@@ -152,9 +155,9 @@
                             <small ng-show="MedReqList.releaseStatus == 11"><span style="background-color: green; color: white;">RELEASED</span></small>
                         </td>
                         <!-- <td>
-                          <a href="" data-toggle="modal" data-target="#sysDoorKeysModal" disabled>
-                            <span class="glyphicon glyphicon-pencil orange"></span>
-                          </a>
+                          <button class="btn btn-dark btn-xs" ng-click="gotoRequestPrint(MedReqList)">
+                            <span class="glyphicon glyphicon-print"></span>
+                          </button>
                         </td> -->
                       </tr>
                     </tbody>
@@ -217,7 +220,7 @@
                       <div class="input-group" >
                           <input type="password" class=" form-control" placeholder="Billing PIN..." ng-model="requestmedRecordOBJ.SignedPin" >
                           <span class="input-group-btn">
-                              <button type="button" class="btn btn-danger" ng-click="ReleaseSignRequest(requestmedRecordOBJ)" ng-disabled="requestmedRecordOBJ.paymentStatus == 0 || requestmedRecordOBJ.paymentStatus == 8">
+                              <button type="button" class="btn btn-danger" ng-click="ReleaseSignRequest(requestmedRecordOBJ)">
                                   <span class="glyphicon glyphicon-pencil"></span>
                               </button>
                           </span>
@@ -227,11 +230,8 @@
                 </table>
               </div>
             <div class="modal-footer">
-              <!-- <button class="btn btn-success" ng-click="insertMedicine(DrugObj)">
-                  <span class="glyphicon glyphicon-file"></span>
-                  SAVE
-              </button>  -->
-              <button class="btn btn-warning" ng-click="closeMedicine()">
+              
+              <button class="btn btn-warning btn-sm" ng-click="closeMedicine()">
                   <span class="glyphicon glyphicon-ban-circle"></span>
                   CLOSE
               </button> 
