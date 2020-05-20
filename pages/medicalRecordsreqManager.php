@@ -153,6 +153,7 @@
                             <small ng-show="MedReqList.releaseStatus == 13"><span style="color:red;">Cancelled</span></small>
                             <small ng-show="MedReqList.releaseStatus == 12"><span style="background-color: red; color: black;">Unreleased</span></small>
                             <small ng-show="MedReqList.releaseStatus == 11"><span style="background-color: green; color: white;">RELEASED</span></small>
+                            <small ng-show="MedReqList.releaseStatus == 14"><span style="background-color: #000; color: white;">PRINTED</span></small>
                         </td>
                         <!-- <td>
                           <button class="btn btn-dark btn-xs" ng-click="gotoRequestPrint(MedReqList)">
@@ -212,6 +213,7 @@
                           <option value="11">Released</option>
                           <option value="12">Unreleased</option>
                           <option value="13">Cancelled</option>
+                          <option value="14">Printed</option>
                         </select>
                     </td>
                   </tr>
