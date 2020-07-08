@@ -63,6 +63,13 @@ gmmrApp.config(function($stateProvider, $urlRouterProvider, IdleProvider, Keepal
     })
 
 
+    .state('surgicalFormsFixer', {
+        url: '/surgicalFormsFixer'
+        , templateUrl: 'pages/surgicalFormsFixer.php'
+        , controller: 'surgicalFormsFixerCtrl'
+    })
+
+
 });
 
 //use in auto logout/idle

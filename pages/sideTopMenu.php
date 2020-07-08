@@ -170,6 +170,11 @@
                         OR Disinfection Checklist
                     </a>
                   </li>
+                  <li>
+                    <a ui-sref="surgicalFormsFixer" >
+                        Surgical Forms Fixer
+                    </a>
+                  </li>
                 </ul>
               </li>
 
@@ -202,6 +207,24 @@
         </ul>
       </div>
     </div>
+
+    <div style="position: fixed; text-align: right; bottom: 40%; right: 0%;" ng-controller="topBottomCtrl" id="DontPrint">
+    
+          <a ng-click="gotoTop()">
+              <!-- <small style="font-size: 12px;">Top</small> -->
+              <br>
+              <span class="glyphicon glyphicon-triangle-top" style="font-size: 24px;"></span>
+          </a>
+          <br>
+
+          <br>
+          <a ng-click="gotoBottom()">
+              <span class="glyphicon glyphicon-triangle-bottom" style="font-size: 24px;"></span>
+              <br>
+              <!-- <small style="font-size: 12px;">Bottom</small> -->
+          </a>
+          
+      </div>
 
     <!-- /sidebar menu -->
 

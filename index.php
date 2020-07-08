@@ -70,7 +70,9 @@
       <script src="common/controllers/followUpTicklerCtrl.js"></script>
       <script src="common/controllers/drugsManagerCtrl.js"></script>
       <script src="common/controllers/medicalRecordsreqManagerCtrl.js"></script>
+      <script src="common/controllers/surgicalFormsFixerCtrl.js"></script>
       <script src="common/controllers/inboxCtrl.js"></script>
+      <script src="common/controllers/ctrl_topBottom.js"></script>
       
       <!-- Factory -->
       <script src="common/factory/factory.js"></script>

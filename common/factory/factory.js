@@ -697,6 +697,122 @@ gmmrApp.factory("dbServices", ['$http', function($http) {
         }
 
 
+    // Surgical forms fixer
+    obj.getOperatingRoomScheduleReportAllList = function(fromDate, toDate) {
+        return $http({
+            method: 'GET',
+            url: serviceBase + 'apiGetOperatingRoomScheduleReportAllList&fromDate=' + fromDate + '&toDate=' + toDate,
+        });
+    };
+
+
+    obj.insertSurgerySchedule = function (surgerySchedlistOBJ) {
+        console.log(surgerySchedlistOBJ);
+        var SurgeryScheduleData = {
+          "wrid" : surgerySchedlistOBJ.wrid
+          , "orCaseRID" : surgerySchedlistOBJ.orCaseRID
+          , "ClinixRID" : surgerySchedlistOBJ.ClinixRID
+          , "HospRID" : surgerySchedlistOBJ.HospRID
+          , "diagnosis" : surgerySchedlistOBJ.diagnosis
+          , "SurgeryType" : surgerySchedlistOBJ.SurgeryType
+          , "SurgeryDate" : surgerySchedlistOBJ.SurgeryDate
+          , "SurgeryTime" : surgerySchedlistOBJ.SurgeryTime
+          , "Surgeon" : surgerySchedlistOBJ.Surgeon
+          , "SurgeryTimeEnd" : surgerySchedlistOBJ.SurgeryTimeEnd
+          , "Cardio" : surgerySchedlistOBJ.Cardio
+          , "Assistant" : surgerySchedlistOBJ.Assistant
+          , "Anesthesio" : surgerySchedlistOBJ.Anesthesio
+          , "AnesthesiaType" : surgerySchedlistOBJ.AnesthesiaType
+          , "circulatingNurse" : surgerySchedlistOBJ.circulatingNurse
+          , "scrubNurse" : surgerySchedlistOBJ.scrubNurse
+          , "Others" : surgerySchedlistOBJ.Others
+          , "operatingRoom" : surgerySchedlistOBJ.operatingRoom
+
+        }
+
+
+        return $http({
+           method: 'POST'
+          ,url: serviceBase + 'apiInsertSurgerySchedule'
+          ,responseType: 'json'
+          ,data: SurgeryScheduleData
+          ,cache:true
+        });
+    };
+
+
+    obj.getPxPreopDiagnosis = function(HospRID, ClinixRID) {
+        return $http({
+            method: 'GET',
+            url: serviceBase + 'apigetPxPreopDiagnosis&HospRID=' + HospRID + '&ClinixRID=' + ClinixRID,
+        });
+    };
+
+    obj.getLastORCaseNumber = function() {
+        return $http({
+            method: 'GET',
+            url: serviceBase + 'apigetLastORCaseNumber'
+        });
+    };
+
+
+    obj.signSurgerySchedule = function (wrid, signedPxRID) {
+        var SurgeryScheduleData = {
+          "wrid" : wrid
+          , "signedPxRID" : signedPxRID
+        }
+        return $http({
+           method: 'POST'
+          ,url: serviceBase + 'apiSignSurgerySchedule'
+          ,responseType: 'json'
+          ,data: SurgeryScheduleData
+          ,cache:true
+        });
+    };
+
+    obj.signOrNurseSurgerySchedule = function (wrid, signedPxRID) {
+        var SurgeryScheduleData = {
+          "wrid" : wrid
+          , "signedPxRID" : signedPxRID
+        }
+        return $http({
+           method: 'POST'
+          ,url: serviceBase + 'apiSignOrNurseSurgerySchedule'
+          ,responseType: 'json'
+          ,data: SurgeryScheduleData
+          ,cache:true
+        });
+    };
+
+
+    obj.getFinalORcaseList = function(toDate) {
+        return $http({
+            method: 'GET',
+            url: serviceBase + 'apigetFinalORcaseList&toDate=' + toDate,
+        });
+    };
+
+    obj.updateOtherSurgicalFormsAction = function (relateSurgerySchedOBJ) {
+        console.log(relateSurgerySchedOBJ);
+        var otherSurgeryScheduleData = {
+          "wrid" : relateSurgerySchedOBJ.wrid
+          , "orCaseRID" : relateSurgerySchedOBJ.orCaseRID
+          , "ClinixRID" : relateSurgerySchedOBJ.ClinixRID
+          , "HospRID" : relateSurgerySchedOBJ.HospRID
+        }
+
+
+        return $http({
+           method: 'POST'
+          ,url: serviceBase + 'apiupdateOtherSurgicalFormsAction'
+          ,responseType: 'json'
+          ,data: otherSurgeryScheduleData
+          ,cache:true
+        });
+    };
+
+
+
     // end messages
 
 

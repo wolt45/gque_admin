@@ -1708,6 +1708,344 @@
 
 
 
+		// Surgical forms fixer
+		private function apiGetOperatingRoomScheduleReportAllList()
+		{
+			if($this->get_request_method() != "GET"){
+				$this->response('',406);
+			}
+
+			$fromDate = (string)$this->_request['fromDate'];
+			$toDate = (string)$this->_request['toDate'];
+
+			if ($fromDate == '') {
+				$doThis = "";
+			}else{
+				$doThis = "AND (zipad_diags_schedsurgery.SurgeryDate >= '2019-12-22' AND zipad_diags_schedsurgery.SurgeryDate <= '$toDate')";
+			}
+
+			// $PxRID = (int)$this->_request['PxRID'];
+			date_default_timezone_set('Asia/Manila');
+			$dateNow= date("Y-m-d");
+
+			$query="SELECT zipad_diags_schedsurgery.*
+			, CONCAT(px_data.LastName,', ',px_data.FirstName,' ',SUBSTRING(px_data.MiddleName, 1, 1),'.') as pxName
+
+			, CONCAT(px_dataSigned.FirstName,' ',SUBSTRING(px_dataSigned.MiddleName, 1, 1),'. ',px_dataSigned.LastName) AS singedByName
+			, px_dsigSigned.b64a AS singedBySign
+
+			, CONCAT(px_dataorNurse.FirstName,' ',SUBSTRING(px_dataorNurse.MiddleName, 1, 1),'. ',px_dataorNurse.LastName) AS orNurseName
+			, px_dsigorNurse.b64a AS orNurseSign
+
+			, px_data.foto
+
+			FROM zipad_diags_schedsurgery
+			LEFT JOIN px_data ON px_data.PxRID = zipad_diags_schedsurgery.PxRID
+
+			LEFT JOIN px_data AS px_dataSigned ON px_dataSigned.PxRID = zipad_diags_schedsurgery.signedPxRID
+			LEFT JOIN px_dsig AS px_dsigSigned ON px_dsigSigned.PxRID = zipad_diags_schedsurgery.signedPxRID
+
+			LEFT JOIN px_data AS px_dataorNurse ON px_dataorNurse.PxRID = zipad_diags_schedsurgery.orNursePxRID
+			LEFT JOIN px_dsig AS px_dsigorNurse ON px_dsigorNurse.PxRID = zipad_diags_schedsurgery.orNursePxRID
+
+			WHERE zipad_diags_schedsurgery.PxRID > 0 $doThis
+			ORDER BY zipad_diags_schedsurgery.SurgeryDate
+			";
+			$r = $this->mysqli->query($query) or die($this->mysqli->error.__LINE__);
+			if($r->num_rows > 0) {
+				$result = array();
+				while($row = $r->fetch_assoc()){
+					$result[] = $row;
+				}
+				$this->response($this->json($result, JSON_NUMERIC_CHECK), 200); // send user details
+			}
+			$this->response('',204);	// If no records "No Content" status
+		}
+
+
+		private function apiInsertSurgerySchedule(){
+			if($this->get_request_method() != "POST"){
+				$this->response('',406);
+			}
+
+			$SurgeryScheduleData = json_decode(file_get_contents("php://input"),true);
+			$SurgeryScheduleData = str_replace("'", "`", $SurgeryScheduleData);
+
+			$wrid  = (int)$SurgeryScheduleData['wrid'];
+			$orCaseRID  = (int)$SurgeryScheduleData['orCaseRID'];
+			$ClinixRID  = (int)$SurgeryScheduleData['ClinixRID'];
+			$diagnosis  = (string)$SurgeryScheduleData['diagnosis'];
+			$SurgeryType  = (string)$SurgeryScheduleData['SurgeryType'];
+			$SurgeryType = str_replace("'", "`", $SurgeryType);
+			$SurgeryDate  = (string)$SurgeryScheduleData['SurgeryDate'];
+			$SurgeryTime  = (string)$SurgeryScheduleData['SurgeryTime'];
+			$SurgeryTimeEnd  = (string)$SurgeryScheduleData['SurgeryTimeEnd'];
+			if ($SurgeryDate == null) {
+				$SurgeryDate = '0000-00-00';
+			}else{
+				$SurgeryDate = date('Y-m-d', strtotime($SurgeryDate));
+			}
+			if ($SurgeryTime == null) {
+				$SurgeryTime = '00:00:00';
+			}else{
+				$SurgeryTime = date('H:i:s', strtotime($SurgeryTime));
+			}
+			if ($SurgeryTimeEnd == null) {
+				$SurgeryTimeEnd = '00:00:00';
+			}else{
+				$SurgeryTimeEnd = date('H:i:s', strtotime($SurgeryTimeEnd));
+			}
+			$Surgeon  = (string)$SurgeryScheduleData['Surgeon'];
+			$Cardio  = (string)$SurgeryScheduleData['Cardio'];
+			$Assistant  = (string)$SurgeryScheduleData['Assistant'];
+			$Anesthesio  = (string)$SurgeryScheduleData['Anesthesio'];
+			$AnesthesiaType  = (string)$SurgeryScheduleData['AnesthesiaType'];
+			$Hospital  = (string)$SurgeryScheduleData['Hospital'];
+			// $OrNurse  = (string)$SurgeryScheduleData['OrNurse'];
+			$scrubNurse  = (string)$SurgeryScheduleData['scrubNurse'];
+			$circulatingNurse  = (string)$SurgeryScheduleData['circulatingNurse'];
+			$Others  = (string)$SurgeryScheduleData['Others'];
+			$operatingRoom  = (string)$SurgeryScheduleData['operatingRoom'];
+	         
+			$query = "UPDATE zipad_diags_schedsurgery SET
+				orCaseRID = '$orCaseRID'
+				, diagnosis = '$diagnosis'
+				, SurgeryType = '$SurgeryType'
+				, ClinixRID = '$ClinixRID'
+				, SurgeryDate = '$SurgeryDate'
+				, SurgeryTime = '$SurgeryTime'
+				, Surgeon = '$Surgeon'
+				, SurgeryTimeEnd = '$SurgeryTimeEnd'
+				, Cardio = '$Cardio'
+				, Assistant = '$Assistant'
+				, Anesthesio = '$Anesthesio'
+				, AnesthesiaType = '$AnesthesiaType'
+				, Hospital = '$Hospital'
+				-- , OrNurse = '$OrNurse'
+				, scrubNurse = '$scrubNurse'
+				, circulatingNurse = '$circulatingNurse'
+				, Others = '$Others'
+				, operatingRoom = '$operatingRoom'
+			WHERE wrid = '$wrid'";
+			$r = $this->mysqli->query($query) or die($this->mysqli->error.__LINE__);
+		}
+
+
+		private function apigetPxPreopDiagnosis()
+		{
+			if($this->get_request_method() != "GET"){
+				$this->response('',406);
+			}
+
+			$HospRID = (int)$this->_request['HospRID'];
+			$ClinixRID = (int)$this->_request['ClinixRID'];
+
+			$query="SELECT zh_hospitalchart.diagnosis 
+			    ,zipad_diags_schedsurgery.HospRID
+			    FROM zipad_diags_schedsurgery
+			    LEFT JOIN zh_hospitalchart ON zh_hospitalchart.HospRID = zipad_diags_schedsurgery.HospRID
+				WHERE zipad_diags_schedsurgery.HospRID = '$HospRID' AND zipad_diags_schedsurgery.Deleted = 0";
+			$r = $this->mysqli->query($query) or die($this->mysqli->error.__LINE__);
+			if($r->num_rows > 0) {
+				$result = array();
+				while($row = $r->fetch_assoc()){
+					$result = $row;
+				}
+				$this->response($this->json($result, JSON_NUMERIC_CHECK), 200); // send user details
+			}
+			$this->response('',204);	// If no records "No Content" status
+		}
+
+		private function apigetLastORCaseNumber()
+		{
+			if($this->get_request_method() != "GET"){
+				$this->response('',406);
+			}
+
+			$query="SELECT orCaseRID FROM zipad_diags_schedsurgery WHERE Deleted = 0 ORDER BY orCaseRID DESC LIMIT 1";
+			$r = $this->mysqli->query($query) or die($this->mysqli->error.__LINE__);
+			if($r->num_rows > 0) {
+				$result = array();
+				while($row = $r->fetch_assoc()){
+					$result = $row;
+				}
+				$this->response($this->json($result, JSON_NUMERIC_CHECK), 200); // send user details
+			}
+			$this->response('',204);	// If no records "No Content" status
+		}
+
+
+		private function apiSignSurgerySchedule(){
+			if($this->get_request_method() != "POST"){
+				$this->response('',406);
+			}
+
+			$SurgeryScheduleData = json_decode(file_get_contents("php://input"),true);
+
+			$wrid  = (int)$SurgeryScheduleData['wrid'];
+			$signedPxRID  = (int)$SurgeryScheduleData['signedPxRID'];
+	         
+			$query = "UPDATE zipad_diags_schedsurgery SET
+				signedPxRID = '$signedPxRID'
+				, surgeryStatus = 3
+			WHERE wrid = '$wrid'";
+			$r = $this->mysqli->query($query) or die($this->mysqli->error.__LINE__);
+		}
+
+
+		private function apiSignOrNurseSurgerySchedule(){
+			if($this->get_request_method() != "POST"){
+				$this->response('',406);
+			}
+
+			$SurgeryScheduleData = json_decode(file_get_contents("php://input"),true);
+
+			$wrid  = (int)$SurgeryScheduleData['wrid'];
+			$signedPxRID  = (int)$SurgeryScheduleData['signedPxRID'];
+	         
+			$query = "UPDATE zipad_diags_schedsurgery SET
+				orNursePxRID = '$signedPxRID'
+				, surgeryStatus = 2
+			WHERE wrid = '$wrid'";
+			$r = $this->mysqli->query($query) or die($this->mysqli->error.__LINE__);
+		}
+
+
+		private function apigetFinalORcaseList()
+		{
+			if($this->get_request_method() != "GET"){
+				$this->response('',406);
+			}
+			$toDate = (string)$this->_request['toDate'];
+			$doThis = "AND (zipad_diags_schedsurgery.SurgeryDate >= '2019-12-22' AND zipad_diags_schedsurgery.SurgeryDate <= '$toDate')";
+
+			$query="SELECT zipad_diags_schedsurgery.*
+			, CONCAT(px_data.LastName,', ',px_data.FirstName,' ',SUBSTRING(px_data.MiddleName, 1, 1),'.') as pxName
+			, CONCAT(px_dataSigned.FirstName,' ',SUBSTRING(px_dataSigned.MiddleName, 1, 1),'. ',px_dataSigned.LastName) AS singedByName
+			, px_dsigSigned.b64a AS singedBySign
+			, CONCAT(px_dataorNurse.FirstName,' ',SUBSTRING(px_dataorNurse.MiddleName, 1, 1),'. ',px_dataorNurse.LastName) AS orNurseName
+			, px_dsigorNurse.b64a AS orNurseSign
+
+			, px_data.foto
+
+			FROM zipad_diags_schedsurgery
+			LEFT JOIN px_data ON px_data.PxRID = zipad_diags_schedsurgery.PxRID
+			LEFT JOIN px_data AS px_dataSigned ON px_dataSigned.PxRID = zipad_diags_schedsurgery.signedPxRID
+			LEFT JOIN px_dsig AS px_dsigSigned ON px_dsigSigned.PxRID = zipad_diags_schedsurgery.signedPxRID
+			LEFT JOIN px_data AS px_dataorNurse ON px_dataorNurse.PxRID = zipad_diags_schedsurgery.orNursePxRID
+			LEFT JOIN px_dsig AS px_dsigorNurse ON px_dsigorNurse.PxRID = zipad_diags_schedsurgery.orNursePxRID
+			WHERE zipad_diags_schedsurgery.orCaseRID > 0 AND zipad_diags_schedsurgery.PxRID > 0 $doThis
+			ORDER BY zipad_diags_schedsurgery.orCaseRID
+			";
+			$r = $this->mysqli->query($query) or die($this->mysqli->error.__LINE__);
+			if($r->num_rows > 0) {
+				$result = array();
+				while($row = $r->fetch_assoc()){
+					$result[] = $row;
+				}
+				$this->response($this->json($result, JSON_NUMERIC_CHECK), 200); // send user details
+			}
+			$this->response('',204);	// If no records "No Content" status
+		}
+
+
+		private function apiupdateOtherSurgicalFormsAction(){
+			if($this->get_request_method() != "POST"){
+				$this->response('',406);
+			}
+
+			$SurgeryScheduleData = json_decode(file_get_contents("php://input"),true);
+			$SurgeryScheduleData = str_replace("'", "`", $SurgeryScheduleData);
+
+			$wrid  = (int)$SurgeryScheduleData['wrid'];
+			$orCaseRID  = (int)$SurgeryScheduleData['orCaseRID'];
+			$ClinixRID  = (int)$SurgeryScheduleData['ClinixRID'];
+			$HospRID  = (int)$SurgeryScheduleData['HospRID'];
+	         
+			$query = "UPDATE zh_histPeSurgical SET surgerySchedwrid = '$wrid' WHERE HospRID = '$HospRID'";
+			$r = $this->mysqli->query($query) or die($this->mysqli->error.__LINE__);
+
+			$query2 = "UPDATE zipad_consentforsurgery SET surgerySchedwrid = '$wrid' WHERE HospRID = '$HospRID'";
+			$r2 = $this->mysqli->query($query2) or die($this->mysqli->error.__LINE__);
+
+			$query3 = "UPDATE zh_consentforadminanesthesia SET surgerySchedwrid = '$wrid' WHERE HospRID = '$HospRID'";
+			$r3 = $this->mysqli->query($query3) or die($this->mysqli->error.__LINE__);
+
+			$query4 = "UPDATE zh_cardiopulmonaryClearance SET surgerySchedwrid = '$wrid' WHERE HospRID = '$HospRID'";
+			$r4 = $this->mysqli->query($query4) or die($this->mysqli->error.__LINE__);
+
+			$query5 = "UPDATE zh_preOpEvaluation SET surgerySchedwrid = '$wrid' WHERE HospRID = '$HospRID'";
+			$r5 = $this->mysqli->query($query5) or die($this->mysqli->error.__LINE__);
+
+			$query6 = "UPDATE zh_preopChecklist SET surgerySchedwrid = '$wrid' WHERE HospRID = '$HospRID'";
+			$r6 = $this->mysqli->query($query6) or die($this->mysqli->error.__LINE__);
+
+			$query7 = "UPDATE 	zipad_anesthesiasurge SET surgerySchedwrid = '$wrid' WHERE HospRID = '$HospRID'";
+			$r7 = $this->mysqli->query($query7) or die($this->mysqli->error.__LINE__);
+
+			$query8 = "UPDATE zh_anesthRec SET surgerySchedwrid = '$wrid' WHERE HospRID = '$HospRID'";
+			$r8 = $this->mysqli->query($query8) or die($this->mysqli->error.__LINE__);
+
+			$query9 = "UPDATE zh_postOrsupplemental SET surgerySchedwrid = '$wrid' WHERE HospRID = '$HospRID'";
+			$r9 = $this->mysqli->query($query9) or die($this->mysqli->error.__LINE__);
+
+			$query10 = "UPDATE zh_postAnesthCareRecord SET surgerySchedwrid = '$wrid' WHERE HospRID = '$HospRID'";
+			$r10 = $this->mysqli->query($query10) or die($this->mysqli->error.__LINE__);
+
+			$query11 = "UPDATE zh_operativeRec SET surgerySchedwrid = '$wrid' WHERE HospRID = '$HospRID'";
+			$r11 = $this->mysqli->query($query11) or die($this->mysqli->error.__LINE__);
+
+			$query12 = "UPDATE zh_recordOfOperation SET surgerySchedwrid = '$wrid' WHERE HospRID = '$HospRID'";
+			$r12 = $this->mysqli->query($query12) or die($this->mysqli->error.__LINE__);
+
+			$query13 = "UPDATE zipad_preop_hip_preform SET surgerySchedwrid = '$wrid' WHERE HospRID = '$HospRID'";
+			$r13 = $this->mysqli->query($query13) or die($this->mysqli->error.__LINE__);
+
+			$query14 = "UPDATE zipad_preop_knee_preform SET surgerySchedwrid = '$wrid' WHERE HospRID = '$HospRID'";
+			$r14 = $this->mysqli->query($query14) or die($this->mysqli->error.__LINE__);
+
+			$query15 = "UPDATE zipad_trauma_preop_preform SET surgerySchedwrid = '$wrid' WHERE HospRID = '$HospRID'";
+			$r15 = $this->mysqli->query($query15) or die($this->mysqli->error.__LINE__);
+
+			$query16 = "UPDATE zipad_ophip_3 SET surgerySchedwrid = '$wrid' WHERE HospRID = '$HospRID'";
+			$r16 = $this->mysqli->query($query16) or die($this->mysqli->error.__LINE__);
+
+			$query17 = "UPDATE zipad_ophip_5 SET surgerySchedwrid = '$wrid' WHERE HospRID = '$HospRID'";
+			$r17 = $this->mysqli->query($query17) or die($this->mysqli->error.__LINE__);
+
+			$query18 = "UPDATE zipad_ophip_6 SET surgerySchedwrid = '$wrid' WHERE HospRID = '$HospRID'";
+			$r18 = $this->mysqli->query($query18) or die($this->mysqli->error.__LINE__);
+
+			$query19 = "UPDATE zipad_opknee_3 SET surgerySchedwrid = '$wrid' WHERE HospRID = '$HospRID'";
+			$r19 = $this->mysqli->query($query19) or die($this->mysqli->error.__LINE__);
+
+			$query20 = "UPDATE zipad_opknee_4 SET surgerySchedwrid = '$wrid' WHERE HospRID = '$HospRID'";
+			$r20 = $this->mysqli->query($query20) or die($this->mysqli->error.__LINE__);
+
+			$query21 = "UPDATE zipad_opknee_5 SET surgerySchedwrid = '$wrid' WHERE HospRID = '$HospRID'";
+			$r21 = $this->mysqli->query($query21) or die($this->mysqli->error.__LINE__);
+
+			$query22 = "UPDATE zipad_trauma_op_surgicaltech SET surgerySchedwrid = '$wrid' WHERE HospRID = '$HospRID'";
+			$r22 = $this->mysqli->query($query22) or die($this->mysqli->error.__LINE__);
+
+			$query23 = "UPDATE zipad_trauma_op_implant SET surgerySchedwrid = '$wrid' WHERE HospRID = '$HospRID'";
+			$r23 = $this->mysqli->query($query23) or die($this->mysqli->error.__LINE__);
+
+			$query24 = "UPDATE zipad_postop_hip_preform SET surgerySchedwrid = '$wrid' WHERE HospRID = '$HospRID'";
+			$r24 = $this->mysqli->query($query24) or die($this->mysqli->error.__LINE__);
+
+			$query25 = "UPDATE zipad_postop_knee_preform SET surgerySchedwrid = '$wrid' WHERE HospRID = '$HospRID'";
+			$r25 = $this->mysqli->query($query25) or die($this->mysqli->error.__LINE__);
+
+			$query26 = "UPDATE zipad_trauma_postop_preform SET surgerySchedwrid = '$wrid' WHERE HospRID = '$HospRID'";
+			$r26 = $this->mysqli->query($query26) or die($this->mysqli->error.__LINE__);
+
+			$query27 = "UPDATE zipad_orpass SET surgerySchedwrid = '$wrid' WHERE HospRID = '$HospRID'";
+			$r27 = $this->mysqli->query($query27) or die($this->mysqli->error.__LINE__);
+		}
+
+
+
 		# API Floor
 
 		/*
