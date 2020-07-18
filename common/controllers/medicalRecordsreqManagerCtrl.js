@@ -31,7 +31,7 @@ gmmrApp.controller('medicalRecordsreqManagerCtrl', function ($scope, $stateParam
 		  	console.log($scope.medRequestListObj);
 
 		  	$scope.medRequestListObjcurrent_grid = 1;
-		  	$scope.medRequestListObjdata_limit = 100;
+		  	$scope.medRequestListObjdata_limit = 50;
 		  	$scope.medRequestListObjfilter_data = $scope.medRequestListObj.length;
 		  	$scope.medRequestListObjentire_user = $scope.medRequestListObj.length;
 		});
@@ -52,6 +52,9 @@ gmmrApp.controller('medicalRecordsreqManagerCtrl', function ($scope, $stateParam
 	  	$scope.base = base;
 	  	$scope.reverse = !$scope.reverse;
 	};
+
+	$scope.base = '- medDate';
+    $scope.reverse = true;
 
 	// $scope.insertMedicine = function (requestmedRecordOBJ) {
 	// 	dbServices.insertMedicine(requestmedRecordOBJ)

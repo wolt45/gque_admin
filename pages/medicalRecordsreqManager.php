@@ -47,125 +47,125 @@
                   </div>
                 </div>
 
-                <div class="table-responsive" style="max-height: 650px;" ng-show="medRequestListObjfilter_data > 0">
-                  <table class="table table-hover table-striped">
-                    <thead>
-                      <tr>
+                <div class="table-responsive" ng-show="medRequestListObjfilter_data > 0">
+                      <table class="table table-bordered table-hover" id="tablePrint3">
+                          <thead>
+                              <tr>
 
-                        <th width="1%">
-                          #
-                        </th>
-                        <th width="1%">
-                          RID
-                        </th>
-                        <th width="1%">
-                          PxRID
-                        </th>
-                        <th>
-                          ClinixRID
-                        </th>
-                        <th>
-                          Name
-                        </th>
-                        <th>
-                          Date
-                        </th>
-                        <th>
-                          Attending Doc
-                        </th>
-                        <th>
-                          Request
-                        </th>
-                        <th>
-                          purpose
-                        </th>
-                        <th>
-                          Req. By
-                        </th>
-                        <th>
-                          OR #
-                        </th>
-                        <th>
-                          Request <br> Status
-                        </th>
+                                <th width="1%">
+                                  #
+                                </th>
+                                <th class="text-center" width="1%" nowrap>
+                                      <small>Image</small>
+                                  </th>
+                                <th width="1%">
+                                  RID
+                                </th>
+                                <th width="1%">
+                                  PxRID
+                                </th>
+                                <th>
+                                  ClinixRID
+                                </th>
+                                <th>
+                                  Name
+                                </th>
+                                <th>
+                                  Date
+                                  &nbsp;<a ng-click="sort_with(medDate)" id="DontPrint"><i class="glyphicon glyphicon-sort"></i></a>
+                                </th>
+                                <th>
+                                  Attending Doc
+                                </th>
+                                <th>
+                                  Request
+                                </th>
+                                <th>
+                                  purpose
+                                </th>
+                                <th>
+                                  Req. By
+                                </th>
+                                <th>
+                                  OR #
+                                </th>
+                                <th>
+                                  Request <br> Status
+                                  &nbsp;<a ng-click="sort_with(paymentStatus)" id="DontPrint"><i class="glyphicon glyphicon-sort"></i></a>
+                                </th>
 
-                        <th>
-                          RELEASE <br> Status
-                        </th>
-                        <th width="1%">
-                          
-                        </th>
-                        
-                       <!--  <th>
-                          <a href="" data-toggle="modal" data-target="#sysDoorKeysModal" ng-click="newMedicine()">
-                            <span class="glyphicon glyphicon-file green"></span>
-                          </a>
-                        </th> -->
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr ng-repeat="MedReqList in searched = (medRequestListObj | filter:search | orderBy : base :reverse) | beginning_data:(medRequestListObjcurrent_grid-1)*medRequestListObjdata_limit | limitTo:medRequestListObjdata_limit" ng-click="editMedicine(MedReqList)">
+                                <th>
+                                  RELEASE <br> Status
+                                  &nbsp;<a ng-click="sort_with(releaseStatus)" id="DontPrint"><i class="glyphicon glyphicon-sort"></i></a>
+                                </th>
+                              </tr>
+                          </thead>
+                          <tbody>
+                              <tr ng-repeat="MedReqList in searched = (medRequestListObj | filter:search | orderBy : base :reverse) | beginning_data:(medRequestListObjcurrent_grid-1)*medRequestListObjdata_limit | limitTo:medRequestListObjdata_limit" ng-click="editMedicine(MedReqList)">
 
-                        <td>
-                            {{$index+1}}
-                        </td>
-                        <td>
-                          {{MedReqList.requestmedRecordRID}}
-                        </td>
-                        <td>
-                          <small>{{MedReqList.PxRID}}</small>
-                        </td>
-                        <td>
-                          <small>{{MedReqList.ClinixRID}} | {{MedReqList.AppDateSet | date}}</small>
-                        </td>
-                        <td style="font-size: 14px;">
-                          <b>{{MedReqList.PxName}}</b>
-                        </td>
-                        <td>
-                          {{MedReqList.medDate | date}}
-                        </td>
-                        <td>
-                          {{MedReqList.attendingDoc}}
-                        </td>
-                        <td><b>
-                            <span ng-show="MedReqList.medicalAbstract == 1">Medical abstract</span>
-                            <span ng-show="MedReqList.medicalCert == 1">Medical certificate</span>
-                            <span ng-show="MedReqList.medicalReport == 1">Medical report</span>
-                            <span ng-show="MedReqList.OthersText != ''">{{MedReqList.OthersText}}</span></b>
-                        </td>
-                        <td>
-                          {{MedReqList.purpose}}
-                        </td>
-                        <td>
-                          {{MedReqList.requestedBy}}
-                        </td>
-                        <td>
-                          {{MedReqList.ORno}}
-                        </td>
-                        <td>
-                            <small ng-show="MedReqList.paymentStatus == 0" style="color:black;">Unsigned</small>
-                            <small ng-show="MedReqList.paymentStatus == 8"><span style="color:red;">cancelled</span></small>
-                            <small ng-show="MedReqList.paymentStatus == 9 || MedReqList.paymentStatus == 10"><span style="background-color: blue; color: white;">{{MedReqList.paymentStatusDesc}}</span></small>
-                        </td>
+                                <td>
+                                    {{$index+1}}
+                                </td>
+                                <td>
+                                    <img ng-src="../dump_px/{{MedReqList.foto ? MedReqList.foto : default.jpg}}" width="55" style="padding: 0 0 0 0;" > 
+                                </td>
+                                <td>
+                                  {{MedReqList.requestmedRecordRID}}
+                                </td>
+                                <td>
+                                  <small>{{MedReqList.PxRID}}</small>
+                                </td>
+                                <td>
+                                  <small>{{MedReqList.ClinixRID}} | {{MedReqList.AppDateSet | date}}</small>
+                                </td>
+                                <td style="font-size: 14px;">
+                                  <b>{{MedReqList.PxName}}</b>
+                                </td>
+                                <td>
+                                  {{MedReqList.medDate | date}}
+                                </td>
+                                <td>
+                                  {{MedReqList.attendingDoc}}
+                                </td>
+                                <td><b>
+                                    <span ng-show="MedReqList.medicalAbstract == 1">Medical abstract</span>
+                                    <span ng-show="MedReqList.medicalCert == 1">Medical certificate</span>
+                                    <span ng-show="MedReqList.medicalReport == 1">Medical report</span>
+                                    <span ng-show="MedReqList.OthersText != ''">{{MedReqList.OthersText}}</span></b>
+                                </td>
+                                <td>
+                                  {{MedReqList.purpose}}
+                                </td>
+                                <td>
+                                  {{MedReqList.requestedBy}}
+                                </td>
+                                <td>
+                                  {{MedReqList.ORno}}
+                                </td>
+                                <td>
+                                    <small ng-show="MedReqList.paymentStatus == 0" style="color:black;">Unsigned</small>
+                                    <small ng-show="MedReqList.paymentStatus == 8"><span style="color:red;">cancelled</span></small>
+                                    <small ng-show="MedReqList.paymentStatus == 9 || MedReqList.paymentStatus == 10"><span style="background-color: blue; color: white;">{{MedReqList.paymentStatusDesc}}</span></small>
+                                </td>
 
-                        <td>
-                            <small ng-show="MedReqList.releaseStatus == 0 && MedReqList.paymentStatus != 0 && MedReqList.paymentStatus != 8">Underway</small>
-                            <small ng-show="MedReqList.releaseStatus == 13"><span style="color:red;">Cancelled</span></small>
-                            <small ng-show="MedReqList.releaseStatus == 12"><span style="background-color: red; color: black;">Unreleased</span></small>
-                            <small ng-show="MedReqList.releaseStatus == 11"><span style="background-color: green; color: white;">RELEASED</span></small>
-                            <small ng-show="MedReqList.releaseStatus == 14"><span style="background-color: #000; color: white;">PRINTED</span></small>
-                        </td>
-                        <!-- <td>
-                          <button class="btn btn-dark btn-xs" ng-click="gotoRequestPrint(MedReqList)">
-                            <span class="glyphicon glyphicon-print"></span>
-                          </button>
-                        </td> -->
-                      </tr>
-                    </tbody>
-                    
-                  </table>
-                 
-                </div>
+                                <td>
+                                    <small ng-show="MedReqList.releaseStatus == 0 && MedReqList.paymentStatus != 0 && MedReqList.paymentStatus != 8">Underway</small>
+                                    <small ng-show="MedReqList.releaseStatus == 13"><span style="color:red;">Cancelled</span></small>
+                                    <small ng-show="MedReqList.releaseStatus == 12"><span style="background-color: red; color: black;">Unreleased</span></small>
+                                    <small ng-show="MedReqList.releaseStatus == 11"><span style="background-color: green; color: white;">RELEASED</span></small>
+                                    <small ng-show="MedReqList.releaseStatus == 14"><span style="background-color: #000; color: white;">PRINTED</span></small>
+                                </td>
+                                <!-- <td>
+                                  <button class="btn btn-dark btn-xs" ng-click="gotoRequestPrint(MedReqList)">
+                                    <span class="glyphicon glyphicon-print"></span>
+                                  </button>
+                                </td> -->
+                              </tr>
+                            </tbody>
+                      </table>
+                  </div>
+
+
                 <div class="col-md-12" ng-show="medRequestListObjfilter_data == 0">
                     <div class="col-md-12">
                         <h4>No records found..</h4>

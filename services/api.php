@@ -1665,11 +1665,12 @@
 				$query="SELECT rep_requestmedRecord.*
 				, clinix.AppDateSet
 				, CONCAT(px_data.LastName,', ',px_data.FirstName, ', ',SUBSTRING(px_data.MiddleName, 1,1)) as PxName
+				, px_data.foto
 				FROM rep_requestmedRecord
 				LEFT JOIN px_data ON px_data.PxRID = rep_requestmedRecord.PxRID
 				LEFT JOIN clinix ON clinix.ClinixRID = rep_requestmedRecord.ClinixRID
 				WHERE rep_requestmedRecord.Deleted = 0
-				ORDER BY rep_requestmedRecord.releaseStatus DESC;
+				ORDER BY rep_requestmedRecord.releaseStatus;
 				";
 				$r = $this->mysqli->query($query) or die($this->mysqli->error.__LINE__);
 				if($r->num_rows > 0) {
