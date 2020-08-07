@@ -1749,7 +1749,7 @@
 			LEFT JOIN px_data AS px_dataorNurse ON px_dataorNurse.PxRID = zipad_diags_schedsurgery.orNursePxRID
 			LEFT JOIN px_dsig AS px_dsigorNurse ON px_dsigorNurse.PxRID = zipad_diags_schedsurgery.orNursePxRID
 
-			WHERE zipad_diags_schedsurgery.PxRID > 0 $doThis
+			WHERE zipad_diags_schedsurgery.PxRID > 0 AND zipad_diags_schedsurgery.Deleted = 0 $doThis
 			ORDER BY zipad_diags_schedsurgery.SurgeryDate
 			";
 			$r = $this->mysqli->query($query) or die($this->mysqli->error.__LINE__);

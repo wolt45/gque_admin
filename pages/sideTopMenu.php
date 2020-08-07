@@ -302,7 +302,7 @@
                   <li role="presentation" class="dropdown">
                       <a href="javascript:;" class="dropdown-toggle info-number" data-toggle="dropdown" aria-expanded="false">
                           <i class="fa fa-bell-o"></i>
-                          <span class="badge bg-orange">{{notifItemSum}}</span>
+                          <span class="badge bg-orange">{{notifItemBirthdaysSum}}</span>
                       </a>
                       <ul id="menu1" class="dropdown-menu list-unstyled msg_list" role="menu">
                           <li ng-repeat="notifItems in notifItem">

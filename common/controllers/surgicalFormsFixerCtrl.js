@@ -154,7 +154,7 @@ gmmrApp.controller('surgicalFormsFixerCtrl', function ($scope, $stateParams, $ro
       }, 20);
   };
 
-  $scope.base = '- SurgeryDate';
+  $scope.base = 'SurgeryDate';
   $scope.reverse = true;
 
   $scope.sort_withAll = function(base) {
