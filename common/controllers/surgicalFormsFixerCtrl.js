@@ -328,6 +328,7 @@ gmmrApp.controller('surgicalFormsFixerCtrl', function ($scope, $stateParams, $ro
       ngToast.show("Surgery schedule has been successfully updated.", 'top');
       $scope.getOperatingRoomScheduleReportAllList($scope.tempfromDate, $scope.temptoDate);
       $scope.getFinalORcaseList($scope.temptoDate);
+      $scope.getLastORCaseNumber();
       $scope.cancelOrCaseNumber();
     });
   };
