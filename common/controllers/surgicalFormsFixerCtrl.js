@@ -316,11 +316,11 @@ gmmrApp.controller('surgicalFormsFixerCtrl', function ($scope, $stateParams, $ro
     surgerySchedlistOBJ.SurgeryTimeEnd = $filter('date')(new Date(surgerySchedlistOBJ.SurgeryTimeEnd), 'HH:mm:ss');
     surgerySchedlistOBJ.SurgeryDate = $filter('date')(new Date(surgerySchedlistOBJ.SurgeryDate), 'yyyy-MM-dd');
     console.log(surgerySchedlistOBJ.orCaseRID);
-    if(surgerySchedlistOBJ.orCaseRID == 0) {
-       surgerySchedlistOBJ.orCaseRID = lastOrCaseNumberobj;
-    } else {
+    // if(surgerySchedlistOBJ.orCaseRID == 0) {
+    //    surgerySchedlistOBJ.orCaseRID = lastOrCaseNumberobj;
+    // } else {
 
-    }
+    // }
 
     dbServices.insertSurgerySchedule(surgerySchedlistOBJ)
     .then(function success(response) {
