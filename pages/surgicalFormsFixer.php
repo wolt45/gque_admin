@@ -624,8 +624,9 @@
                                         {{surgerySchedOBJ.wrid}}
                                     </td>
                                     <td colspan="4">
-                                      <input type="number" ng-value="lastOrCaseNumberobj" style="border: 1px solid black !important; width: 200px;font-size: 20px; font-size: bold;" ng-show="surgerySchedOBJ.orCaseRID == 0">
-                                      <input type="number" string-to-number name="" class="form-control" ng-model="surgerySchedOBJ.orCaseRID" min="{{lastOrCaseNumberobj.orCaseRID}}" ng-value="lastOrCaseNumberobj" style="border: 1px solid black !important; width: 200px; font-size: 20px; font-size: bold;" ng-show="surgerySchedOBJ.orCaseRID > 0">
+                                      Temp: {{surgerySchedOBJ.orCaseRID}}
+                                      <!-- <input type="number" ng-value="lastOrCaseNumberobj" style="border: 1px solid black !important; width: 200px;font-size: 20px; font-size: bold;" ng-show="surgerySchedOBJ.orCaseRID == 0"> -->
+                                      <input type="number" string-to-number name="" class="form-control" ng-model="surgerySchedOBJ.orCaseRID" style="border: 1px solid black !important; width: 200px; font-size: 20px; font-size: bold;">
                                     </td>
                                     
                                 </tr>
