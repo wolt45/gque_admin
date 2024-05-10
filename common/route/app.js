@@ -13,29 +13,15 @@ gmmrApp.config(function($stateProvider, $urlRouterProvider, IdleProvider, Keepal
 
     $stateProvider
 
-    .state('inbox', {
-        url: '/inbox'
-        , templateUrl: 'pages/inbox.php'
-        , controller: 'inboxCtrl'
+    .state('gque_opd', {
+        url: '/gque_opd'
+        , templateUrl: 'pages/gque_opd.php'
+        , controller: 'queCtrl'
     })
 
-    .state('drugsManager', {
-        url: '/drugsManager'
-        , templateUrl: 'pages/drugsManager.php'
-        , controller: 'drugsManagerCtrl'
-    })
-    
-    .state('followUpTickler', {
-        url: '/followUpTickler'
-        , templateUrl: 'pages/followUpTickler.php'
-        , controller: 'followUpTicklerCtrl'
-    })
 
-    .state('orDisinfectCheckList', {
-        url: '/orDisinfectCheckList'
-        , templateUrl: 'pages/orDisinfectCheckList.php'
-        , controller: 'orDisinfectCheckListCtrl'
-    })
+
+
 
     .state('dashboard', {
         url: '/dashboard'
@@ -43,31 +29,7 @@ gmmrApp.config(function($stateProvider, $urlRouterProvider, IdleProvider, Keepal
         , controller: 'dashboardCtrl'
     })
 
-    .state('requestForModAlter', {
-        url: '/requestForModAlter'
-        , templateUrl: 'pages/requestForModAlter.php'
-        , controller: 'requestForModAlterCtrl'
-    })
 
-
-    .state('profile', {
-        url: '/profile'
-        , templateUrl: 'pages/profile.php'
-        , controller: 'profileCtrl'
-    })
-
-    .state('medicalRecordsreqManager', {
-        url: '/medicalRecordsreqManager'
-        , templateUrl: 'pages/medicalRecordsreqManager.php'
-        , controller: 'medicalRecordsreqManagerCtrl'
-    })
-
-
-    .state('surgicalFormsFixer', {
-        url: '/surgicalFormsFixer'
-        , templateUrl: 'pages/surgicalFormsFixer.php'
-        , controller: 'surgicalFormsFixerCtrl'
-    })
 
 
 });

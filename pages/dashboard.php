@@ -8,36 +8,46 @@
     <div class="right_col" role="main">
        <!-- top tiles -->
       <div class="row tile_count">
+
         <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
-          <span class="count_top"><i class="fa fa-user"></i> Pharmacy</span>
-          <div class="count">0000</div>
-          <span class="count_bottom"><i class="green">4</i> Remaining</span>
+          <span class="count_top" style="color: #000; font-size:34px"><i class="fa fa-user-md"></i> OPD </span>
+          <br>
+          <br>
+          <div class="count text-center red">
+            <span class="count_top" style="font-size:100px"> 000 </span>
+          </div>
         </div>
+
         <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
-          <span class="count_top"><i class="fa fa-user"></i> Admitting</span>
-          <div class="count">0000</div>
-          <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>3</i> Remaining</span>
+          <span class="count_top" style="color: #000; font-size:34px"><i class="fa fa-medkit"></i> PHARMACY </span>
+          <br>
+          <br>
+          <div class="count text-center">
+            <span class="count_top" style="color: #000; font-size:100px"> 000 </span>
+          </div>
         </div>
+
         <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
-          <span class="count_top"><i class="fa fa-user"></i> Cashier</span>
-          <div class="count green">0000</div>
-          <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>34</i> Remaining</span>
+          <span class="count_top" style="color: #000; font-size:34px"><i class="fa fa-heartbeat"></i> LAB </span>
+          <br>
+          <br>
+          <div class="count text-center blue">
+            <span class="count_top" style="font-size:100px"> 000 </span>
+          </div>
         </div>
+
         <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
-          <span class="count_top"><i class="fa fa-user"></i> Laboratory</span>
-          <div class="count">0000</div>
-          <span class="count_bottom"><i class="red"><i class="fa fa-sort-desc"></i>12</i> Remaining</span>
+          <span class="count_top" style="color: #000; font-size:34px"><i class="fa fa-ruble"></i> BILLING </span>
+          <br>
+          <br>
+          <div class="count text-center green">
+            <span class="count_top" style="font-size:100px"> 000 </span>
+          </div>
         </div>
-        <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
-          <span class="count_top"><i class="fa fa-user"></i> Billing</span>
-          <div class="count">0000</div>
-          <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>34</i> Remaining</span>
-        </div>
-        <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
-          <span class="count_top"><i class="fa fa-user"></i> Phil-Health</span>
-          <div class="count">0000</div>
-          <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>34</i> Remaining</span>
-        </div>
+
+
+
+       
       </div>
       <!-- /top tiles -->
 

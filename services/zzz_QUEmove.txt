@@ -1,0 +1,17 @@
+INSERT INTO que_master (
+				qforrid
+				, DateEntered
+				, LastName
+				, FirstName
+				, MiddleName
+				, questatus
+				)
+
+				SELECT qregsRID
+					, DateEntered
+					, LastName
+					, FirstName
+					, MiddleName
+					, questatus
+				FROM que_regs
+				;

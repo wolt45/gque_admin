@@ -21,7 +21,6 @@
 
 			parent::__construct();		// Init parent contructor
 			$this->dbConnect();			// Initiate Database connection
-			
 		}
 		
 		/*
@@ -1950,99 +1949,80 @@
 		}
 
 
-		private function apiupdateOtherSurgicalFormsAction(){
+
+
+
+
+
+		private function apigetQues(){
+			if($this->get_request_method() != "GET"){
+				$this->response('',406);
+			}
+
+			$query = "SELECT que_regs.*
+				, StatusDesc
+				FROM que_regs
+				INNER JOIN lkup_que_status ON que_regs.questatus = lkup_que_status.questatus
+				WHERE que_regs.questatus < 99
+				ORDER BY que_regs.questatus, que_regs.qregsRID ASC
+			;";
+			// , CONCAT(que_regs.LastName,', ',que_regs.FirstName,' ',SUBSTRING(que_regs.MiddleName, 1, 1),'.') as pxName
+			$r = $this->mysqli->query($query) or die($this->mysqli->error.__LINE__);
+			if($r->num_rows > 0) {
+				$result = array();
+				while($row = $r->fetch_assoc()){
+					$result[] = $row;
+				}
+				$this->response($this->json($result, JSON_NUMERIC_CHECK), 200); // send user details
+			}
+			$this->response('',204);	// If no records "No Content" status
+		}
+
+		private function apiqueAction(){
+			if($this->get_request_method() != "GET"){
+				$this->response('',406);
+			}
+
+			$rid = (int)$this->_request['rid'];
+			$stts = (int)$this->_request['stts'];
+
+			$query = "UPDATE que_regs
+				SET questatus = $stts
+				WHERE qregsRID = $rid 
+			;";
+			$this->mysqli->query($query) or die($this->mysqli->error.__LINE__);
+		}
+
+
+		private function apiqueRESET(){
 			if($this->get_request_method() != "POST"){
 				$this->response('',406);
 			}
 
-			$SurgeryScheduleData = json_decode(file_get_contents("php://input"),true);
-			$SurgeryScheduleData = str_replace("'", "`", $SurgeryScheduleData);
+			$query = "INSERT INTO que_master (
+				qforrid
+				, DateEntered
+				, LastName
+				, FirstName
+				, MiddleName
+				, questatus
+				)
 
-			$wrid  = (int)$SurgeryScheduleData['wrid'];
-			$orCaseRID  = (int)$SurgeryScheduleData['orCaseRID'];
-			$ClinixRID  = (int)$SurgeryScheduleData['ClinixRID'];
-			$HospRID  = (int)$SurgeryScheduleData['HospRID'];
-	         
-			$query = "UPDATE zh_histPeSurgical SET surgerySchedwrid = '$wrid' WHERE HospRID = '$HospRID'";
+				SELECT qregsRID
+					, DateEntered
+					, LastName
+					, FirstName
+					, MiddleName
+					, questatus
+				FROM que_regs
+				;";
 			$r = $this->mysqli->query($query) or die($this->mysqli->error.__LINE__);
 
-			$query2 = "UPDATE zipad_consentforsurgery SET surgerySchedwrid = '$wrid' WHERE HospRID = '$HospRID'";
-			$r2 = $this->mysqli->query($query2) or die($this->mysqli->error.__LINE__);
-
-			$query3 = "UPDATE zh_consentforadminanesthesia SET surgerySchedwrid = '$wrid' WHERE HospRID = '$HospRID'";
-			$r3 = $this->mysqli->query($query3) or die($this->mysqli->error.__LINE__);
-
-			$query4 = "UPDATE zh_cardiopulmonaryClearance SET surgerySchedwrid = '$wrid' WHERE HospRID = '$HospRID'";
-			$r4 = $this->mysqli->query($query4) or die($this->mysqli->error.__LINE__);
-
-			$query5 = "UPDATE zh_preOpEvaluation SET surgerySchedwrid = '$wrid' WHERE HospRID = '$HospRID'";
-			$r5 = $this->mysqli->query($query5) or die($this->mysqli->error.__LINE__);
-
-			$query6 = "UPDATE zh_preopChecklist SET surgerySchedwrid = '$wrid' WHERE HospRID = '$HospRID'";
-			$r6 = $this->mysqli->query($query6) or die($this->mysqli->error.__LINE__);
-
-			$query7 = "UPDATE 	zipad_anesthesiasurge SET surgerySchedwrid = '$wrid' WHERE HospRID = '$HospRID'";
-			$r7 = $this->mysqli->query($query7) or die($this->mysqli->error.__LINE__);
-
-			$query8 = "UPDATE zh_anesthRec SET surgerySchedwrid = '$wrid' WHERE HospRID = '$HospRID'";
-			$r8 = $this->mysqli->query($query8) or die($this->mysqli->error.__LINE__);
-
-			$query9 = "UPDATE zh_postOrsupplemental SET surgerySchedwrid = '$wrid' WHERE HospRID = '$HospRID'";
-			$r9 = $this->mysqli->query($query9) or die($this->mysqli->error.__LINE__);
-
-			$query10 = "UPDATE zh_postAnesthCareRecord SET surgerySchedwrid = '$wrid' WHERE HospRID = '$HospRID'";
-			$r10 = $this->mysqli->query($query10) or die($this->mysqli->error.__LINE__);
-
-			$query11 = "UPDATE zh_operativeRec SET surgerySchedwrid = '$wrid' WHERE HospRID = '$HospRID'";
-			$r11 = $this->mysqli->query($query11) or die($this->mysqli->error.__LINE__);
-
-			$query12 = "UPDATE zh_recordOfOperation SET surgerySchedwrid = '$wrid' WHERE HospRID = '$HospRID'";
-			$r12 = $this->mysqli->query($query12) or die($this->mysqli->error.__LINE__);
-
-			$query13 = "UPDATE zipad_preop_hip_preform SET surgerySchedwrid = '$wrid' WHERE HospRID = '$HospRID'";
-			$r13 = $this->mysqli->query($query13) or die($this->mysqli->error.__LINE__);
-
-			$query14 = "UPDATE zipad_preop_knee_preform SET surgerySchedwrid = '$wrid' WHERE HospRID = '$HospRID'";
-			$r14 = $this->mysqli->query($query14) or die($this->mysqli->error.__LINE__);
-
-			$query15 = "UPDATE zipad_trauma_preop_preform SET surgerySchedwrid = '$wrid' WHERE HospRID = '$HospRID'";
-			$r15 = $this->mysqli->query($query15) or die($this->mysqli->error.__LINE__);
-
-			$query16 = "UPDATE zipad_ophip_3 SET surgerySchedwrid = '$wrid' WHERE HospRID = '$HospRID'";
-			$r16 = $this->mysqli->query($query16) or die($this->mysqli->error.__LINE__);
-
-			$query17 = "UPDATE zipad_ophip_5 SET surgerySchedwrid = '$wrid' WHERE HospRID = '$HospRID'";
-			$r17 = $this->mysqli->query($query17) or die($this->mysqli->error.__LINE__);
-
-			$query18 = "UPDATE zipad_ophip_6 SET surgerySchedwrid = '$wrid' WHERE HospRID = '$HospRID'";
-			$r18 = $this->mysqli->query($query18) or die($this->mysqli->error.__LINE__);
-
-			$query19 = "UPDATE zipad_opknee_3 SET surgerySchedwrid = '$wrid' WHERE HospRID = '$HospRID'";
-			$r19 = $this->mysqli->query($query19) or die($this->mysqli->error.__LINE__);
-
-			$query20 = "UPDATE zipad_opknee_4 SET surgerySchedwrid = '$wrid' WHERE HospRID = '$HospRID'";
-			$r20 = $this->mysqli->query($query20) or die($this->mysqli->error.__LINE__);
-
-			$query21 = "UPDATE zipad_opknee_5 SET surgerySchedwrid = '$wrid' WHERE HospRID = '$HospRID'";
-			$r21 = $this->mysqli->query($query21) or die($this->mysqli->error.__LINE__);
-
-			$query22 = "UPDATE zipad_trauma_op_surgicaltech SET surgerySchedwrid = '$wrid' WHERE HospRID = '$HospRID'";
-			$r22 = $this->mysqli->query($query22) or die($this->mysqli->error.__LINE__);
-
-			$query23 = "UPDATE zipad_trauma_op_implant SET surgerySchedwrid = '$wrid' WHERE HospRID = '$HospRID'";
-			$r23 = $this->mysqli->query($query23) or die($this->mysqli->error.__LINE__);
-
-			$query24 = "UPDATE zipad_postop_hip_preform SET surgerySchedwrid = '$wrid' WHERE HospRID = '$HospRID'";
-			$r24 = $this->mysqli->query($query24) or die($this->mysqli->error.__LINE__);
-
-			$query25 = "UPDATE zipad_postop_knee_preform SET surgerySchedwrid = '$wrid' WHERE HospRID = '$HospRID'";
-			$r25 = $this->mysqli->query($query25) or die($this->mysqli->error.__LINE__);
-
-			$query26 = "UPDATE zipad_trauma_postop_preform SET surgerySchedwrid = '$wrid' WHERE HospRID = '$HospRID'";
-			$r26 = $this->mysqli->query($query26) or die($this->mysqli->error.__LINE__);
-
-			$query27 = "UPDATE zipad_orpass SET surgerySchedwrid = '$wrid' WHERE HospRID = '$HospRID'";
-			$r27 = $this->mysqli->query($query27) or die($this->mysqli->error.__LINE__);
+			// $query = "TRUNCATE TABLE que_regs;";
+			$query = "UPDATE que_regs
+				SET questatus = 99
+			;";
+			$r = $this->mysqli->query($query) or die($this->mysqli->error.__LINE__);
 		}
 
 

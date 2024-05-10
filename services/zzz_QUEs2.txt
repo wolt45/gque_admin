@@ -1,0 +1,6 @@
+SELECT que_regs.*
+				, StatusDesc
+				FROM que_regs
+				INNER JOIN lkup_que_status ON que_regs.questatus = lkup_que_status.questatus
+				ORDER BY que_regs.questatus, que_regs.qregsRID ASC
+			;

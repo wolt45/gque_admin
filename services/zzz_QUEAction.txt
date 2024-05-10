@@ -1,0 +1,4 @@
+UPDATE que_regs
+				SET questatus = 9
+				WHERE qregsRID = 4 
+			;

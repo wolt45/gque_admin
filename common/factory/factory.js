@@ -810,11 +810,34 @@ gmmrApp.factory("dbServices", ['$http', function($http) {
           ,cache:true
         });
     };
-
-
-
     // end messages
 
+
+
+    obj.getQues = function() {
+        return $http({
+            method: 'GET'
+            , url: serviceBase + 'apigetQues'
+        });
+    };
+
+
+    obj.queAction = function(rid, stts) {
+        console.log("here!");
+        return $http({
+            method: 'GET'
+            , url: serviceBase + 'apiqueAction&rid=' + rid + ',&stts=' + stts,
+        });
+    };
+
+
+    obj.queRESET = function(rid, stts) {
+        console.log("here!");
+        return $http({
+            method: 'POST'
+            , url: serviceBase + 'apiqueRESET',
+        });
+    };
 
     // floor
     return obj;

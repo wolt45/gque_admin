@@ -8,7 +8,7 @@
       <meta name="viewport" content="width=device-width, initial-scale=1">
       <link rel="icon" href="pages/images/glogo.ico" type="image/ico" />
 
-      <title>GMMR Central</title>
+      <title>QUEUE ADMIN</title>
 
       <!-- Bootstrap -->
       <link href="vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -64,15 +64,13 @@
       <script src="common/controllers/loginCtrl.js"></script>
       <script src="common/controllers/sideTopCtrl.js"></script>
       <script src="common/controllers/dashboardCtrl.js"></script>
-      <script src="common/controllers/requestForModAlterCtrl.js"></script>
+      
       <script src="common/controllers/profileCtrl.js"></script>
-      <script src="common/controllers/orDisinfectCheckListCtrl.js"></script>
-      <script src="common/controllers/followUpTicklerCtrl.js"></script>
-      <script src="common/controllers/drugsManagerCtrl.js"></script>
-      <script src="common/controllers/medicalRecordsreqManagerCtrl.js"></script>
-      <script src="common/controllers/surgicalFormsFixerCtrl.js"></script>
       <script src="common/controllers/inboxCtrl.js"></script>
+
       <script src="common/controllers/ctrl_topBottom.js"></script>
+
+      <script src="common/controllers/queCtrl.js"></script>
       
       <!-- Factory -->
       <script src="common/factory/factory.js"></script>

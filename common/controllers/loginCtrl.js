@@ -76,7 +76,7 @@ gmmrApp.controller('loginCtrl', function ($scope, $stateParams, $rootScope, $loc
 		    	localStorage.setItem("gmmr3userPxRID", PxRID);
 		    	localStorage.setItem("gmmr3userTypeRID", userTypeRID);
 
-		    	$window.location.href = '/rbgmain';
+		    	$window.location.href = '/gque_admin';
 		    	// $location.path('/dashboard');
 		    	$scope.successMessage = 'Account Successfully Login!';
 		    	// window.speechSynthesis.speak(new SpeechSynthesisUtterance($scope.successMessage));
@@ -84,16 +84,8 @@ gmmrApp.controller('loginCtrl', function ($scope, $stateParams, $rootScope, $loc
                $scope.errorMessage = 'Access denied!';
                // window.speechSynthesis.speak(new SpeechSynthesisUtterance($scope.errorMessage));
             }
-            
-
         });
-
     };
-
-
-
-
-    
 });
 
 
