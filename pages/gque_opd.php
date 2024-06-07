@@ -52,9 +52,15 @@
                     <td class="text-center" nowrap>{{queOBJItem.DateEntered}}</td>
                     <td class="text-center"></td>
 
-                    <td class="text-center" nowrap><a class="btn btn-success"><span class="glyphicon glyphicon-flag black" title="waiting" ng-click="queAction(queOBJItem.qregsRID, 0)"></span></a></td>
-                    <td class="text-center" nowrap><a class="btn btn-danger"><span class="glyphicon glyphicon-eye-close" title="skip" ng-click="queAction(queOBJItem.qregsRID, 13)"></span></a></td>
-                    <td class="text-center" nowrap><a class="btn btn-success"><span class="glyphicon glyphicon-off" title="done" ng-click="queAction(queOBJItem.qregsRID, 9)"></span></a></td>
+                    <td class="text-center" nowrap><a class="btn btn-success">
+                      <!-- <span class="glyphicon glyphicon-flag black" title="waiting" ng-click="queAction(queOBJItem.qregsRID, 0)"></span></a> -->
+                    </td>
+                    <td class="text-center" nowrap><a class="btn btn-danger">
+                      <!-- <span class="glyphicon glyphicon-eye-close" title="skip" ng-click="queAction(queOBJItem.qregsRID, 13)"></span></a> -->
+                    </td>
+                    <td class="text-center" nowrap><a class="btn btn-success">
+                      <!-- <span class="glyphicon glyphicon-off" title="done" ng-click="queAction(queOBJItem.qregsRID, 9)"></span></a> -->
+                    </td>
 
                     <td class="text-center" nowrap>{{queOBJItem.StatusDesc}}</td>
                 </tr>

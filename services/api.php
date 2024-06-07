@@ -2018,11 +2018,98 @@
 				;";
 			$r = $this->mysqli->query($query) or die($this->mysqli->error.__LINE__);
 
-			// $query = "TRUNCATE TABLE que_regs;";
-			$query = "UPDATE que_regs
-				SET questatus = 99
-			;";
+			$queryVS = "INSERT INTO que_mastervs (
+				qregsRID
+				, VitalsRID
+				, DateEntered
+				, VitalsStamp
+				, Value
+				)
+				SELECT qregsRID
+					, VitalsRID
+					, DateEntered
+					, VitalsStamp
+					, Value
+				FROM que_vitals
+				;";
+
+			$wfp = fopen("zzz.VSM.txt", "w");
+			fwrite($wfp, $queryVS);
+			fclose($wfp);
+			$r = $this->mysqli->query($queryVS) or die($this->mysqli->error.__LINE__);
+
+			$queryDEC = "INSERT INTO que_masterdeclaration (
+				qregsRID
+				, DateEntered
+				, VitalsStamp
+				, ubo
+				, sipon
+				, hilanat
+				, lupot
+				, sorethroat
+				, headache
+				, bodyache
+				, shortbreath
+				, notaste
+				, nosmell
+				, nakabyahe
+				, nakabyahe_placeexit
+				, nakabyahe_datedeparture
+				, nakabyahe_datearrival
+				, nakatiner
+				, nakatiner_placeexit
+				, nakatiner_datedeparture
+				, nakatiner_datearrival
+				, nakaatubang
+				, may_pending_rt_pcr
+				)
+				SELECT qregsRID
+					, DateEntered
+					, VitalsStamp
+					, ubo
+					, sipon
+					, hilanat
+					, lupot
+					, sorethroat
+					, headache
+					, bodyache
+					, shortbreath
+					, notaste
+					, nosmell
+					, nakabyahe
+					, nakabyahe_placeexit
+					, nakabyahe_datedeparture
+					, nakabyahe_datearrival
+					, nakatiner
+					, nakatiner_placeexit
+					, nakatiner_datedeparture
+					, nakatiner_datearrival
+					, nakaatubang
+					, may_pending_rt_pcr
+				FROM que_declaration
+				;";
+
+			$wfp = fopen("zzz.DECM.txt", "w");
+			fwrite($wfp, $queryDEC);
+			fclose($wfp);
+
+			$r = $this->mysqli->query($queryDEC) or die($this->mysqli->error.__LINE__);
+
+			$query = "TRUNCATE TABLE que_regs;";
+			// $query = "UPDATE que_regs
+			// 	SET questatus = 99
+			// ;";
 			$r = $this->mysqli->query($query) or die($this->mysqli->error.__LINE__);
+
+
+			$query = "TRUNCATE TABLE que_vitals;";
+			$r = $this->mysqli->query($query) or die($this->mysqli->error.__LINE__);
+			
+			$query = "TRUNCATE TABLE que_declaration;";
+			$r = $this->mysqli->query($query) or die($this->mysqli->error.__LINE__);
+
+			$queryRESET = "INSERT INTO que_regs SET qregsRID=99, questatus=99;";
+			$r = $this->mysqli->query($queryRESET) or die($this->mysqli->error.__LINE__);
 		}
 
 
