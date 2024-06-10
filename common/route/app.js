@@ -19,19 +19,11 @@ gmmrApp.config(function($stateProvider, $urlRouterProvider, IdleProvider, Keepal
         , controller: 'queCtrl'
     })
 
-
-
-
-
     .state('dashboard', {
         url: '/dashboard'
         , templateUrl: 'pages/dashboard.php'
         , controller: 'dashboardCtrl'
     })
-
-
-
-
 });
 
 //use in auto logout/idle
