@@ -2033,9 +2033,10 @@
 				FROM que_vitals
 				;";
 
-			$wfp = fopen("zzz.VSM.txt", "w");
-			fwrite($wfp, $queryVS);
-			fclose($wfp);
+			// $wfp = fopen("zzz.VSM.txt", "w");
+			// fwrite($wfp, $queryVS);
+			// fclose($wfp);
+			
 			$r = $this->mysqli->query($queryVS) or die($this->mysqli->error.__LINE__);
 
 			$queryDEC = "INSERT INTO que_masterdeclaration (
@@ -2089,9 +2090,9 @@
 				FROM que_declaration
 				;";
 
-			$wfp = fopen("zzz.DECM.txt", "w");
-			fwrite($wfp, $queryDEC);
-			fclose($wfp);
+			// $wfp = fopen("zzz.DECM.txt", "w");
+			// fwrite($wfp, $queryDEC);
+			// fclose($wfp);
 
 			$r = $this->mysqli->query($queryDEC) or die($this->mysqli->error.__LINE__);
 
